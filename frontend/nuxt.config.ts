@@ -11,12 +11,16 @@ export default defineNuxtConfig({
         baseUrl: process.env.BASE_URL_SERVER,
         public: {
             baseUrl: process.env.BASE_URL_CLIENT
-        }
+        },
+        authSecret: process.env.AUTH_SECRET
     },
     modules: [
         '@nuxtjs/tailwindcss',
-        '@nuxtjs/html-validator'
+        '@sidebase/nuxt-auth'
     ],
+    auth: {
+        origin: process.env.BASE_URL_CLIENT,
+    },
     tailwindcss: {
         cssPath: '~/assets/styles/main.scss'
     }

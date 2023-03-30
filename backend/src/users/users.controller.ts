@@ -8,6 +8,7 @@ import { Role } from 'src/auth/roles/role.enum';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Roles(Role.Admin)
   @Get()
   async getUsers(@Param() params): Promise<UserWithoutPassword[]> {

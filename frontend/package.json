@@ -11,8 +11,8 @@
   },
   "devDependencies": {
     "@nuxtjs/eslint-module": "^4.0.1",
-    "@nuxtjs/html-validator": "^1.2.4",
     "@nuxtjs/tailwindcss": "^6.4.1",
+    "@sidebase/nuxt-auth": "^0.4.4",
     "nuxt": "^3.2.3",
     "nuxt-vite": "^0.3.5",
     "prettier": "^2.8.4",
