@@ -7,9 +7,7 @@ useHead({
 </script>
 
 <template>
-    <div>
-        <AppHeader />
-        <NuxtPage />
-        <AppFooter />
-    </div>
+    <AppHeader />
+    <NuxtPage :key="$route.fullPath" />
+    <AppFooter />
 </template>

@@ -1,9 +1,13 @@
 <script setup lang="ts">
-const { signIn } = useSession()
+const { signIn, status } = useSession()
 
 useHead({
     title: "Login",
 });
+
+if (status.value === 'authenticated' ) {
+    navigateTo('/dashboard');
+}
 
 let login: { username: string, password: string, error: null | string } = reactive({
     username: "",

@@ -16,7 +16,8 @@ export default defineNuxtConfig({
     },
     modules: [
         '@nuxtjs/tailwindcss',
-        '@sidebase/nuxt-auth'
+        '@sidebase/nuxt-auth',
+        'nuxt-icon'
     ],
     auth: {
         origin: process.env.BASE_URL_CLIENT,
