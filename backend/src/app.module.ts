@@ -8,7 +8,7 @@ import { UsersService } from './users/users.service';
 import { PrismaService } from './prisma.service';
 import { AuthController } from './auth/auth.controller';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({

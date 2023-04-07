@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-    middleware: 'auth'
+    middleware: ['auth']
 });
 useHead({
     title: "Dashboard",
@@ -15,9 +15,9 @@ useHead({
             <NuxtPage />
         </div>
         <div class="drawer-side">
-            <aside class="bg-base-200">
+            <aside class="bg-base-300">
                 <label for="my-drawer-2" class="drawer-overlay"></label>
-                <ul class="menu p-4 w-80 bg-base-200 text-sm">
+                <ul class="menu p-4 w-80 bg-base-300 text-sm">
                     <li>
                         <NuxtLink to="/dashboard" class="flex gap-4 items-center" exact-active-class="active">
                             <Icon name="ic:baseline-dashboard" class="w-6 h-6" />

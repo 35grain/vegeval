@@ -4,7 +4,6 @@ import { User, Prisma } from '@prisma/client';
 
 export type UserWithoutPassword = {
   id: number;
-  name: string | null;
   email: string;
   role: string;
   createdAt: Date;
@@ -13,7 +12,6 @@ export type UserWithoutPassword = {
 
 const userWithoutPassword = {
   id: true,
-  name: true,
   email: true,
   role: true,
   createdAt: true,
@@ -22,7 +20,7 @@ const userWithoutPassword = {
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async getUser(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,
@@ -69,11 +67,10 @@ export class UsersService {
     });
   }
 
-  async updateUser(params: {
-    where: Prisma.UserWhereUniqueInput;
-    data: Prisma.UserUpdateInput;
-  }): Promise<UserWithoutPassword> {
-    const { where, data } = params;
+  async updateUser(
+    where: Prisma.UserWhereUniqueInput,
+    data: Prisma.UserUpdateInput
+  ): Promise<UserWithoutPassword> {
     return this.prisma.user.update({
       data,
       where,

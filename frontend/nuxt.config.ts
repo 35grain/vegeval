@@ -21,6 +21,7 @@ export default defineNuxtConfig({
     ],
     auth: {
         origin: process.env.BASE_URL_CLIENT,
+        enableSessionRefreshOnWindowFocus: true,
     },
     tailwindcss: {
         cssPath: '~/assets/styles/main.scss'
