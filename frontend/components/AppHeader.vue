@@ -1,5 +1,11 @@
 <script setup lang="ts">
-const { signOut, status, data } = useSession();
+const config = useRuntimeConfig();
+const { status, data, signOut } = useSession();
+
+const signOutHandler = () => {
+  //const logged_out = useFetch('/api/auth/signOut');
+  signOut();
+}
 </script>
 
 <template>
@@ -24,7 +30,7 @@ const { signOut, status, data } = useSession();
                 <span class="flex-1">{{ data?.user?.email }}</span>
               </NuxtLink>
             </li>
-            <li><button @click="signOut()" class="flex gap-4 items-center text-start">
+            <li><button @click="signOutHandler" class="flex gap-4 items-center text-start">
                 <Icon name="ic:outline-log-out" class="w-6 h-6" />
                 <span class="flex-1">Logout</span>
               </button></li>

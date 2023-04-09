@@ -1,15 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { UsersController } from './users/users.controller';
-import { UsersService } from './users/users.service';
-import { PrismaService } from './prisma.service';
-import { AuthController } from './auth/auth.controller';
-import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { ModelsModule } from './models/models.module';
+import { EdgeDevicesModule } from './edge-devices/edge-devices.module';
 
 @Module({
   imports: [
@@ -19,11 +13,8 @@ import { ThrottlerModule } from '@nestjs/throttler';
       ttl: 60,
       limit: 10,
     }),
-  ],
-  controllers: [AppController, UsersController, AuthController],
-  providers: [AppService, UsersService, PrismaService, {
-    provide: APP_GUARD,
-    useClass: JwtAuthGuard,
-  },],
+    ModelsModule,
+    EdgeDevicesModule
+  ]
 })
 export class AppModule { }

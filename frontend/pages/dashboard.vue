@@ -8,16 +8,16 @@ useHead({
 </script>
 
 <template>
-    <div class="drawer drawer-mobile">
+    <main class="drawer drawer-mobile -mt-[4rem]">
         <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-        <div class="drawer-content flex flex-col items-center justify-center">
+        <div class="drawer-content flex flex-col p-16 mt-[4rem]">
             <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
             <NuxtPage />
         </div>
-        <div class="drawer-side">
-            <aside class="bg-base-300">
+        <div class="drawer-side mt-[4rem]">
+            <aside class="bg-base-300 py-4">
                 <label for="my-drawer-2" class="drawer-overlay"></label>
-                <ul class="menu p-4 w-80 bg-base-300 text-sm">
+                <ul class="menu px-4 w-80 bg-base-300 text-sm">
                     <li>
                         <NuxtLink to="/dashboard" class="flex gap-4 items-center" exact-active-class="active">
                             <Icon name="ic:baseline-dashboard" class="w-6 h-6" />
@@ -31,7 +31,16 @@ useHead({
                         </NuxtLink>
                     </li>
                 </ul>
+                <ul class="menu px-4 w-80 bg-base-300 text-sm">
+                   <li></li>
+                   <li>
+                        <NuxtLink to="/dashboard/models" class="flex gap-4 items-center" exact-active-class="active">
+                            <Icon name="ic:baseline-filter-center-focus" class="w-6 h-6" />
+                            <span class="flex-1">Models</span>
+                        </NuxtLink>
+                    </li> 
+                </ul>
             </aside>
         </div>
-    </div>
+    </main>
 </template>

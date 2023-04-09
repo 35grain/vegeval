@@ -15,11 +15,16 @@ export default NuxtAuthHandler({
                     refresh_token: (user as any).refresh_token,
                     error: undefined
                 }
-            } else if (Date.now() < (token.expires_at - 60 * 5) * 1000) {
+            } else if (token.expires_at && (token.expires_at - 5 * 60) * 1000 > Date.now()) { // up to 5 minutes before expiration
                 return token
             } else if (token.refresh_token) {
                 try {
-                    const response: any = await $fetch(`${config.baseUrl}/auth/token?id=${token.id}&refresh_token=${token.refresh_token}`);
+                    const response: any = await $fetch(`${config.baseUrl}/auth/token`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token.refresh_token}`
+                        },
+                    });
                     if (response) {
                         const expires_at = JSON.parse(Buffer.from(response.access_token.split('.')[1], 'base64').toString()).exp;
                         return {
@@ -35,7 +40,7 @@ export default NuxtAuthHandler({
                 }
             } return null;
         },
-        session({ session, token }) {
+        async session({ session, token }) {
             return {
                 ...session,
                 id: token.id,
@@ -76,7 +81,7 @@ export default NuxtAuthHandler({
     ],
     session: {
         strategy: 'jwt',
-        maxAge: 60 * 15, // 15 min
+        maxAge: 60 * 60 * 24, // 24 hours
     },
     pages: {
         signIn: '/login'

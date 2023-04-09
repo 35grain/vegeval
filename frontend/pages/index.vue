@@ -1,3 +1,9 @@
+<script setup lang="ts">
+const { status } = useSession();
+if (status.value === 'authenticated' ) {
+    navigateTo('/dashboard');
+}
+</script>
 <template>
   <div class="hero h-screen -mt-[4rem] relative">
     <video class="w-full h-full object-cover" autoplay muted loop>

@@ -42,7 +42,7 @@ const signInHandler = async () => {
             <div class="card w-96 glass mx-auto">
                 <div class="card-body">
                     <form @submit.prevent="signInHandler">
-                        <div class="alert alert-error shadow-lg" v-if="login.error">
+                        <div class="alert alert-error shadow-lg mb-4" v-if="login.error">
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6"
                                     fill="none" viewBox="0 0 24 24">
@@ -57,14 +57,14 @@ const signInHandler = async () => {
                                 <span class="label-text">E-mail</span>
                             </label>
                             <input id="emailInput" type="email" placeholder="john@deere.com" v-model="login.username"
-                                class="input input-bordered w-full max-w-xs" />
+                                class="input input-bordered w-full max-w-xs" required />
                         </div>
                         <div class="form-control w-full max-w-xs">
                             <label class="label" for="passwordInput">
                                 <span class="label-text">Password</span>
                             </label>
                             <input id="passwordInput" type="password" v-model="login.password"
-                                class="input input-bordered w-full max-w-xs" />
+                                class="input input-bordered w-full max-w-xs" required />
                         </div>
                         <div class="card-actions justify-between mt-2">
                             <div class="tooltip" data-tip="Registration is not available to the public">
