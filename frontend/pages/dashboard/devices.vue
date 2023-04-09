@@ -9,9 +9,10 @@ useHead({
             <div class="prose prose-slate text-left mb-12">
                 <h1>Edge devices</h1>
             </div>
-            <button class="btn btn-primary">
-                <Icon name="ic:outline-add" class="w-6 h-6 me-1" />Add
-            </button>
+            <label for="new-device-modal" class="btn btn-primary">
+                <Icon name="ic:outline-add" class="w-6 h-6 me-1" />
+                Register
+            </label>
         </div>
         <div class="overflow-x-auto">
             <table class="table w-full">
@@ -30,10 +31,13 @@ useHead({
                         <td>Online</td>
                         <td>Red potato</td>
                         <td>123.456.789.0</td>
-                        <td><NuxtLink to="./:id" class="btn btn-sm btn-secondary">Edit</NuxtLink></td>
+                        <td>
+                            <NuxtLink to="/dashboard/devices/:id" class="btn btn-sm btn-secondary">Edit</NuxtLink>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
+    <RegisterDeviceModal />
 </template>

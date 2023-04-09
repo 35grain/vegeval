@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { EdgeDevice } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { AuthService } from 'src/auth/auth.service';
-import { CreateDeviceDto } from 'src/dto/create-device.dto';
+import { RegisterDeviceDto } from 'src/dto/register-device.dto';
 
 @Injectable()
 export class EdgeDevicesService {
@@ -16,7 +16,7 @@ export class EdgeDevicesService {
         return this.prisma.edgeDevice.findUnique({ where: { id: deviceId } });
     }
 
-    async createDevice(clientId: any, device: CreateDeviceDto): Promise<EdgeDevice> {
+    async registerDevice(clientId: any, device: RegisterDeviceDto): Promise<EdgeDevice> {
         const token = crypto.randomUUID();
         const hash = await this.authService.hashData(token);
         return this.prisma.edgeDevice.create({

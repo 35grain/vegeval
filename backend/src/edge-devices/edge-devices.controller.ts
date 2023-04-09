@@ -1,7 +1,7 @@
 import { BadRequestException, Body, Controller, Get, Param, Post, Request } from '@nestjs/common';
 import { EdgeDevicesService } from './edge-devices.service';
 import { EdgeDevice } from '@prisma/client';
-import { CreateDeviceDto } from 'src/dto/create-device.dto';
+import { RegisterDeviceDto } from 'src/dto/register-device.dto';
 
 @Controller('devices')
 export class EdgeDevicesController {
@@ -25,7 +25,7 @@ export class EdgeDevicesController {
     }
 
     @Post()
-    async createDevice(@Request() req, @Body() device: CreateDeviceDto): Promise<EdgeDevice> {
-        return this.edgeDevicesService.createDevice(req.used.id, device);
+    async registerDevice(@Request() req, @Body() device: RegisterDeviceDto): Promise<EdgeDevice> {
+        return this.edgeDevicesService.registerDevice(req.used.id, device);
     }
 }

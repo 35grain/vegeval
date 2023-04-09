@@ -32,13 +32,16 @@ useHead({
                     </li>
                 </ul>
                 <ul class="menu px-4 w-80 bg-base-300 text-sm">
-                   <li></li>
-                   <li>
+                    <li></li>
+                    <li class="menu-title">
+                        <span>Explore</span>
+                    </li>
+                    <li>
                         <NuxtLink to="/dashboard/models" class="flex gap-4 items-center" exact-active-class="active">
                             <Icon name="ic:baseline-filter-center-focus" class="w-6 h-6" />
                             <span class="flex-1">Models</span>
                         </NuxtLink>
-                    </li> 
+                    </li>
                 </ul>
             </aside>
         </div>

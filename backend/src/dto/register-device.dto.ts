@@ -1,6 +1,6 @@
-import { IsNotEmpty, IsString, IsEmail, MinLength, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 
-export class CreateDeviceDto {
+export class RegisterDeviceDto {
     @IsNotEmpty()
     @IsString()
     public label: string;
