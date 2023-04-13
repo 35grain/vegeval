@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from '@prisma/client';
+import { RegisterModelDto } from 'src/dto/register-model.dto';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
@@ -12,5 +13,9 @@ export class ModelsService {
 
     async getModel(modelId: number): Promise<Model | null> {
         return this.prisma.model.findUnique({ where: { id: modelId } });
+    }
+
+    async registerModel(model: RegisterModelDto): Promise<Model> {
+        return this.prisma.model.create({ data: model });
     }
 }

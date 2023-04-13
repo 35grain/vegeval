@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { data } = useSession()
+const { data, signOut } = useSession()
 definePageMeta({
     middleware: ['auth']
 });
@@ -7,16 +7,16 @@ useHead({
     title: "Profile",
 });
 
-let update: { password: string, passwordConfirm: string, message: string | undefined, error: boolean} = reactive({
+let update: { password: string, passwordConfirm: string, alert: { message: string | undefined, error: boolean } } = reactive({
     password: "",
     passwordConfirm: "",
-    message: undefined,
-    error: false
+    alert: {
+        message: undefined,
+        error: false
+    }
 });
 
 const updateHandler = async () => {
-    update.message = "";
-    update.error = false;
     const { data, error } = await useFetch('/api/update-profile',
         {
             method: "POST",
@@ -27,11 +27,15 @@ const updateHandler = async () => {
         });
 
     if (!error.value) {
-            update.error = false;
-            update.message = data.value?.statusMessage;
+        update.alert.error = false;
+        update.alert.message = data.value?.statusMessage;
+        refreshNuxtData();
     } else {
-        update.error = true;
-        update.message = error.value.statusMessage;
+        update.alert.error = true;
+        update.alert.message = error.value.statusMessage;
+        if (error.value.status === 403) {
+            signOut({ redirect: true, callbackUrl: '/login' });
+        }
     }
 };
 </script>
@@ -45,16 +49,7 @@ const updateHandler = async () => {
             <div class="card glass mx-auto">
                 <div class="card-body">
                     <form @submit.prevent="updateHandler">
-                        <div class="alert shadow-lg mb-4" :class="{ 'alert-error': update.error, 'alert-success': !update.error }" v-if="update.message">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6"
-                                    fill="none" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>{{ update.message }}</span>
-                            </div>
-                        </div>
+                        <Alert :alert="update.alert" />
                         <div class="grid grid-cols-2 gap-8">
                             <div>
                                 <div class="form-control w-full">

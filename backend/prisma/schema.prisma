@@ -29,7 +29,7 @@ model EdgeDevice {
   modelId   Int?
   client    User      @relation(fields: [clientId], references: [id])
   clientId  Int
-  lastIp    String?
+  ip        String?
   lastSeen  DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

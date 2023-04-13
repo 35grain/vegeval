@@ -2,7 +2,8 @@
 const session: any = useSession()
 const config = useRuntimeConfig()
 
-let device: { label: string | undefined, model: string | undefined, ip: string | undefined, alert: { message: string | undefined, error: boolean } } = reactive({
+let device: { id: number | undefined, label: string | undefined, model: string | undefined, ip: string | undefined, alert: { message: string | undefined, error: boolean } } = reactive({
+    id: undefined,
     label: undefined,
     model: 'default',
     ip: undefined,
@@ -15,15 +16,14 @@ let device: { label: string | undefined, model: string | undefined, ip: string |
 
 <template>
     <div>
-        <input type="checkbox" id="new-device-modal" class="modal-toggle" />
+        <input type="checkbox" id="edit-device-modal" class="modal-toggle" />
         <div class="modal">
             <div class="modal-box w-7/12 max-w-2xl">
                 <div class="prose prose-slate text-left mb-6">
-                    <h1 class="mb-0">Register a new device</h1>
-                    <small>New devices will be assigned a unique API key after registration.</small>
+                    <h1 class="mb-0">Edit device</h1>
                 </div>
                 <Alert :alert="device.alert" />
-                <form @submit.prevent="registrationHandler">
+                <form @submit.prevent="updateHandler">
                     <div class="grid grid-cols-2 gap-8">
                         <div>
                             <div class="form-control w-full max-w-xs">
@@ -60,19 +60,20 @@ let device: { label: string | undefined, model: string | undefined, ip: string |
                     </div>
                     <div class="flex justify-between mt-6">
                         <button class="btn btn-primary" type="submit">Register</button>
-                        <label for="new-device-modal" class="btn btn-error">Cancel</label>
+                        <label for="edit-device-modal" class="btn btn-error">Cancel</label>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </template>
+
 <script lang="ts">
 export default {
-    props: ['models'],
+    props: ['device', 'models'],
     methods: {
-        async registrationHandler() {
-            const { data, error } = await useFetch(`${config.public.apiUrl}/devices/register`,
+        async updateHandler() {
+            const { data, error } = await useFetch(`${config.public.apiUrl}/devices/update/${device.id}`,
                 {
                     method: "POST",
                     headers: {

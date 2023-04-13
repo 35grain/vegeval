@@ -3,6 +3,7 @@ import { EdgeDevice } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { AuthService } from 'src/auth/auth.service';
 import { RegisterDeviceDto } from 'src/dto/register-device.dto';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class EdgeDevicesService {
@@ -16,14 +17,28 @@ export class EdgeDevicesService {
         return this.prisma.edgeDevice.findUnique({ where: { id: deviceId } });
     }
 
+    // Register a new device
     async registerDevice(clientId: any, device: RegisterDeviceDto): Promise<EdgeDevice> {
         const token = crypto.randomUUID();
-        const hash = await this.authService.hashData(token);
         return this.prisma.edgeDevice.create({
             data: {
                 label: device.label,
-                apiKey: hash,
-                clientId: clientId
+                apiKey: token,
+                clientId: clientId,
+                modelId: device.model,
+                ip: device.ip
+            }
+        });
+    }
+
+    // Update an existing device
+    async updateDevice(deviceId: number, device: RegisterDeviceDto): Promise<EdgeDevice> {
+        return this.prisma.edgeDevice.update({
+            where: { id: deviceId },
+            data: {
+                label: device.label,
+                modelId: device.model,
+                ip: device.ip
             }
         });
     }

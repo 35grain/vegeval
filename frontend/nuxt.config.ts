@@ -8,9 +8,8 @@ export default defineNuxtConfig({
         pageTransition: { name: 'page', mode: 'out-in' }
     },
     runtimeConfig: {
-        baseUrl: process.env.BASE_URL_SERVER,
         public: {
-            baseUrl: process.env.BASE_URL_CLIENT
+            apiUrl: process.env.BASE_URL_SERVER
         },
         authSecret: process.env.AUTH_SECRET
     },
@@ -21,6 +20,7 @@ export default defineNuxtConfig({
     ],
     auth: {
         origin: process.env.BASE_URL_CLIENT,
+        enableSessionRefreshPeriodically: 5000,
         enableSessionRefreshOnWindowFocus: true,
     },
     tailwindcss: {

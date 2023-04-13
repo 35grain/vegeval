@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsIP } from 'class-validator';
 
 export class RegisterDeviceDto {
     @IsNotEmpty()
@@ -7,5 +7,9 @@ export class RegisterDeviceDto {
 
     @IsNotEmpty()
     @IsNumber()
-    public modelId: number;
+    public model: number;
+
+    @IsNotEmpty()
+    @IsIP()
+    public ip: string;
 }

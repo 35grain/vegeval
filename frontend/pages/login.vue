@@ -9,10 +9,13 @@ if (status.value === 'authenticated' ) {
     navigateTo('/dashboard');
 }
 
-let login: { username: string, password: string, error: null | string } = reactive({
+let login: { username: string, password: string, alert: { message: string | undefined, error: boolean}} = reactive({
     username: "",
     password: "",
-    error: null
+    alert: {
+        message: undefined,
+        error: false
+    }
 });
 
 const signInHandler = async () => {
@@ -23,12 +26,16 @@ const signInHandler = async () => {
         const { error, url } = await signIn('credentials-login', { callbackUrl: '/dashboard', username, password, redirect: false })
 
         if (error) {
-            login.error = "Username or password incorrect. Please try again!";
+            login.alert.error = true;
+            login.alert.message = "Username or password incorrect. Please try again!";
         } else {
+            login.alert.error = false;
+            login.alert.message = "Successfully logged in!";
             return navigateTo(url, { external: true });
         }
     } else {
-        login.error = "Username and password are required!";
+        login.alert.error = true;
+        login.alert.message = "Username and password are required!";
     }
 };
 </script>
@@ -42,16 +49,7 @@ const signInHandler = async () => {
             <div class="card w-96 glass mx-auto">
                 <div class="card-body">
                     <form @submit.prevent="signInHandler">
-                        <div class="alert alert-error shadow-lg mb-4" v-if="login.error">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6"
-                                    fill="none" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>{{ login.error }}</span>
-                            </div>
-                        </div>
+                        <Alert :alert="login.alert" />
                         <div class="form-control w-full max-w-xs">
                             <label class="label" for="emailInput">
                                 <span class="label-text">E-mail</span>

@@ -11,6 +11,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) { }
 
+  // Validate user credentials
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.usersService.getUserLogin({ email: email });
     if (user) {
@@ -22,9 +23,10 @@ export class AuthService {
     return null;
   }
 
+  // Return user authentication tokens
   async login(data: AuthUserDto) {
     const user = await this.usersService.getUser({ email: data.username });
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email, role: user.role };
     const tokens = await this.getTokens(payload);
     await this.updateRefreshToken(user.id, tokens.refresh_token);
     return tokens;
@@ -34,6 +36,7 @@ export class AuthService {
     return this.usersService.updateUser({ id: userId }, { refreshToken: null });
   }
 
+  // Sign access token and refresh token
   async getTokens(payload: any) {
     return {
       access_token: await this.jwtService.signAsync(payload, { secret: process.env.JWT_SECRET }),
@@ -41,21 +44,25 @@ export class AuthService {
     }
   }
 
+  // Generate new access token and refresh token
   async refreshTokens(userId: number) {
     const user = await this.usersService.getUserLogin({ id: userId });
     if (!user || !user.refreshToken)
       throw new ForbiddenException('Access Denied');
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email, role: user.role };
     const tokens = await this.getTokens(payload);
     await this.updateRefreshToken(user.id, tokens.refresh_token);
     return tokens;
   }
 
+  // TODO: Move to utils
+  // Hash data
   async hashData(data: string) {
     const salt = await bcrypt.genSalt();
     return await bcrypt.hash(data, salt);
   }
 
+  // Update refresh token in database
   async updateRefreshToken(userId: number, refreshToken: string) {
     const hashedRefreshToken = await this.hashData(refreshToken);
     await this.usersService.updateUser({ id: userId }, { refreshToken: hashedRefreshToken });

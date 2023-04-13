@@ -1,0 +1,9 @@
+table {
+    thead th {
+        background-color: hsl(var(--b3)) !important;
+    }
+    tbody td,
+    tbody th {
+        background-color: hsl(var(--b2)) !important;
+    }
+}

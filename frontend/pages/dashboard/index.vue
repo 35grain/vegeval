@@ -1,5 +1,9 @@
 <template>
     <div>
-        Overview
+        <div class="flex justify-between">
+            <div class="prose prose-slate text-left mb-12">
+                <h1>Overview</h1>
+            </div>
+        </div>
     </div>
 </template>

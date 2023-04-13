@@ -7,29 +7,23 @@ export default NuxtAuthHandler({
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                return {
-                    id: (user as any).id,
-                    email: (user as any).email,
-                    expires_at: (user as any).expires_at,
-                    access_token: (user as any).access_token,
-                    refresh_token: (user as any).refresh_token,
-                    error: undefined
-                }
+                return user;
             } else if (token.expires_at && (token.expires_at - 5 * 60) * 1000 > Date.now()) { // up to 5 minutes before expiration
                 return token
             } else if (token.refresh_token) {
                 try {
-                    const response: any = await $fetch(`${config.baseUrl}/auth/token`,
+                    const response: any = await $fetch(`${config.public.apiUrl}/auth/token`,
                     {
                         headers: {
                             'Authorization': `Bearer ${token.refresh_token}`
                         },
                     });
                     if (response) {
-                        const expires_at = JSON.parse(Buffer.from(response.access_token.split('.')[1], 'base64').toString()).exp;
+                        const user = JSON.parse(Buffer.from(response.access_token.split('.')[1], 'base64').toString());
                         return {
-                            ...token,
-                            expires_at: expires_at,
+                            id: user.sub,
+                            email: user.email,
+                            role: user.role,
                             access_token: response.access_token,
                             refresh_token: response.refresh_token ?? token.refresh_token, // Fallback to old refresh token although likely invoked
                             error: undefined
@@ -44,7 +38,9 @@ export default NuxtAuthHandler({
             return {
                 ...session,
                 id: token.id,
-                email: token.email
+                email: token.email,
+                role: token.role,
+                access_token: token.access_token,
             }
         }
     },
@@ -55,7 +51,7 @@ export default NuxtAuthHandler({
             credentials: {},
             async authorize(credentials: any) {
                 const response: any = await $fetch(
-                    `${config.baseUrl}/auth/login`,
+                    `${config.public.apiUrl}/auth/login`,
                     {
                         method: "POST",
                         body: JSON.stringify({
@@ -69,6 +65,7 @@ export default NuxtAuthHandler({
                     return {
                         id: data.sub,
                         email: data.email,
+                        role: data.role,
                         expires_at: data.exp,
                         access_token: response.access_token,
                         refresh_token: response.refresh_token
