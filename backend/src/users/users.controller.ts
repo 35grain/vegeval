@@ -4,6 +4,7 @@ import { Roles } from 'src/auth/roles/roles.decorator';
 import { Role } from 'src/auth/roles/role.enum';
 import { UpdateUserDto } from 'src/dto/update-user.dto';
 import { AuthService } from 'src/auth/auth.service';
+import { RegisterUserDto } from 'src/dto/register-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -21,6 +22,12 @@ export class UsersController {
   @Get('profile')
   async getProfile(@Request() req): Promise<UserWithoutPassword> {
     return this.usersService.getUser({ id: req.user.id });
+  }
+
+  @Roles(Role.Admin)
+  @Post('register')
+  async registerUser(@Body() user: RegisterUserDto): Promise<UserWithoutPassword> {
+    return this.usersService.createUser(user);
   }
 
   @Post('update')

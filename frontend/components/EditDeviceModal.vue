@@ -1,19 +1,3 @@
-<script setup lang="ts">
-const session: any = useSession()
-const config = useRuntimeConfig()
-
-let device: { id: number | undefined, label: string | undefined, model: string | undefined, ip: string | undefined, alert: { message: string | undefined, error: boolean } } = reactive({
-    id: undefined,
-    label: undefined,
-    model: 'default',
-    ip: undefined,
-    alert: {
-        message: undefined,
-        error: false
-    }
-});
-</script>
-
 <template>
     <div>
         <input type="checkbox" id="edit-device-modal" class="modal-toggle" />
@@ -69,6 +53,8 @@ let device: { id: number | undefined, label: string | undefined, model: string |
 </template>
 
 <script lang="ts">
+const session: any = useSession()
+const config = useRuntimeConfig()
 export default {
     props: ['device', 'models'],
     methods: {
@@ -80,19 +66,19 @@ export default {
                         "Authorization": `Bearer ${session.data.value?.access_token}`,
                     },
                     body: JSON.stringify({
-                        label: device.label,
-                        model: Number(device.model),
-                        ip: device.ip,
+                        label: this.device.label,
+                        model: Number(this.device.model),
+                        ip: this.device.ip,
                     }),
                 });
 
             if (!error.value) {
-                device.alert.error = false;
-                device.alert.message = data.value?.message;
+                this.device.alert.error = false;
+                this.device.alert.message = data.value?.message;
                 refreshNuxtData();
             } else {
-                device.alert.error = true;
-                device.alert.message = error.value.data?.message;
+                this.device.alert.error = true;
+                this.device.alert.message = error.value.data?.message;
                 if (error.value.status === 403) {
                     session.signOut({ redirect: true, callbackUrl: '/login' });
                 }

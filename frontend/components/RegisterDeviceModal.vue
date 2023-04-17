@@ -1,18 +1,3 @@
-<script setup lang="ts">
-const session: any = useSession()
-const config = useRuntimeConfig()
-
-let device: { label: string | undefined, model: string | undefined, ip: string | undefined, alert: { message: string | undefined, error: boolean } } = reactive({
-    label: undefined,
-    model: 'default',
-    ip: undefined,
-    alert: {
-        message: undefined,
-        error: false
-    }
-});
-</script>
-
 <template>
     <div>
         <input type="checkbox" id="new-device-modal" class="modal-toggle" />
@@ -69,31 +54,47 @@ let device: { label: string | undefined, model: string | undefined, ip: string |
 </template>
 <script lang="ts">
 export default {
+    setup: () => {
+        const session = useSession();
+        const config = useRuntimeConfig();
+        return { session, config };
+    },
     props: ['models'],
+    data: () => ({
+        device: {
+            label: undefined,
+            model: 'default',
+            ip: undefined,
+            alert: {
+                message: undefined,
+                error: false
+            }
+        }
+    }),
     methods: {
         async registrationHandler() {
-            const { data, error } = await useFetch(`${config.public.apiUrl}/devices/register`,
+            const { data, error } = await useFetch(`${this.config.public.apiUrl}/devices/register`,
                 {
                     method: "POST",
                     headers: {
-                        "Authorization": `Bearer ${session.data.value?.access_token}`,
+                        "Authorization": `Bearer ${this.session.data.value?.access_token}`,
                     },
                     body: JSON.stringify({
-                        label: device.label,
-                        model: Number(device.model),
-                        ip: device.ip,
+                        label: this.device.label,
+                        model: Number(this.device.model),
+                        ip: this.device.ip,
                     }),
                 });
 
             if (!error.value) {
-                device.alert.error = false;
-                device.alert.message = data.value?.message;
+                this.device.alert.error = false;
+                this.device.alert.message = data.value?.message;
                 refreshNuxtData();
             } else {
-                device.alert.error = true;
-                device.alert.message = error.value.data?.message;
+                this.device.alert.error = true;
+                this.device.alert.message = error.value.data?.message;
                 if (error.value.status === 403) {
-                    session.signOut({ redirect: true, callbackUrl: '/login' });
+                    this.session.signOut({ redirect: true, callbackUrl: '/login' });
                 }
             }
         }

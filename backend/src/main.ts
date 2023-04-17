@@ -18,7 +18,7 @@ async function bootstrap() {
             return Object.values(error.constraints).map((message: string) => {
               return message.charAt(0).toUpperCase() + message.slice(1);
             })
-          }).join(', ') + '!'
+          }).join('. ') + '.'
         );
       },
     }));

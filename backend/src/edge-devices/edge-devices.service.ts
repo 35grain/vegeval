@@ -9,7 +9,11 @@ import * as crypto from 'crypto';
 export class EdgeDevicesService {
     constructor(private prisma: PrismaService, private readonly authService: AuthService) { }
 
-    async getDevices(clientId: number): Promise<EdgeDevice[]> {
+    async getDevices(): Promise<EdgeDevice[]> {
+        return this.prisma.edgeDevice.findMany();
+    }
+
+    async getClientDevices(clientId: number): Promise<EdgeDevice[]> {
         return this.prisma.edgeDevice.findMany({ where: { clientId: clientId } });
     }
 

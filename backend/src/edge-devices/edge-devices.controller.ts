@@ -3,6 +3,8 @@ import { EdgeDevicesService } from './edge-devices.service';
 import { EdgeDevice } from '@prisma/client';
 import { RegisterDeviceDto } from 'src/dto/register-device.dto';
 import { ModelsService } from 'src/models/models.service';
+import { Role } from 'src/auth/roles/role.enum';
+import { Roles } from 'src/auth/roles/roles.decorator';
 
 @Controller('devices')
 export class EdgeDevicesController {
@@ -11,10 +13,16 @@ export class EdgeDevicesController {
         private readonly modelsService: ModelsService
     ) { }
 
+    @Roles(Role.Admin)
+    @Get()
+    async getDevices(): Promise<EdgeDevice[]> {
+        return this.edgeDevicesService.getDevices();
+    }
+
     @Get(':clientId')
-    async getDevices(@Request() req, @Param('clientId', ParseIntPipe) clientId: number): Promise<EdgeDevice[]> {
+    async getClientDevices(@Request() req, @Param('clientId', ParseIntPipe) clientId: number): Promise<EdgeDevice[]> {
         if (req.user.id === clientId || req.user.role === 'admin') {
-            return this.edgeDevicesService.getDevices(clientId);
+            return this.edgeDevicesService.getClientDevices(clientId);
         }
         throw new UnauthorizedException('Unauthorized!');
     }

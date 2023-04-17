@@ -25,9 +25,9 @@ useHead({
                         </NuxtLink>
                     </li>
                     <li>
-                        <NuxtLink to="/admin/clients" class="flex gap-4 items-center" exact-active-class="active bg-accent">
+                        <NuxtLink to="/admin/users" class="flex gap-4 items-center" exact-active-class="active bg-accent">
                             <Icon name="ic:baseline-account-circle" class="w-6 h-6" />
-                            <span class="flex-1">Clients</span>
+                            <span class="flex-1">Users</span>
                         </NuxtLink>
                     </li>
                     <li>
