@@ -62,11 +62,11 @@ export default {
     props: ['models'],
     data: () => ({
         device: {
-            label: undefined,
+            label: "",
             model: 'default',
-            ip: undefined,
+            ip: "",
             alert: {
-                message: undefined,
+                message: "",
                 error: false
             }
         }
@@ -88,7 +88,7 @@ export default {
 
             if (!error.value) {
                 this.device.alert.error = false;
-                this.device.alert.message = data.value?.message;
+                this.device.alert.message = "Device registered successfully!";
                 refreshNuxtData();
             } else {
                 this.device.alert.error = true;

@@ -8,6 +8,9 @@ import { UsersService } from 'src/users/users.service';
 import { PrismaService } from 'src/prisma.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
+import { EdgeDevicesService } from 'src/edge-devices/edge-devices.service';
+import { GrpcStrategy } from './strategies/grpc.strategy';
+import { ModelsService } from 'src/models/models.service';
 
 @Module({
   imports: [
@@ -19,12 +22,15 @@ import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
   ],
   providers: [
     AuthService,
-    LocalStrategy,
     UsersService,
     PrismaService,
+    LocalStrategy,
     JwtStrategy,
-    JwtRefreshStrategy
+    JwtRefreshStrategy,
+    GrpcStrategy,
+    EdgeDevicesService,
+    ModelsService
   ],
-  exports: [AuthService],
+  exports: [AuthService, GrpcStrategy],
 })
 export class AuthModule {}

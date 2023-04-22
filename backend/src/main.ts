@@ -2,9 +2,18 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { BadRequestException, ValidationError, ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
+import { join } from 'path';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const microserviceGrpc = app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.GRPC,
+    options: {
+      package: 'edge_agent',
+      protoPath: join(__dirname, 'grpc/edge_agent.proto'),
+    },
+  });
 
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe(
@@ -25,6 +34,7 @@ async function bootstrap() {
   app.use(helmet());
   app.enableCors({ origin: true });
 
+  await app.startAllMicroservices();
   await app.listen(3001);
 }
 bootstrap();

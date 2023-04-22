@@ -20,7 +20,6 @@ export default defineNuxtConfig({
     ],
     auth: {
         origin: process.env.BASE_URL_CLIENT,
-        enableSessionRefreshPeriodically: 5000,
         enableSessionRefreshOnWindowFocus: true,
     },
     tailwindcss: {

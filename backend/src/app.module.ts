@@ -16,6 +16,9 @@ import { ModelsController } from './models/models.controller';
 import { ModelsService } from './models/models.service';
 import { EdgeDevicesService } from './edge-devices/edge-devices.service';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { GrpcController } from './grpc/grpc.controller';
+import { GrpcService } from './grpc/grpc.service';
+import { GrpcModule } from './grpc/grpc.module';
 
 @Module({
   imports: [
@@ -23,16 +26,18 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
     UsersModule,
     ThrottlerModule.forRoot({
       ttl: 60,
-      limit: 10,
+      limit: 20,
     }),
     ModelsModule,
-    EdgeDevicesModule
+    EdgeDevicesModule,
+    GrpcModule
   ],
   controllers: [
     AuthController,
     UsersController,
     ModelsController,
     EdgeDevicesController,
+    GrpcController
   ],
   providers: [
     PrismaService,
@@ -41,6 +46,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
     UsersService,
     ModelsService,
     EdgeDevicesService,
+    GrpcService,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard
@@ -48,7 +54,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard
-    }
+    },
   ]
 })
 export class AppModule { }

@@ -12,14 +12,14 @@ let view: { alert: { message: undefined | string, error: boolean } } = reactive(
     }
 });
 
-const { data: devices, error } = await useFetch(`${config.public.apiUrl}/devices/${session.data.value?.id}`,
+const { data: devices, error } = useFetch(`${config.public.apiUrl}/devices/${session.data.value?.id}`,
     {
         headers: {
             "Authorization": `Bearer ${session.data.value?.access_token}`,
         }
     });
 
-const { data: models } = await useFetch(`${config.public.apiUrl}/models`,
+const { data: models } = useFetch(`${config.public.apiUrl}/models`,
     {
         headers: {
             "Authorization": `Bearer ${session.data.value?.access_token}`,
@@ -41,7 +41,7 @@ if (error.value) {
         </div>
         <Alert :alert="view.alert" />
         <div class="overflow-x-auto">
-            <table class="table w-full">
+            <table class="table table-zebra w-full">
                 <thead>
                     <tr>
                         <th>Label</th>
@@ -53,7 +53,7 @@ if (error.value) {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-if="devices.length" v-for="device in devices">
+                    <tr v-if="devices?.length" v-for="device in devices">
                         <th>{{ device.label }}</th>
                         <td>{{ device.status }}</td>
                         <td>{{ device.model.name }}</td>
@@ -82,7 +82,6 @@ if (error.value) {
             </table>
         </div>
         <RegisterDeviceModal :models="models"/>
-        <EditDeviceModal :models="models"/>
     </div>
 </template>
 <script lang="ts">

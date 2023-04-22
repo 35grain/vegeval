@@ -12,14 +12,14 @@ let view: { alert: { message: undefined | string, error: boolean } } = reactive(
     }
 });
 
-const { data: devices, error } = await useFetch(`${config.public.apiUrl}/devices`,
+const { data: devices, error } = useFetch(`${config.public.apiUrl}/devices`,
     {
         headers: {
             "Authorization": `Bearer ${session.data.value?.access_token}`,
         }
     });
 
-const { data: models } = await useFetch(`${config.public.apiUrl}/models`,
+const { data: models } = useFetch(`${config.public.apiUrl}/models`,
     {
         headers: {
             "Authorization": `Bearer ${session.data.value?.access_token}`,
@@ -47,7 +47,7 @@ if (error.value) {
         </div>
         <Alert :alert="view.alert" />
         <div class="overflow-x-auto">
-            <table class="table w-full">
+            <table class="table zebra w-full">
                 <thead>
                     <tr>
                         <th>Label</th>

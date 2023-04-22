@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package edge_agent;
+
+service EdgeAgentService {
+  // Starts the object detection process on the edge device.
+  rpc StartDetection (StartDetectionRequest) returns (StartDetectionResponse) {}
+
+  // Stops the object detection process on the edge device.
+  rpc StopDetection (StopDetectionRequest) returns (StopDetectionResponse) {}
+
+  // Requests the saved configuration of the edge device from web app.
+  rpc Config (ConfigRequest) returns (ConfigResponse) {}
+
+  // Sends periodical statistics reports to the web application.
+  rpc StatisticsReport (stream StatisticsReportRequest) returns (StatisticsReportResponse) {}
+
+  // Sends a heartbeat message to the web application.
+  rpc Heartbeat (HeartbeatRequest) returns (HeartbeatResponse) {}
+}
+
+message StartDetectionRequest {}
+
+message StartDetectionResponse {
+  // Acknowledgement of the request to start the detection process.
+  bool success = 1;
+}
+
+message StopDetectionRequest {}
+
+message StopDetectionResponse {
+  // Acknowledgement of the request to stop the detection process.
+  bool success = 1;
+}
+
+message ConfigRequest {}
+
+message ConfigResponse {
+  // The current configuration of the edge device.
+  DetectionModel model = 1;
+}
+
+message StatisticsReportRequest {
+  // The current statistics report.
+  StatisticsReport statistics_report = 1;
+}
+
+message StatisticsReportResponse {
+  // Acknowledgement of the statistics report.
+  bool success = 1;
+}
+
+message HeartbeatRequest {}
+
+message HeartbeatResponse {
+  // Acknowledgement of the heartbeat message.
+  bool success = 1;
+}
+
+// Detection model properties
+message DetectionModel {
+    string name = 1;
+    string version = 2;
+    string url = 3;
+}
+
+// A statistics report.
+message StatisticsReport {
+  // Timestamp of the report in milliseconds since epoch.
+  int64 timestamp = 1;
+
+  // Total number of objects detected.
+  int32 total_objects_detected = 2;
+
+  // A thumbnail image of the most recent detection.
+  bytes thumbnail_image = 3;
+}

@@ -36,11 +36,11 @@ if (error.value) {
             </div>
             <label for="new-model-modal" class="btn btn-primary">
                 <Icon name="ic:outline-add" class="w-6 h-6 me-1" />
-                Add
+                New
             </label>
         </div>
         <div class="overflow-x-auto">
-            <table class="table w-full">
+            <table class="table table-zebra w-full">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -49,10 +49,10 @@ if (error.value) {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-if="models.length" v-for="model in models">
+                    <tr v-if="models?.length" v-for="model in models">
                         <th>{{ model.name }}</th>
                         <td><span class="badge">{{ model.version }}</span></td>
-                        <td>{{ model.updatedAt }}</td>
+                        <td>{{ new Date(model.updatedAt).toLocaleString() }}</td>
                     </tr>
                     <tr v-else>
                         <td colspan="3" class="text-center">No models to show</td>
@@ -60,5 +60,6 @@ if (error.value) {
                 </tbody>
             </table>
         </div>
+        <RegisterModelModal />
     </div>
 </template>

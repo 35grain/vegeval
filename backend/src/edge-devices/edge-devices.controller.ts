@@ -1,5 +1,5 @@
 import { BadRequestException, Body, Controller, Get, Param, ParseIntPipe, Post, Request, UnauthorizedException } from '@nestjs/common';
-import { EdgeDevicesService } from './edge-devices.service';
+import { EdgeDeviceWithModel, EdgeDevicesService } from './edge-devices.service';
 import { EdgeDevice } from '@prisma/client';
 import { RegisterDeviceDto } from 'src/dto/register-device.dto';
 import { ModelsService } from 'src/models/models.service';
@@ -15,12 +15,12 @@ export class EdgeDevicesController {
 
     @Roles(Role.Admin)
     @Get()
-    async getDevices(): Promise<EdgeDevice[]> {
+    async getDevices(): Promise<EdgeDeviceWithModel[]> {
         return this.edgeDevicesService.getDevices();
     }
 
     @Get(':clientId')
-    async getClientDevices(@Request() req, @Param('clientId', ParseIntPipe) clientId: number): Promise<EdgeDevice[]> {
+    async getClientDevices(@Request() req, @Param('clientId', ParseIntPipe) clientId: number): Promise<EdgeDeviceWithModel[]> {
         if (req.user.id === clientId || req.user.role === 'admin') {
             return this.edgeDevicesService.getClientDevices(clientId);
         }
@@ -28,7 +28,7 @@ export class EdgeDevicesController {
     }
 
     @Get(':deviceId')
-    async getDevice(@Request() req, @Param('deviceId', ParseIntPipe) deviceId: number): Promise<EdgeDevice | null> {
+    async getDevice(@Request() req, @Param('deviceId', ParseIntPipe) deviceId: number): Promise<EdgeDeviceWithModel | null> {
         const device = await this.edgeDevicesService.getDevice(deviceId);
         if (!device) {
             throw new BadRequestException('Device with provided ID does not exist!');
@@ -39,8 +39,9 @@ export class EdgeDevicesController {
         throw new UnauthorizedException('Unauthorized!');
     }
 
+    @Roles(Role.Admin)
     @Post('register')
-    async registerDevice(@Request() req, @Body() device: RegisterDeviceDto): Promise<EdgeDevice> {
+    async registerDevice(@Request() req, @Body() device: RegisterDeviceDto): Promise<any> {
         if (!await this.modelsService.getModel(device.model)) {
             throw new BadRequestException('Model with provided ID does not exist!');
         }
@@ -48,7 +49,7 @@ export class EdgeDevicesController {
     }
 
     @Post('update/:deviceId')
-    async updateDevice(@Request() req, @Param('deviceId', ParseIntPipe) deviceId: number, @Body() deviceDto: RegisterDeviceDto): Promise<EdgeDevice> {
+    async updateDevice(@Request() req, @Param('deviceId', ParseIntPipe) deviceId: number, @Body() deviceDto: RegisterDeviceDto): Promise<any> {
         const device = await this.edgeDevicesService.getDevice(deviceId);
         if (!device) {
             throw new BadRequestException('Device with provided ID does not exist!');

@@ -4,7 +4,7 @@ import { User, Prisma } from '@prisma/client';
 import { RegisterUserDto } from 'src/dto/register-user.dto';
 import * as bcrypt from 'bcrypt';
 
-export type UserWithoutPassword = {
+export interface UserWithoutPassword {
   id: number;
   email: string;
   role: string;
