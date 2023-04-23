@@ -5,7 +5,7 @@
             <div class="modal-box w-7/12 max-w-2xl">
                 <div class="prose prose-slate text-left mb-6">
                     <h1 class="mb-0">Register a new device</h1>
-                    <small>New devices will be assigned a unique API key after registration.</small>
+                    <small>New devices will be assigned a unique API key and secret after registration.</small>
                 </div>
                 <Alert :alert="device.alert" />
                 <form @submit.prevent="registrationHandler">

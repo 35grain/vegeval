@@ -46,7 +46,7 @@ if (error.value) {
                     <tr v-if="models.length" v-for="model in models">
                         <th>{{ model.name }}</th>
                         <td><span class="badge">{{ model.version }}</span></td>
-                        <td>{{ model.updatedAt }}</td>
+                        <td>{{ new Date(model.updatedAt).toLocaleString() }}</td>
                     </tr>
                     <tr v-else>
                         <td colspan="3" class="text-center">No models to show</td>

@@ -55,19 +55,12 @@ if (error.value) {
                 <tbody>
                     <tr v-if="devices?.length" v-for="device in devices">
                         <th>{{ device.label }}</th>
-                        <td>{{ device.status }}</td>
+                        <td><div class="flex items-center"><span class="badge badge-warning">Idle</span></div></td>
                         <td>{{ device.model.name }}</td>
                         <td class="flex">
                             <div class="tooltip" data-tip="Copy key">
-                                <input @click="copyInputValue" type="password" class="input input-sm cursor-pointer"
+                                <input @click="copyInputValue" type="text" class="input input-sm cursor-pointer"
                                     readonly :value="device.apiKey">
-                            </div>
-                            <div class="tooltip ms-2 my-auto" data-tip="Show/hide key">
-                                <label class="swap">
-                                    <input @change="toggleKeyVisibility" type="checkbox" />
-                                    <Icon name="bi:eye-fill" class="swap-on fill-current" />
-                                    <Icon name="bi:eye-slash-fill" class="swap-off fill-current" />
-                                </label>
                             </div>
                         </td>
                         <td>{{ device.ip }}</td>
@@ -92,16 +85,7 @@ export default {
             input.select();
             input.setSelectionRange(0, 99999);
             navigator.clipboard.writeText(input.value);
-        },
-        toggleKeyVisibility(e: Event) {
-            const input = e.target as HTMLInputElement;
-            const key = input.parentElement?.parentElement?.parentElement?.children[0] as HTMLInputElement;
-            if (input.checked) {
-                key.type = "text";
-            } else {
-                key.type = "password";
-            }
-        },
+        }
     }
 }
 </script>

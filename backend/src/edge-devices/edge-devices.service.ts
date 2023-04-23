@@ -32,8 +32,11 @@ export class EdgeDevicesService {
         return this.prisma.edgeDevice.findUnique({ where: { apiKey: apiKey }, include: { model: true } });
     }
 
-    async getDeviceConfig(deviceId: number): Promise<ConfigResponse> {
+    async getDeviceConfig(deviceId: number): Promise<ConfigResponse | null> {
         const device = await this.getDevice(deviceId);
+        if (!device) {
+            return null;
+        }
         return {
             model: device.model
         }

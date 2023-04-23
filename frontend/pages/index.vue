@@ -13,7 +13,7 @@ if (status.value === 'authenticated' ) {
     <div class="hero-content h-full text-center text-neutral-content">
       <div class="max-w-md">
         <h1 class="mb-5 text-5xl font-bold">The AI powered vegetable quality evaluation tool</h1>
-        <p class="mb-5">Some introduction message here.</p>
+        <p class="mb-5">Real-time insights on your harvest</p>
         <NuxtLink to="/login" class="btn btn-primary">Get Started</NuxtLink>
       </div>
     </div>
