@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const { Chart } = await import('chart.js');
+</script>
+
 <template>
     <div>
         <div class="flex justify-between">
