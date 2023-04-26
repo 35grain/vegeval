@@ -28,10 +28,9 @@
                         <div>
                             <div class="form-control w-full max-w-xs">
                                 <label class="label">
-                                    <span class="label-text">Model URL</span>
+                                    <span class="label-text">Add model file</span>
                                 </label>
-                                <input type="text" class="input input-bordered w-full max-w-xs" v-model="model.url"
-                                    required />
+                                <input type="file" class="file-input file-input-bordered w-full max-w-xs" required />
                             </div>
                         </div>
                     </div>
@@ -56,6 +55,7 @@ export default {
             name: "",
             version: "",
             url: "",
+            file: "",
             alert: {
                 message: "",
                 error: false

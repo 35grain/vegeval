@@ -11,6 +11,7 @@ import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 import { EdgeDevicesService } from 'src/edge-devices/edge-devices.service';
 import { GrpcStrategy } from './strategies/grpc.strategy';
 import { ModelsService } from 'src/models/models.service';
+import { MinioService } from 'src/minio.service';
 
 @Module({
   imports: [
@@ -29,7 +30,8 @@ import { ModelsService } from 'src/models/models.service';
     JwtRefreshStrategy,
     GrpcStrategy,
     EdgeDevicesService,
-    ModelsService
+    ModelsService,
+    MinioService
   ],
   exports: [AuthService, GrpcStrategy],
 })

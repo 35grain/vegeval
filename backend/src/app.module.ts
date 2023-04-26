@@ -19,6 +19,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { GrpcController } from './grpc/grpc.controller';
 import { GrpcService } from './grpc/grpc.service';
 import { GrpcModule } from './grpc/grpc.module';
+import { MinioService } from './minio.service';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { GrpcModule } from './grpc/grpc.module';
   ],
   providers: [
     PrismaService,
+    MinioService,
     JwtService,
     AuthService,
     UsersService,
