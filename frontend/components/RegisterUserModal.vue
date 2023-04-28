@@ -24,7 +24,7 @@
                                     <span class="label-text">Password</span>
                                 </label>
                                 <input type="password" class="input input-bordered w-full max-w-xs" v-model="user.password"
-                                    required />
+                                    required minlength="16" />
                             </div>
                         </div>
                     </div>

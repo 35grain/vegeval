@@ -7,6 +7,6 @@ export class RegisterUserDto {
 
   @IsString()
   @IsNotEmpty()
-  @MinLength(8)
+  @MinLength(16)
   public password: string;
 }
