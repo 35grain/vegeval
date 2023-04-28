@@ -1,5 +1,46 @@
 <script setup lang="ts">
-const { Chart } = await import('chart.js');
+import { ChartItem } from 'chart.js/dist/types/index';
+
+const { Chart, registerables } = await import('chart.js');
+const session: any = useSession();
+const config = useRuntimeConfig()
+
+Chart.register(...registerables);
+
+const { data: modelsUsage, error } = await useFetch(`${config.public.apiUrl}/models/usage`,
+    {
+        headers: {
+            "Authorization": `Bearer ${session.data.value?.access_token}`,
+        },
+        key: "models"
+    });
+
+if (!error.value) {
+    const modelsUsageLabels = modelsUsage.value.map((model: any) => model.name);
+    const modelsUsageData = modelsUsage.value.map((model: any) => model._count.EdgeDevices);
+
+    onMounted(() => {
+        const modelUsageChart = document.getElementById('modelUsageChart') as ChartItem;
+        new Chart(modelUsageChart, {
+            type: 'bar',
+            data: {
+                labels: modelsUsageLabels,
+                datasets: [{
+                    label: 'Edge Devices',
+                    data: modelsUsageData,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        })
+    });
+}
 </script>
 
 <template>
@@ -8,6 +49,9 @@ const { Chart } = await import('chart.js');
             <div class="prose prose-slate text-left mb-12">
                 <h1>Analytics</h1>
             </div>
+        </div>
+        <div>
+            <canvas id="modelUsageChart"></canvas>
         </div>
     </div>
 </template>

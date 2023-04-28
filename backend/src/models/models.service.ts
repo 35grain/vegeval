@@ -5,6 +5,14 @@ import { MinioService } from 'src/minio.service';
 import { PrismaService } from 'src/prisma.service';
 import * as UrlSafeString from 'url-safe-string';
 
+export type ModelsUsage = {
+    id: string;
+    name: string;
+    _count: {
+        EdgeDevices: number;
+    }
+}
+
 @Injectable()
 export class ModelsService {
     constructor(
@@ -14,6 +22,20 @@ export class ModelsService {
 
     async getModels(): Promise<Model[]> {
         return this.prisma.model.findMany();
+    }
+
+    async getModelsUsage(): Promise<ModelsUsage[]> {
+        return this.prisma.model.findMany({
+            select: {
+                id: true,
+                name: true,
+                _count: {
+                    select: {
+                        EdgeDevices: true
+                    }
+                }
+            }
+        });
     }
 
     async getModel(modelId: string): Promise<Model | null> {
