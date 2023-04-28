@@ -5,7 +5,7 @@ import { RegisterUserDto } from 'src/dto/register-user.dto';
 import * as bcrypt from 'bcrypt';
 
 export interface UserWithoutPassword {
-  id: number;
+  id: string;
   email: string;
   role: string;
   createdAt: Date;

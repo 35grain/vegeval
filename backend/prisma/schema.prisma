@@ -6,12 +6,12 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id           Int          @id @default(autoincrement())
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
   email        String       @unique
   password     String
   role         String       @default("user")
@@ -22,26 +22,38 @@ model User {
 }
 
 model EdgeDevice {
-  id        Int       @id @default(autoincrement())
-  apiKey    String    @unique
-  secretKey String
-  label     String
-  model     Model?    @relation(fields: [modelId], references: [id])
-  modelId   Int?
-  client    User      @relation(fields: [clientId], references: [id])
-  clientId  Int
-  ip        String?
-  lastSeen  DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  apiKey     String      @unique
+  secretKey  String
+  label      String
+  model      Model?      @relation(fields: [modelId], references: [id])
+  modelId    String?     @db.ObjectId
+  client     User        @relation(fields: [clientId], references: [id])
+  clientId   String      @db.ObjectId
+  ip         String?
+  lastSeen   DateTime?
+  Statistics Statistic[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
 }
 
 model Model {
-  id         Int          @id @default(autoincrement())
-  name       String       @unique
-  version    String
-  objectName String       @unique
-  EdgeDevice EdgeDevice[]
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String       @unique
+  version     String
+  objectName  String       @unique
+  EdgeDevices EdgeDevice[]
+  Statistics  Statistic[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Statistic {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  EdgeDevice   EdgeDevice @relation(fields: [edgeDeviceId], references: [id])
+  edgeDeviceId String     @db.ObjectId
+  Model        Model      @relation(fields: [modelId], references: [id])
+  modelId      String     @db.ObjectId
+  data         Json
+  createdAt DateTime @default(now())
 }

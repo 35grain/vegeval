@@ -7,7 +7,7 @@ export class RegisterDeviceDto {
 
     @IsNotEmpty()
     @IsNumber()
-    public model: number;
+    public model: string;
 
     @IsNotEmpty()
     @IsIP()

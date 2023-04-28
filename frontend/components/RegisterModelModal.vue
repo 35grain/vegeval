@@ -30,7 +30,7 @@
                                 <label class="label">
                                     <span class="label-text">Add model file</span>
                                 </label>
-                                <input type="file" class="file-input file-input-bordered w-full max-w-xs" required />
+                                <input type="file" class="file-input file-input-bordered w-full max-w-xs" @change="handleFileUpload" required />
                             </div>
                         </div>
                     </div>
@@ -66,22 +66,26 @@ export default {
         async clearModal() {
             this.model.name = "";
             this.model.version = "";
-            this.model.url = "";
+            this.model.file = "";
             this.model.alert.message = "";
             this.model.alert.error = false;
         },
+        async handleFileUpload(event: Event) {
+            this.model.file = event.target.files[0];
+        },
         async registrationHandler() {
+            const formData = new FormData();
+            formData.append("file", this.model.file);
+            formData.append("name", this.model.name);
+            formData.append("version", this.model.version);
+
             const { error } = await useFetch(`${this.config.public.apiUrl}/models/register`,
                 {
                     method: "POST",
                     headers: {
                         "Authorization": `Bearer ${this.session.data.value?.access_token}`,
                     },
-                    body: JSON.stringify({
-                        name: this.model.name,
-                        version: this.model.version,
-                        url: this.model.url,
-                    }),
+                    body: formData
                 });
 
             if (!error.value) {

@@ -5,5 +5,5 @@ export interface ConfigResponse {
 export interface Model {
     name: string,
     version: string,
-    url: string
+    objectName: string
 }

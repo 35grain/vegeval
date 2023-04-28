@@ -32,7 +32,7 @@ export class AuthService {
     return tokens;
   }
 
-  async logout(userId: number) {
+  async logout(userId: string) {
     return this.usersService.updateUser({ id: userId }, { refreshToken: null });
   }
 
@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   // Generate new access token and refresh token
-  async refreshTokens(userId: number) {
+  async refreshTokens(userId: string) {
     const user = await this.usersService.getUserLogin({ id: userId });
     if (!user || !user.refreshToken)
       throw new ForbiddenException('Access Denied');
@@ -63,7 +63,7 @@ export class AuthService {
   }
 
   // Update refresh token in database
-  async updateRefreshToken(userId: number, refreshToken: string) {
+  async updateRefreshToken(userId: string, refreshToken: string) {
     const hashedRefreshToken = await this.hashData(refreshToken);
     await this.usersService.updateUser({ id: userId }, { refreshToken: hashedRefreshToken });
   }

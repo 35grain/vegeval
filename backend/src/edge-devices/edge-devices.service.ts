@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { EdgeDevice, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { RegisterDeviceDto } from 'src/dto/register-device.dto';
 import * as crypto from 'crypto';
@@ -20,11 +20,11 @@ export class EdgeDevicesService {
         return this.prisma.edgeDevice.findMany({ include: { model: true } });
     }
 
-    async getClientDevices(clientId: number): Promise<EdgeDeviceWithModel[]> {
+    async getClientDevices(clientId: string): Promise<EdgeDeviceWithModel[]> {
         return this.prisma.edgeDevice.findMany({ where: { clientId: clientId }, include: { model: true } });
     }
 
-    async getDevice(deviceId: number): Promise<EdgeDeviceWithModel | null> {
+    async getDevice(deviceId: string): Promise<EdgeDeviceWithModel | null> {
         return this.prisma.edgeDevice.findUnique({ where: { id: deviceId }, include: { model: true } });
     }
 
@@ -32,7 +32,7 @@ export class EdgeDevicesService {
         return this.prisma.edgeDevice.findUnique({ where: { apiKey: apiKey }, include: { model: true } });
     }
 
-    async getDeviceConfig(deviceId: number): Promise<ConfigResponse | null> {
+    async getDeviceConfig(deviceId: string): Promise<ConfigResponse | null> {
         const device = await this.getDevice(deviceId);
         if (!device) {
             return null;
@@ -43,7 +43,7 @@ export class EdgeDevicesService {
     }
 
     // Update the last seen timestamp of a device
-    async updateDeviceLastSeen(deviceId: number): Promise<boolean> {
+    async updateDeviceLastSeen(deviceId: string): Promise<boolean> {
         if (await this.prisma.edgeDevice.update({
             where: { id: deviceId },
             data: {
@@ -56,7 +56,7 @@ export class EdgeDevicesService {
     }
 
     // Get the current status of a device
-    async getStatus(deviceId: number): Promise<any> {
+    async getStatus(deviceId: string): Promise<any> {
         const device = await this.getDevice(deviceId);
         let date = new Date();
         date.setSeconds(date.getSeconds() - 10); // last heartbeat was more than 10 seconds ago
@@ -67,7 +67,7 @@ export class EdgeDevicesService {
     }
 
     // Register a new device
-    async registerDevice(clientId: any, device: RegisterDeviceDto): Promise<any> {
+    async registerDevice(clientId: string, device: RegisterDeviceDto): Promise<any> {
         const token = crypto.randomUUID();
         const salt = await bcryt.genSalt();
         const secret = passwordGenerator.generate({ length: 32, numbers: true, symbols: true, lowercase: true, uppercase: true, strict: true });
@@ -87,7 +87,7 @@ export class EdgeDevicesService {
     }
 
     // Update an existing device
-    async updateDevice(deviceId: number, device: RegisterDeviceDto): Promise<any> {
+    async updateDevice(deviceId: string, device: RegisterDeviceDto): Promise<any> {
         return this.prisma.edgeDevice.update({
             where: { id: deviceId },
             data: {

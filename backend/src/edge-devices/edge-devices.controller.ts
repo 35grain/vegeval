@@ -1,6 +1,5 @@
 import { BadRequestException, Body, Controller, Get, Param, ParseIntPipe, Post, Request, UnauthorizedException } from '@nestjs/common';
 import { EdgeDeviceWithModel, EdgeDevicesService } from './edge-devices.service';
-import { EdgeDevice } from '@prisma/client';
 import { RegisterDeviceDto } from 'src/dto/register-device.dto';
 import { ModelsService } from 'src/models/models.service';
 import { Role } from 'src/auth/roles/role.enum';
@@ -20,7 +19,7 @@ export class EdgeDevicesController {
     }
 
     @Get(':clientId')
-    async getClientDevices(@Request() req, @Param('clientId', ParseIntPipe) clientId: number): Promise<EdgeDeviceWithModel[]> {
+    async getClientDevices(@Request() req, @Param('clientId', ParseIntPipe) clientId: string): Promise<EdgeDeviceWithModel[]> {
         if (req.user.id === clientId || req.user.role === 'admin') {
             return this.edgeDevicesService.getClientDevices(clientId);
         }
@@ -28,7 +27,7 @@ export class EdgeDevicesController {
     }
 
     @Get(':deviceId')
-    async getDevice(@Request() req, @Param('deviceId', ParseIntPipe) deviceId: number): Promise<EdgeDeviceWithModel | null> {
+    async getDevice(@Request() req, @Param('deviceId', ParseIntPipe) deviceId: string): Promise<EdgeDeviceWithModel | null> {
         const device = await this.edgeDevicesService.getDevice(deviceId);
         if (!device) {
             throw new BadRequestException('Device with provided ID does not exist!');
@@ -49,7 +48,7 @@ export class EdgeDevicesController {
     }
 
     @Post('update/:deviceId')
-    async updateDevice(@Request() req, @Param('deviceId', ParseIntPipe) deviceId: number, @Body() deviceDto: RegisterDeviceDto): Promise<any> {
+    async updateDevice(@Request() req, @Param('deviceId', ParseIntPipe) deviceId: string, @Body() deviceDto: RegisterDeviceDto): Promise<any> {
         const device = await this.edgeDevicesService.getDevice(deviceId);
         if (!device) {
             throw new BadRequestException('Device with provided ID does not exist!');
