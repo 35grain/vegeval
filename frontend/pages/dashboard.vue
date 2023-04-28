@@ -20,8 +20,8 @@ useHead({
                 <ul class="menu px-4 md:w-72 xl:w-80 bg-base-300 text-sm">
                     <li>
                         <NuxtLink to="/dashboard" class="flex gap-4 items-center" exact-active-class="active">
-                            <Icon name="ic:baseline-dashboard" class="w-6 h-6" />
-                            <span class="flex-1">Overview</span>
+                            <Icon name="ic:outline-analytics" class="w-6 h-6" />
+                            <span class="flex-1">Analytics</span>
                         </NuxtLink>
                     </li>
                     <li>
