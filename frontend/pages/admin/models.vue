@@ -44,6 +44,7 @@ if (error.value) {
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>S3 name</th>
                         <th>Version</th>
                         <th>Updated</th>
                     </tr>
@@ -51,11 +52,12 @@ if (error.value) {
                 <tbody>
                     <tr v-if="models?.length" v-for="model in models">
                         <th>{{ model.name }}</th>
+                        <td>{{ model.objectName }}</td>
                         <td><span class="badge">{{ model.version }}</span></td>
                         <td>{{ new Date(model.updatedAt).toLocaleString() }}</td>
                     </tr>
                     <tr v-else>
-                        <td colspan="3" class="text-center">No models to show</td>
+                        <td colspan="4" class="text-center">No models to show</td>
                     </tr>
                 </tbody>
             </table>

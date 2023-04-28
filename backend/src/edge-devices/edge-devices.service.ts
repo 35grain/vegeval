@@ -5,19 +5,25 @@ import { RegisterDeviceDto } from 'src/dto/register-device.dto';
 import * as crypto from 'crypto';
 import * as bcryt from 'bcrypt';
 import * as passwordGenerator from 'generate-password';
-import { ModelsService } from 'src/models/models.service';
 import { ConfigResponse } from 'src/grpc/types/configuration';
 
 export type EdgeDeviceWithModel = Prisma.EdgeDeviceGetPayload<{
     include: { model: true }
 }>
 
+export type EdgeDeviceWithModelUser = Prisma.EdgeDeviceGetPayload<{
+    include: {
+        model: true,
+        client: true
+    }
+}>
+
 @Injectable()
 export class EdgeDevicesService {
-    constructor(private prisma: PrismaService, private readonly modelsService: ModelsService) { }
+    constructor(private prisma: PrismaService) { }
 
-    async getDevices(): Promise<EdgeDeviceWithModel[]> {
-        return this.prisma.edgeDevice.findMany({ include: { model: true } });
+    async getDevices(): Promise<EdgeDeviceWithModelUser[]> {
+        return this.prisma.edgeDevice.findMany({ include: { model: true, client: true } });
     }
 
     async getClientDevices(clientId: string): Promise<EdgeDeviceWithModel[]> {
@@ -38,7 +44,11 @@ export class EdgeDevicesService {
             return null;
         }
         return {
-            model: device.model
+            model: {
+                name: device.model.name,
+                version: device.model.version,
+                objectName: device.model.objectName
+            }
         }
     }
 

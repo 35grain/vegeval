@@ -61,7 +61,7 @@ message HeartbeatResponse {
 message DetectionModel {
     string name = 1;
     string version = 2;
-    string url = 3;
+    string objectName = 3;
 }
 
 // A statistics report.

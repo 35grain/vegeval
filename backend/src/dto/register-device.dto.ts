@@ -6,7 +6,11 @@ export class RegisterDeviceDto {
     public label: string;
 
     @IsNotEmpty()
-    @IsNumber()
+    @IsString()
+    public client: string;
+
+    @IsNotEmpty()
+    @IsString()
     public model: string;
 
     @IsNotEmpty()

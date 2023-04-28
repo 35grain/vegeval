@@ -30,7 +30,10 @@
                                 <label class="label">
                                     <span class="label-text">Add model file</span>
                                 </label>
-                                <input type="file" class="file-input file-input-bordered w-full max-w-xs" @change="handleFileUpload" required />
+                                <input type="file" accept=".zip" class="file-input file-input-bordered w-full max-w-xs" @change="handleFileUpload" required />
+                                <label class="label">
+                                    <span class="label-text">Model Python module as .zip archive</span>
+                                </label>
                             </div>
                         </div>
                     </div>

@@ -12,14 +12,22 @@ let view: { alert: { message: undefined | string, error: boolean } } = reactive(
     }
 });
 
-const { data: devices, error } = useFetch(`${config.public.apiUrl}/devices`,
+const { data: models } = useFetch(`${config.public.apiUrl}/models`,
     {
         headers: {
             "Authorization": `Bearer ${session.data.value?.access_token}`,
         }
     });
 
-const { data: models } = useFetch(`${config.public.apiUrl}/models`,
+const { data: clients } = useFetch(`${config.public.apiUrl}/users`,
+    {
+        headers: {
+            "Authorization": `Bearer ${session.data.value?.access_token}`,
+        }
+    });
+
+
+const { data: devices, error } = useFetch(`${config.public.apiUrl}/devices`,
     {
         headers: {
             "Authorization": `Bearer ${session.data.value?.access_token}`,
@@ -50,6 +58,7 @@ if (error.value) {
             <table class="table zebra w-full">
                 <thead>
                     <tr>
+                        <th>Client</th>
                         <th>Label</th>
                         <th>Status</th>
                         <th>Model</th>
@@ -60,13 +69,16 @@ if (error.value) {
                 </thead>
                 <tbody>
                     <tr v-if="devices?.length" v-for="device in devices">
-                        <th>{{ device.label }}</th>
-                        <td><div class="flex items-center"><span class="badge badge-warning">Idle</span></div></td>
+                        <th>{{ device.client.email }}</th>
+                        <td>{{ device.label }}</td>
+                        <td>
+                            <div class="flex items-center"><span class="badge badge-warning">Idle</span></div>
+                        </td>
                         <td>{{ device.model.name }}</td>
                         <td class="flex">
                             <div class="tooltip" data-tip="Copy key">
-                                <input @click="copyInputValue" type="text" class="input input-sm cursor-pointer"
-                                    readonly :value="device.apiKey">
+                                <input @click="copyInputValue" type="text" class="input input-sm cursor-pointer" readonly
+                                    :value="device.apiKey">
                             </div>
                         </td>
                         <td>{{ device.ip }}</td>
@@ -75,12 +87,12 @@ if (error.value) {
                         </td>
                     </tr>
                     <tr v-else>
-                        <td colspan="6" class="text-center">No devices to show</td>
+                        <td colspan="7" class="text-center">No devices to show</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <RegisterDeviceModal :models="models"/>
+        <RegisterDeviceModal :clients="clients" :models="models" />
     </div>
 </template>
 <script lang="ts">

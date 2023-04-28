@@ -4,12 +4,14 @@ import { RegisterDeviceDto } from 'src/dto/register-device.dto';
 import { ModelsService } from 'src/models/models.service';
 import { Role } from 'src/auth/roles/role.enum';
 import { Roles } from 'src/auth/roles/roles.decorator';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('devices')
 export class EdgeDevicesController {
     constructor(
         private readonly edgeDevicesService: EdgeDevicesService,
-        private readonly modelsService: ModelsService
+        private readonly modelsService: ModelsService,
+        private readonly usersService: UsersService
     ) { }
 
     @Roles(Role.Admin)
@@ -43,6 +45,9 @@ export class EdgeDevicesController {
     async registerDevice(@Request() req, @Body() device: RegisterDeviceDto): Promise<any> {
         if (!await this.modelsService.getModel(device.model)) {
             throw new BadRequestException('Model with provided ID does not exist!');
+        }
+        if (!await this.usersService.getUser({ id: device.client })) {
+            throw new BadRequestException('Client with provided ID does not exist!');
         }
         return this.edgeDevicesService.registerDevice(req.user.id, device);
     }
