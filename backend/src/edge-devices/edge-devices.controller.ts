@@ -21,7 +21,7 @@ export class EdgeDevicesController {
     }
 
     @Get(':clientId')
-    async getClientDevices(@Request() req, @Param('clientId', ParseIntPipe) clientId: string): Promise<EdgeDeviceWithModel[]> {
+    async getClientDevices(@Request() req, @Param('clientId') clientId: string): Promise<EdgeDeviceWithModel[]> {
         if (req.user.id === clientId || req.user.role === 'admin') {
             return this.edgeDevicesService.getClientDevices(clientId);
         }
@@ -29,7 +29,7 @@ export class EdgeDevicesController {
     }
 
     @Get(':deviceId')
-    async getDevice(@Request() req, @Param('deviceId', ParseIntPipe) deviceId: string): Promise<EdgeDeviceWithModel | null> {
+    async getDevice(@Request() req, @Param('deviceId') deviceId: string): Promise<EdgeDeviceWithModel | null> {
         const device = await this.edgeDevicesService.getDevice(deviceId);
         if (!device) {
             throw new BadRequestException('Device with provided ID does not exist!');
@@ -47,7 +47,7 @@ export class EdgeDevicesController {
             throw new BadRequestException('Model with provided ID does not exist!');
         }
         if (!await this.usersService.getUser({ id: device.client })) {
-            throw new BadRequestException('Client with provided ID does not exist!');
+            throw new BadRequestException('User with provided ID does not exist!');
         }
         return this.edgeDevicesService.registerDevice(req.user.id, device);
     }

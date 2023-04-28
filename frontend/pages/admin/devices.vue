@@ -41,6 +41,9 @@ if (error.value) {
     if (error.value.status === 403) {
         session.signOut({ redirect: true, callbackUrl: '/login' });
     }
+} else {
+    view.alert.error = false;
+    view.alert.message = "";
 }
 </script>
 <template>
