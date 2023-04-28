@@ -94,7 +94,7 @@ export default {
             if (!error.value) {
                 this.model.alert.error = false;
                 this.model.alert.message = "Model registered successfully!";
-                refreshNuxtData();
+                refreshNuxtData('models');
                 document.querySelector("input#new-model-modal").checked = false;
                 this.clearModal();
             } else {

@@ -16,7 +16,8 @@ const { data: users, error } = await useFetch(`${config.public.apiUrl}/users`,
     {
         headers: {
             "Authorization": `Bearer ${session.data.value?.access_token}`,
-        }
+        },
+        key: "users"
     });
 
 if (error.value) {

@@ -16,7 +16,8 @@ const { data: models, error } = await useFetch(`${config.public.apiUrl}/models`,
     {
         headers: {
             "Authorization": `Bearer ${session.data.value?.access_token}`,
-        }
+        },
+        key: "models"
     });
 
 if (error.value) {

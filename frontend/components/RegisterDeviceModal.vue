@@ -147,7 +147,7 @@ export default {
                         label: this.device.label,
                         model: this.device.model,
                         ip: this.device.ip,
-                    }),
+                    })
                 });
 
             if (!error.value) {
@@ -157,7 +157,7 @@ export default {
                 this.device.secretKey = data.value.secretKey;
                 document.querySelector("input#new-device-modal").checked = false;
                 document.querySelector("input#device-credentials-modal").checked = true;
-                refreshNuxtData();
+                refreshNuxtData('devices');
             } else {
                 this.device.alert.error = true;
                 this.device.alert.message = error.value.data?.message;

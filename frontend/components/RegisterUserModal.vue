@@ -72,7 +72,7 @@ export default {
             if (!error.value) {
                 this.user.alert.error = false;
                 this.user.alert.message = data.value?.message;
-                refreshNuxtData();
+                refreshNuxtData('users');
             } else {
                 this.user.alert.error = true;
                 this.user.alert.message = error.value.data?.message;

@@ -31,7 +31,8 @@ const { data: devices, error } = useFetch(`${config.public.apiUrl}/devices`,
     {
         headers: {
             "Authorization": `Bearer ${session.data.value?.access_token}`,
-        }
+        },
+        key: "devices"
     });
 
 if (error.value) {
