@@ -52,7 +52,8 @@ export class EdgeDevicesService {
                 name: device.model.name,
                 version: device.model.version,
                 objectName: device.model.objectName
-            }
+            },
+            uploadRaw: device.uploadRaw
         }
     }
 

@@ -17,7 +17,6 @@ import { ModelsService } from './models/models.service';
 import { EdgeDevicesService } from './edge-devices/edge-devices.service';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { GrpcController } from './grpc/grpc.controller';
-import { GrpcService } from './grpc/grpc.service';
 import { GrpcModule } from './grpc/grpc.module';
 import { MinioService } from './minio.service';
 
@@ -48,7 +47,6 @@ import { MinioService } from './minio.service';
     UsersService,
     ModelsService,
     EdgeDevicesService,
-    GrpcService,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard

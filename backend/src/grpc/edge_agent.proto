@@ -38,6 +38,7 @@ message ConfigRequest {}
 message ConfigResponse {
   // The current configuration of the edge device.
   DetectionModel model = 1;
+  bool uploadRaw = 2;
 }
 
 message StatisticsReportRequest {

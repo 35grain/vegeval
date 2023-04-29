@@ -10,6 +10,7 @@ async function bootstrap() {
   const microserviceGrpc = app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.GRPC,
     options: {
+      url: process.env.GRPC_URL || 'localhost:20048',
       package: 'edge_agent',
       protoPath: join(__dirname, 'grpc/edge_agent.proto'),
     },
