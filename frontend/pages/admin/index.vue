@@ -1,4 +1,8 @@
 <script setup lang="ts">
+useHead({
+    title: "Analytics",
+});
+
 import { ChartItem } from 'chart.js/dist/types/index';
 
 const { Chart, registerables } = await import('chart.js');
@@ -30,13 +34,6 @@ if (!error.value) {
                     data: modelsUsageData,
                     borderWidth: 1
                 }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
             }
         })
     });
@@ -50,8 +47,16 @@ if (!error.value) {
                 <h1>Analytics</h1>
             </div>
         </div>
-        <div>
-            <canvas id="modelUsageChart"></canvas>
+        <div class="grid grid-cols-2 gap-8">
+            <div>
+                <div class="prose prose-slate text-left">
+                    <h2>Model usage</h2>
+                </div>
+                <canvas id="modelUsageChart"></canvas>
+            </div>
+            <div>
+
+            </div>
         </div>
     </div>
 </template>

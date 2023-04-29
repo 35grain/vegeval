@@ -29,6 +29,16 @@
                                 <input type="text" placeholder="Device 1" class="input input-bordered w-full max-w-xs"
                                     v-model="device.label" required />
                             </div>
+                            <div class="form-control w-full max-w-xs">
+                                <label class="label">
+                                    <span class="label-text">Device IP</span>
+                                </label>
+                                <input type="text" placeholder="0.0.0.0" class="input input-bordered w-full max-w-xs"
+                                    v-model="device.ip" required />
+                                <label class="label">
+                                    <span class="label-text">Only connections from the specified IP will be allowed</span>
+                                </label>
+                            </div>
                         </div>
                         <div>
                             <div class="form-control w-full max-w-xs">
@@ -42,14 +52,10 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="form-control w-full max-w-xs">
-                                <label class="label">
-                                    <span class="label-text">Device IP</span>
-                                </label>
-                                <input type="text" placeholder="0.0.0.0" class="input input-bordered w-full max-w-xs"
-                                    v-model="device.ip" required />
-                                <label class="label">
-                                    <span class="label-text">Only connections from the specified IP will be allowed</span>
+                            <div class="form-control">
+                                <label class="label cursor-pointer">
+                                    <span class="label-text">Upload raw images to Minio S3 bucket</span>
+                                    <input type="checkbox" class="toggle toggle-primary" v-model="device.uploadRaw"/>
                                 </label>
                             </div>
                         </div>
@@ -66,12 +72,21 @@
             <div class="modal-box w-7/12 max-w-2xl">
                 <div class="prose prose-slate text-left mb-6">
                     <h1 class="mb-0">{{ device.label }}</h1>
-                    <small>Please note down the secret key as it will not be shown again!</small>
+                    <small>Please note down the gRPC secret key as it will not be shown again!</small>
                 </div>
                 <div>
+                    <div class="form-control w-full" v-if="device.bucketName">
+                        <label class="label">
+                            <span class="label-text">MinIO S3 storage bucket</span>
+                        </label>
+                        <div class="tooltip" data-tip="Copy name">
+                            <input type="text" readonly class="input input-bordered w-full cursor-pointer"
+                                @click="copyInputValue" v-model="device.bucketName" />
+                        </div>
+                    </div>
                     <div class="form-control w-full">
                         <label class="label">
-                            <span class="label-text">API key</span>
+                            <span class="label-text">gRPC API key</span>
                         </label>
                         <div class="tooltip" data-tip="Copy key">
                             <input type="text" readonly class="input input-bordered w-full cursor-pointer"
@@ -80,7 +95,7 @@
                     </div>
                     <div class="form-control w-full">
                         <label class="label">
-                            <span class="label-text">Secret key</span>
+                            <span class="label-text">gRPC secret key</span>
                         </label>
                         <div class="tooltip" data-tip="Copy key">
                             <input type="text" readonly class="input input-bordered w-full cursor-pointer"
@@ -110,6 +125,8 @@ export default {
             label: "",
             model: "default",
             ip: "",
+            uploadRaw: false,
+            bucketName: "",
             apiKey: "",
             secretKey: "",
             alert: {
@@ -130,6 +147,8 @@ export default {
             this.device.label = "";
             this.device.model = "default";
             this.device.ip = "";
+            this.device.uploadRaw = false;
+            this.device.bucketName = "";
             this.device.apiKey = "";
             this.device.secretKey = "";
             this.device.alert.message = "";
@@ -147,12 +166,16 @@ export default {
                         label: this.device.label,
                         model: this.device.model,
                         ip: this.device.ip,
+                        uploadRaw: this.device.uploadRaw
                     })
                 });
 
             if (!error.value) {
                 this.device.alert.error = false;
                 this.device.alert.message = "Device registered successfully!";
+                if (data.value.bucketName) {
+                    this.device.bucketName = data.value.bucketName;
+                }
                 this.device.apiKey = data.value.apiKey;
                 this.device.secretKey = data.value.secretKey;
                 document.querySelector("input#new-device-modal").checked = false;

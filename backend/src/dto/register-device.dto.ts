@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsNumber, IsIP } from 'class-validator';
+import { IsNotEmpty, IsString, IsIP, IsBoolean } from 'class-validator';
 
 export class RegisterDeviceDto {
     @IsNotEmpty()
@@ -16,4 +16,8 @@ export class RegisterDeviceDto {
     @IsNotEmpty()
     @IsIP()
     public ip: string;
+
+    @IsNotEmpty()
+    @IsBoolean()
+    public uploadRaw: boolean;
 }

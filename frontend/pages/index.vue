@@ -1,4 +1,8 @@
 <script setup lang="ts">
+useHead({
+    title: "Analytics",
+});
+
 const { status } = useSession();
 if (status.value === 'authenticated' ) {
     navigateTo('/dashboard');

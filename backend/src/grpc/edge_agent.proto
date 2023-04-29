@@ -10,7 +10,7 @@ service EdgeAgentService {
   rpc StopDetection (StopDetectionRequest) returns (StopDetectionResponse) {}
 
   // Requests the saved configuration of the edge device from web app.
-  rpc Config (ConfigRequest) returns (ConfigResponse) {}
+  rpc GetConfig (ConfigRequest) returns (ConfigResponse) {}
 
   // Sends periodical statistics reports to the web application.
   rpc StatisticsReport (stream StatisticsReportRequest) returns (StatisticsReportResponse) {}

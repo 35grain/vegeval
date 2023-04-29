@@ -7,17 +7,18 @@ import { GrpcStrategy } from '../strategies/grpc.strategy';
 export class GrpcGuard implements CanActivate {
   constructor(private readonly grpcStrategy: GrpcStrategy) {}
 
-  canActivate(
+  async canActivate(
     context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  ): Promise<boolean> {
     const metadata = context.getArgByIndex(1) as Metadata;
     const apiKey = metadata.get('x-api-key')[0];
+    const apiSecret = metadata.get('x-api-secret')[0];
 
-    if (!apiKey) {
+    if (!apiKey || !apiSecret) {
       return false;
     }
 
-    const device = this.grpcStrategy.validate(apiKey.toString());
+    const device = await this.grpcStrategy.validate(apiKey.toString(), apiSecret.toString());
     if (!device) {
       return false
     }

@@ -6,6 +6,7 @@ import * as crypto from 'crypto';
 import * as bcryt from 'bcrypt';
 import * as passwordGenerator from 'generate-password';
 import { ConfigResponse } from 'src/grpc/types/configuration';
+import { MinioService } from 'src/minio.service';
 
 export type EdgeDeviceWithModel = Prisma.EdgeDeviceGetPayload<{
     include: { model: true }
@@ -20,7 +21,10 @@ export type EdgeDeviceWithModelUser = Prisma.EdgeDeviceGetPayload<{
 
 @Injectable()
 export class EdgeDevicesService {
-    constructor(private prisma: PrismaService) { }
+    constructor(
+        private prisma: PrismaService,
+        private minio: MinioService
+    ) { }
 
     async getDevices(): Promise<EdgeDeviceWithModelUser[]> {
         return this.prisma.edgeDevice.findMany({ include: { model: true, client: true } });
@@ -90,9 +94,22 @@ export class EdgeDevicesService {
                 secretKey: hash,
                 clientId: clientId,
                 modelId: device.model,
-                ip: device.ip
+                ip: device.ip,
+                uploadRaw: device.uploadRaw
             }
         });
+
+        if (device.uploadRaw) {
+            const bucketName = 'vegeval.' + clientId + '.' + item.id;
+            return this.minio.minioClient.makeBucket(bucketName, process.env.MINIO_REGION)
+                .then(() => {
+                    return { id: item.id, bucketName: bucketName, apiKey: token, secretKey: secret }
+                })
+                .catch(err => {
+                    throw new Error('Error creating MinIO bucket: ' + err);
+                })
+        }
+
         return { id: item.id, apiKey: token, secretKey: secret }
     }
 

@@ -10,7 +10,8 @@ export class MinioService implements OnModuleInit {
       port: 8443,
       useSSL: true,
       accessKey: process.env.MINIO_ACCESS_KEY,
-      secretKey: process.env.MINIO_SECRET_KEY
+      secretKey: process.env.MINIO_SECRET_KEY,
+      region: process.env.MINIO_REGION,
     });
   }
 }

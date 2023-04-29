@@ -5,6 +5,7 @@
             <div class="modal-box w-7/12 max-w-2xl">
                 <div class="prose prose-slate text-left mb-6">
                     <h1 class="mb-0">Add a new user</h1>
+                    <small>Remember to manally create an user in MinIO, if applicable.</small>
                 </div>
                 <Alert :alert="user.alert" />
                 <form @submit.prevent="registrationHandler">

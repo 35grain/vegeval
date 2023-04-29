@@ -45,7 +45,7 @@ export class ModelsService {
     async registerModel(model: RegisterModelDto, file: Express.Multer.File): Promise<Model> {
         const objectName = new UrlSafeString().generate(model.name) + '.zip';
         return this.minio.minioClient.putObject('vegeval.models', objectName, file.buffer, file.size)
-            .then((res) => {
+            .then(() => {
                 return this.prisma.model.create({
                     data: {
                         objectName: objectName,
@@ -54,7 +54,7 @@ export class ModelsService {
                 });
             })
             .catch((err) => {
-                throw new Error(err);
+                throw new Error("Error uploading model to MinIO:" + err);
             });
     }
 }
