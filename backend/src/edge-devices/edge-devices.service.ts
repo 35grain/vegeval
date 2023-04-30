@@ -5,7 +5,7 @@ import { RegisterDeviceDto } from 'src/dto/register-device.dto';
 import * as crypto from 'crypto';
 import * as bcryt from 'bcrypt';
 import * as passwordGenerator from 'generate-password';
-import { ConfigResponse } from 'src/grpc/types/configuration';
+import { ConfigResponse } from 'src/grpc/types/edge_agent';
 import { MinioService } from 'src/minio.service';
 
 export type EdgeDeviceWithModel = Prisma.EdgeDeviceGetPayload<{

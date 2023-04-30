@@ -3,7 +3,7 @@ useHead({
     title: "Edge devices",
 });
 const session: any = useSession();
-const config = useRuntimeConfig()
+const config = useRuntimeConfig();
 
 let view: { alert: { message: undefined | string, error: boolean } } = reactive({
     alert: {
@@ -67,8 +67,8 @@ if (error.value) {
                         <th>Status</th>
                         <th>Model</th>
                         <th>API key</th>
-                        <th>IP</th>
-                        <th></th>
+                        <th>Allowed IP</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -87,7 +87,11 @@ if (error.value) {
                         </td>
                         <td>{{ device.ip }}</td>
                         <td>
-                            <label for="edit-device-modal" class="btn btn-sm btn-secondary">Edit</label>
+                            <div class="flex gap-1 items-center">
+                                <button class="btn btn-xs btn-primary" @click="startDetection(device.id)">Start</button>
+                                <button class="btn btn-xs btn-error" @click="stopDetection(device.id)">Stop</button>
+                                <button class="btn btn-xs btn-secondary" @click="editDevice(device.id)">Edit</button>
+                            </div>
                         </td>
                     </tr>
                     <tr v-else>
@@ -107,7 +111,20 @@ export default {
             input.select();
             input.setSelectionRange(0, 99999);
             navigator.clipboard.writeText(input.value);
-        }
+        },
+        startDetection(id: string) {
+            const session: any = useSession();
+            const config = useRuntimeConfig();
+            const { data, error } = useFetch(`${config.public.apiUrl}/devices/${id}/start`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${session.data.value?.access_token}`,
+                    }
+                });
+        },
+        stopDetection() {
+            console.log("stop detection");
+        },
     }
 }
 </script>

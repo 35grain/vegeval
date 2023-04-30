@@ -52,7 +52,7 @@ if (error.value) {
                         <th>Model</th>
                         <th>API key</th>
                         <th>IP</th>
-                        <th></th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,7 +68,7 @@ if (error.value) {
                         </td>
                         <td>{{ device.ip }}</td>
                         <td>
-                            <label for="edit-device-modal" class="btn btn-sm btn-secondary">Edit</label>
+                            
                         </td>
                     </tr>
                     <tr v-else>

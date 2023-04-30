@@ -5,6 +5,7 @@ import { ModelsService } from 'src/models/models.service';
 import { Role } from 'src/auth/roles/role.enum';
 import { Roles } from 'src/auth/roles/roles.decorator';
 import { UsersService } from 'src/users/users.service';
+import { GrpcService } from 'src/grpc/grpc.service';
 
 @Controller('devices')
 export class EdgeDevicesController {
@@ -65,5 +66,18 @@ export class EdgeDevicesController {
             throw new BadRequestException('Model with provided ID does not exist!');
         }
         return this.edgeDevicesService.updateDevice(deviceId, deviceDto);
+    }
+
+    @Get(':deviceId/start')
+    async startDetection(@Request() req, @Param('deviceId') deviceId: string): Promise<any> {
+        const device = await this.edgeDevicesService.getDevice(deviceId);
+        if (!device) {
+            throw new BadRequestException('Device with provided ID does not exist!');
+        }
+        if (device.clientId !== req.user.id && req.user.role !== 'admin') {
+            throw new UnauthorizedException('Unauthorized!');
+        }
+        const grpcService = new GrpcService(device.ip);
+        return grpcService.startDetection();
     }
 }
