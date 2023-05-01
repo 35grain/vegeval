@@ -3,8 +3,15 @@ const config = useRuntimeConfig();
 const { status, data, signOut } = useSession();
 
 const signOutHandler = () => {
-  //const logged_out = useFetch('/api/auth/signOut');
-  signOut();
+  const { error } = useFetch(`${config.public.apiUrl}/auth/logout`,
+    {
+        headers: {
+            "Authorization": `Bearer ${data?.access_token}`,
+        }
+    });
+  if (!error.value) {
+    signOut();
+  }
 }
 </script>
 

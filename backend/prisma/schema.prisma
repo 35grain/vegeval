@@ -30,7 +30,7 @@ model EdgeDevice {
   modelId    String?     @db.ObjectId
   client     User        @relation(fields: [clientId], references: [id])
   clientId   String      @db.ObjectId
-  ip         String?
+  ip         String
   uploadRaw  Boolean     @default(false)
   lastSeen   DateTime?
   Statistics Statistic[]
