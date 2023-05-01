@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { BadRequestException, ValidationError, ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
-import { join } from 'path';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
@@ -12,7 +11,7 @@ async function bootstrap() {
     options: {
       url: process.env.GRPC_URL || 'localhost:20048',
       package: 'edge_agent',
-      protoPath: join(__dirname, 'grpc/edge_agent.proto'),
+      protoPath: 'grpc/edge_agent.proto',
     },
   });
 
