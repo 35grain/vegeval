@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { GrpcGuard } from 'src/auth/guards/grpc.guard';
 import { EdgeDevicesService } from 'src/edge-devices/edge-devices.service';
-import { ConfigResponse, HeartbeatResponse } from './edge_agent_pb';
+import { ConfigResponse, HeartbeatResponse } from 'grpc/edge_agent_pb';
 
 @Controller('grpc')
 export class GrpcController {

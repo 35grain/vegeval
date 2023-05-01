@@ -6,7 +6,7 @@ import * as crypto from 'crypto';
 import * as bcryt from 'bcrypt';
 import * as passwordGenerator from 'generate-password';
 import { MinioService } from 'src/minio.service';
-import * as edge_agent_pb from "src/grpc/edge_agent_pb";
+import * as edge_agent_pb from "grpc/edge_agent_pb";
 
 export type EdgeDeviceWithModel = Prisma.EdgeDeviceGetPayload<{
     include: { model: true }
