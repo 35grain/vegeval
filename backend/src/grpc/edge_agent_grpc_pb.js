@@ -1,7 +1,7 @@
 // GENERATED CODE -- DO NOT EDIT!
 
 'use strict';
-var grpc = require('grpc');
+var grpc = require('@grpc/grpc-js');
 var edge_agent_pb = require('./edge_agent_pb.js');
 
 function serialize_edge_agent_ConfigRequest(arg) {
