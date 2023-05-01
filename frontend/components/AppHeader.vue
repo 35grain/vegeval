@@ -1,12 +1,11 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const { status, data, signOut } = useSession();
-
-const signOutHandler = () => {
-  const { error } = useFetch(`${config.public.apiUrl}/auth/logout`,
+const signOutHandler = async () => {
+  const { error } = await useFetch(`${config.public.apiUrl}/auth/logout`,
     {
         headers: {
-            "Authorization": `Bearer ${data?.access_token}`,
+            "Authorization": `Bearer ${data.value?.access_token}`,
         }
     });
   if (!error.value) {
