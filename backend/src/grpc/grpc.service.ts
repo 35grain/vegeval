@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import grpc from '@grpc/grpc-js';
+import { credentials } from '@grpc/grpc-js';
 import { EdgeAgentServiceClient } from './edge_agent_grpc_pb';
-import { StartDetectionRequest, StopDetectionRequest, StopDetectionResponse } from './edge_agent_pb';
-import { StartDetectionResponse } from './types/edge_agent';
+import { StartDetectionRequest, StartDetectionResponse, StopDetectionRequest, StopDetectionResponse } from './edge_agent_pb';
 
 @Injectable()
 export class GrpcService {
     private client: any;
 
     constructor(host: string) {
-        this.client = new EdgeAgentServiceClient(host, grpc.credentials.createInsecure());
+        this.client = new EdgeAgentServiceClient(host, credentials.createInsecure());
     }
 
     async startDetection(): Promise<StartDetectionResponse> {

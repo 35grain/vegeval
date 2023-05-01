@@ -11,7 +11,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-var jspb = require('google-protobuf');
+import jspb, { Message, BinaryReader, BinaryWriter } from 'google-protobuf';
 var goog = jspb;
 var global = (function() { return this || window || global || self || Function('return this')(); }).call(null);
 
@@ -38,9 +38,9 @@ goog.exportSymbol('proto.edge_agent.StopDetectionResponse', null, global);
  * @constructor
  */
 proto.edge_agent.StartDetectionRequest = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.edge_agent.StartDetectionRequest, jspb.Message);
+goog.inherits(proto.edge_agent.StartDetectionRequest, Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
@@ -59,9 +59,9 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.edge_agent.StartDetectionResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.edge_agent.StartDetectionResponse, jspb.Message);
+goog.inherits(proto.edge_agent.StartDetectionResponse, Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
@@ -80,9 +80,9 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.edge_agent.StopDetectionRequest = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.edge_agent.StopDetectionRequest, jspb.Message);
+goog.inherits(proto.edge_agent.StopDetectionRequest, Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
@@ -101,9 +101,9 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.edge_agent.StopDetectionResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.edge_agent.StopDetectionResponse, jspb.Message);
+goog.inherits(proto.edge_agent.StopDetectionResponse, Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
@@ -122,9 +122,9 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.edge_agent.ConfigRequest = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.edge_agent.ConfigRequest, jspb.Message);
+goog.inherits(proto.edge_agent.ConfigRequest, Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
@@ -143,9 +143,9 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.edge_agent.ConfigResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.edge_agent.ConfigResponse, jspb.Message);
+goog.inherits(proto.edge_agent.ConfigResponse, Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
@@ -164,9 +164,9 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.edge_agent.StatisticsReportRequest = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.edge_agent.StatisticsReportRequest, jspb.Message);
+goog.inherits(proto.edge_agent.StatisticsReportRequest, Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
@@ -185,9 +185,9 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.edge_agent.StatisticsReportResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.edge_agent.StatisticsReportResponse, jspb.Message);
+goog.inherits(proto.edge_agent.StatisticsReportResponse, Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
@@ -206,9 +206,9 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.edge_agent.HeartbeatRequest = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.edge_agent.HeartbeatRequest, jspb.Message);
+goog.inherits(proto.edge_agent.HeartbeatRequest, Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
@@ -227,9 +227,9 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.edge_agent.HeartbeatResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.edge_agent.HeartbeatResponse, jspb.Message);
+goog.inherits(proto.edge_agent.HeartbeatResponse, Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
@@ -248,9 +248,9 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.edge_agent.DetectionModel = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.edge_agent.DetectionModel, jspb.Message);
+goog.inherits(proto.edge_agent.DetectionModel, Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
@@ -269,9 +269,9 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.edge_agent.StatisticsReport = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.edge_agent.StatisticsReport, jspb.Message);
+goog.inherits(proto.edge_agent.StatisticsReport, Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
@@ -282,7 +282,7 @@ if (goog.DEBUG && !COMPILED) {
 
 
 
-if (jspb.Message.GENERATE_TO_OBJECT) {
+if (Message.GENERATE_TO_OBJECT) {
 /**
  * Creates an object representation of this proto.
  * Field names that are reserved in JavaScript and will be renamed to pb_name.
@@ -328,7 +328,7 @@ proto.edge_agent.StartDetectionRequest.toObject = function(includeInstance, msg)
  * @return {!proto.edge_agent.StartDetectionRequest}
  */
 proto.edge_agent.StartDetectionRequest.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
+  var reader = new BinaryReader(bytes);
   var msg = new proto.edge_agent.StartDetectionRequest;
   return proto.edge_agent.StartDetectionRequest.deserializeBinaryFromReader(msg, reader);
 };
@@ -362,7 +362,7 @@ proto.edge_agent.StartDetectionRequest.deserializeBinaryFromReader = function(ms
  * @return {!Uint8Array}
  */
 proto.edge_agent.StartDetectionRequest.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
+  var writer = new BinaryWriter();
   proto.edge_agent.StartDetectionRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
@@ -383,7 +383,7 @@ proto.edge_agent.StartDetectionRequest.serializeBinaryToWriter = function(messag
 
 
 
-if (jspb.Message.GENERATE_TO_OBJECT) {
+if (Message.GENERATE_TO_OBJECT) {
 /**
  * Creates an object representation of this proto.
  * Field names that are reserved in JavaScript and will be renamed to pb_name.
@@ -412,7 +412,7 @@ proto.edge_agent.StartDetectionResponse.prototype.toObject = function(opt_includ
  */
 proto.edge_agent.StartDetectionResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    success: jspb.Message.getBooleanFieldWithDefault(msg, 1, false)
+    success: Message.getBooleanFieldWithDefault(msg, 1, false)
   };
 
   if (includeInstance) {
@@ -429,7 +429,7 @@ proto.edge_agent.StartDetectionResponse.toObject = function(includeInstance, msg
  * @return {!proto.edge_agent.StartDetectionResponse}
  */
 proto.edge_agent.StartDetectionResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
+  var reader = new BinaryReader(bytes);
   var msg = new proto.edge_agent.StartDetectionResponse;
   return proto.edge_agent.StartDetectionResponse.deserializeBinaryFromReader(msg, reader);
 };
@@ -467,7 +467,7 @@ proto.edge_agent.StartDetectionResponse.deserializeBinaryFromReader = function(m
  * @return {!Uint8Array}
  */
 proto.edge_agent.StartDetectionResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
+  var writer = new BinaryWriter();
   proto.edge_agent.StartDetectionResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
@@ -497,7 +497,7 @@ proto.edge_agent.StartDetectionResponse.serializeBinaryToWriter = function(messa
  * @return {boolean}
  */
 proto.edge_agent.StartDetectionResponse.prototype.getSuccess = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 1, false));
+  return /** @type {boolean} */ (Message.getBooleanFieldWithDefault(this, 1, false));
 };
 
 
@@ -506,14 +506,14 @@ proto.edge_agent.StartDetectionResponse.prototype.getSuccess = function() {
  * @return {!proto.edge_agent.StartDetectionResponse} returns this
  */
 proto.edge_agent.StartDetectionResponse.prototype.setSuccess = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 1, value);
+  return Message.setProto3BooleanField(this, 1, value);
 };
 
 
 
 
 
-if (jspb.Message.GENERATE_TO_OBJECT) {
+if (Message.GENERATE_TO_OBJECT) {
 /**
  * Creates an object representation of this proto.
  * Field names that are reserved in JavaScript and will be renamed to pb_name.
@@ -559,7 +559,7 @@ proto.edge_agent.StopDetectionRequest.toObject = function(includeInstance, msg) 
  * @return {!proto.edge_agent.StopDetectionRequest}
  */
 proto.edge_agent.StopDetectionRequest.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
+  var reader = new BinaryReader(bytes);
   var msg = new proto.edge_agent.StopDetectionRequest;
   return proto.edge_agent.StopDetectionRequest.deserializeBinaryFromReader(msg, reader);
 };
@@ -593,7 +593,7 @@ proto.edge_agent.StopDetectionRequest.deserializeBinaryFromReader = function(msg
  * @return {!Uint8Array}
  */
 proto.edge_agent.StopDetectionRequest.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
+  var writer = new BinaryWriter();
   proto.edge_agent.StopDetectionRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
@@ -614,7 +614,7 @@ proto.edge_agent.StopDetectionRequest.serializeBinaryToWriter = function(message
 
 
 
-if (jspb.Message.GENERATE_TO_OBJECT) {
+if (Message.GENERATE_TO_OBJECT) {
 /**
  * Creates an object representation of this proto.
  * Field names that are reserved in JavaScript and will be renamed to pb_name.
@@ -643,7 +643,7 @@ proto.edge_agent.StopDetectionResponse.prototype.toObject = function(opt_include
  */
 proto.edge_agent.StopDetectionResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    success: jspb.Message.getBooleanFieldWithDefault(msg, 1, false)
+    success: Message.getBooleanFieldWithDefault(msg, 1, false)
   };
 
   if (includeInstance) {
@@ -660,7 +660,7 @@ proto.edge_agent.StopDetectionResponse.toObject = function(includeInstance, msg)
  * @return {!proto.edge_agent.StopDetectionResponse}
  */
 proto.edge_agent.StopDetectionResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
+  var reader = new BinaryReader(bytes);
   var msg = new proto.edge_agent.StopDetectionResponse;
   return proto.edge_agent.StopDetectionResponse.deserializeBinaryFromReader(msg, reader);
 };
@@ -698,7 +698,7 @@ proto.edge_agent.StopDetectionResponse.deserializeBinaryFromReader = function(ms
  * @return {!Uint8Array}
  */
 proto.edge_agent.StopDetectionResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
+  var writer = new BinaryWriter();
   proto.edge_agent.StopDetectionResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
@@ -728,7 +728,7 @@ proto.edge_agent.StopDetectionResponse.serializeBinaryToWriter = function(messag
  * @return {boolean}
  */
 proto.edge_agent.StopDetectionResponse.prototype.getSuccess = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 1, false));
+  return /** @type {boolean} */ (Message.getBooleanFieldWithDefault(this, 1, false));
 };
 
 
@@ -737,14 +737,14 @@ proto.edge_agent.StopDetectionResponse.prototype.getSuccess = function() {
  * @return {!proto.edge_agent.StopDetectionResponse} returns this
  */
 proto.edge_agent.StopDetectionResponse.prototype.setSuccess = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 1, value);
+  return Message.setProto3BooleanField(this, 1, value);
 };
 
 
 
 
 
-if (jspb.Message.GENERATE_TO_OBJECT) {
+if (Message.GENERATE_TO_OBJECT) {
 /**
  * Creates an object representation of this proto.
  * Field names that are reserved in JavaScript and will be renamed to pb_name.
@@ -790,7 +790,7 @@ proto.edge_agent.ConfigRequest.toObject = function(includeInstance, msg) {
  * @return {!proto.edge_agent.ConfigRequest}
  */
 proto.edge_agent.ConfigRequest.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
+  var reader = new BinaryReader(bytes);
   var msg = new proto.edge_agent.ConfigRequest;
   return proto.edge_agent.ConfigRequest.deserializeBinaryFromReader(msg, reader);
 };
@@ -824,7 +824,7 @@ proto.edge_agent.ConfigRequest.deserializeBinaryFromReader = function(msg, reade
  * @return {!Uint8Array}
  */
 proto.edge_agent.ConfigRequest.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
+  var writer = new BinaryWriter();
   proto.edge_agent.ConfigRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
@@ -845,7 +845,7 @@ proto.edge_agent.ConfigRequest.serializeBinaryToWriter = function(message, write
 
 
 
-if (jspb.Message.GENERATE_TO_OBJECT) {
+if (Message.GENERATE_TO_OBJECT) {
 /**
  * Creates an object representation of this proto.
  * Field names that are reserved in JavaScript and will be renamed to pb_name.
@@ -875,7 +875,7 @@ proto.edge_agent.ConfigResponse.prototype.toObject = function(opt_includeInstanc
 proto.edge_agent.ConfigResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     model: (f = msg.getModel()) && proto.edge_agent.DetectionModel.toObject(includeInstance, f),
-    uploadraw: jspb.Message.getBooleanFieldWithDefault(msg, 2, false)
+    uploadraw: Message.getBooleanFieldWithDefault(msg, 2, false)
   };
 
   if (includeInstance) {
@@ -892,7 +892,7 @@ proto.edge_agent.ConfigResponse.toObject = function(includeInstance, msg) {
  * @return {!proto.edge_agent.ConfigResponse}
  */
 proto.edge_agent.ConfigResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
+  var reader = new BinaryReader(bytes);
   var msg = new proto.edge_agent.ConfigResponse;
   return proto.edge_agent.ConfigResponse.deserializeBinaryFromReader(msg, reader);
 };
@@ -935,7 +935,7 @@ proto.edge_agent.ConfigResponse.deserializeBinaryFromReader = function(msg, read
  * @return {!Uint8Array}
  */
 proto.edge_agent.ConfigResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
+  var writer = new BinaryWriter();
   proto.edge_agent.ConfigResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
@@ -974,7 +974,7 @@ proto.edge_agent.ConfigResponse.serializeBinaryToWriter = function(message, writ
  */
 proto.edge_agent.ConfigResponse.prototype.getModel = function() {
   return /** @type{?proto.edge_agent.DetectionModel} */ (
-    jspb.Message.getWrapperField(this, proto.edge_agent.DetectionModel, 1));
+    Message.getWrapperField(this, proto.edge_agent.DetectionModel, 1));
 };
 
 
@@ -983,7 +983,7 @@ proto.edge_agent.ConfigResponse.prototype.getModel = function() {
  * @return {!proto.edge_agent.ConfigResponse} returns this
 */
 proto.edge_agent.ConfigResponse.prototype.setModel = function(value) {
-  return jspb.Message.setWrapperField(this, 1, value);
+  return Message.setWrapperField(this, 1, value);
 };
 
 
@@ -1001,7 +1001,7 @@ proto.edge_agent.ConfigResponse.prototype.clearModel = function() {
  * @return {boolean}
  */
 proto.edge_agent.ConfigResponse.prototype.hasModel = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return Message.getField(this, 1) != null;
 };
 
 
@@ -1010,7 +1010,7 @@ proto.edge_agent.ConfigResponse.prototype.hasModel = function() {
  * @return {boolean}
  */
 proto.edge_agent.ConfigResponse.prototype.getUploadraw = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 2, false));
+  return /** @type {boolean} */ (Message.getBooleanFieldWithDefault(this, 2, false));
 };
 
 
@@ -1019,14 +1019,14 @@ proto.edge_agent.ConfigResponse.prototype.getUploadraw = function() {
  * @return {!proto.edge_agent.ConfigResponse} returns this
  */
 proto.edge_agent.ConfigResponse.prototype.setUploadraw = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 2, value);
+  return Message.setProto3BooleanField(this, 2, value);
 };
 
 
 
 
 
-if (jspb.Message.GENERATE_TO_OBJECT) {
+if (Message.GENERATE_TO_OBJECT) {
 /**
  * Creates an object representation of this proto.
  * Field names that are reserved in JavaScript and will be renamed to pb_name.
@@ -1072,7 +1072,7 @@ proto.edge_agent.StatisticsReportRequest.toObject = function(includeInstance, ms
  * @return {!proto.edge_agent.StatisticsReportRequest}
  */
 proto.edge_agent.StatisticsReportRequest.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
+  var reader = new BinaryReader(bytes);
   var msg = new proto.edge_agent.StatisticsReportRequest;
   return proto.edge_agent.StatisticsReportRequest.deserializeBinaryFromReader(msg, reader);
 };
@@ -1111,7 +1111,7 @@ proto.edge_agent.StatisticsReportRequest.deserializeBinaryFromReader = function(
  * @return {!Uint8Array}
  */
 proto.edge_agent.StatisticsReportRequest.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
+  var writer = new BinaryWriter();
   proto.edge_agent.StatisticsReportRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
@@ -1143,7 +1143,7 @@ proto.edge_agent.StatisticsReportRequest.serializeBinaryToWriter = function(mess
  */
 proto.edge_agent.StatisticsReportRequest.prototype.getStatisticsReport = function() {
   return /** @type{?proto.edge_agent.StatisticsReport} */ (
-    jspb.Message.getWrapperField(this, proto.edge_agent.StatisticsReport, 1));
+    Message.getWrapperField(this, proto.edge_agent.StatisticsReport, 1));
 };
 
 
@@ -1152,7 +1152,7 @@ proto.edge_agent.StatisticsReportRequest.prototype.getStatisticsReport = functio
  * @return {!proto.edge_agent.StatisticsReportRequest} returns this
 */
 proto.edge_agent.StatisticsReportRequest.prototype.setStatisticsReport = function(value) {
-  return jspb.Message.setWrapperField(this, 1, value);
+  return Message.setWrapperField(this, 1, value);
 };
 
 
@@ -1170,14 +1170,14 @@ proto.edge_agent.StatisticsReportRequest.prototype.clearStatisticsReport = funct
  * @return {boolean}
  */
 proto.edge_agent.StatisticsReportRequest.prototype.hasStatisticsReport = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return Message.getField(this, 1) != null;
 };
 
 
 
 
 
-if (jspb.Message.GENERATE_TO_OBJECT) {
+if (Message.GENERATE_TO_OBJECT) {
 /**
  * Creates an object representation of this proto.
  * Field names that are reserved in JavaScript and will be renamed to pb_name.
@@ -1206,7 +1206,7 @@ proto.edge_agent.StatisticsReportResponse.prototype.toObject = function(opt_incl
  */
 proto.edge_agent.StatisticsReportResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    success: jspb.Message.getBooleanFieldWithDefault(msg, 1, false)
+    success: Message.getBooleanFieldWithDefault(msg, 1, false)
   };
 
   if (includeInstance) {
@@ -1223,7 +1223,7 @@ proto.edge_agent.StatisticsReportResponse.toObject = function(includeInstance, m
  * @return {!proto.edge_agent.StatisticsReportResponse}
  */
 proto.edge_agent.StatisticsReportResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
+  var reader = new BinaryReader(bytes);
   var msg = new proto.edge_agent.StatisticsReportResponse;
   return proto.edge_agent.StatisticsReportResponse.deserializeBinaryFromReader(msg, reader);
 };
@@ -1261,7 +1261,7 @@ proto.edge_agent.StatisticsReportResponse.deserializeBinaryFromReader = function
  * @return {!Uint8Array}
  */
 proto.edge_agent.StatisticsReportResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
+  var writer = new BinaryWriter();
   proto.edge_agent.StatisticsReportResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
@@ -1291,7 +1291,7 @@ proto.edge_agent.StatisticsReportResponse.serializeBinaryToWriter = function(mes
  * @return {boolean}
  */
 proto.edge_agent.StatisticsReportResponse.prototype.getSuccess = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 1, false));
+  return /** @type {boolean} */ (Message.getBooleanFieldWithDefault(this, 1, false));
 };
 
 
@@ -1300,14 +1300,14 @@ proto.edge_agent.StatisticsReportResponse.prototype.getSuccess = function() {
  * @return {!proto.edge_agent.StatisticsReportResponse} returns this
  */
 proto.edge_agent.StatisticsReportResponse.prototype.setSuccess = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 1, value);
+  return Message.setProto3BooleanField(this, 1, value);
 };
 
 
 
 
 
-if (jspb.Message.GENERATE_TO_OBJECT) {
+if (Message.GENERATE_TO_OBJECT) {
 /**
  * Creates an object representation of this proto.
  * Field names that are reserved in JavaScript and will be renamed to pb_name.
@@ -1353,7 +1353,7 @@ proto.edge_agent.HeartbeatRequest.toObject = function(includeInstance, msg) {
  * @return {!proto.edge_agent.HeartbeatRequest}
  */
 proto.edge_agent.HeartbeatRequest.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
+  var reader = new BinaryReader(bytes);
   var msg = new proto.edge_agent.HeartbeatRequest;
   return proto.edge_agent.HeartbeatRequest.deserializeBinaryFromReader(msg, reader);
 };
@@ -1387,7 +1387,7 @@ proto.edge_agent.HeartbeatRequest.deserializeBinaryFromReader = function(msg, re
  * @return {!Uint8Array}
  */
 proto.edge_agent.HeartbeatRequest.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
+  var writer = new BinaryWriter();
   proto.edge_agent.HeartbeatRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
@@ -1408,7 +1408,7 @@ proto.edge_agent.HeartbeatRequest.serializeBinaryToWriter = function(message, wr
 
 
 
-if (jspb.Message.GENERATE_TO_OBJECT) {
+if (Message.GENERATE_TO_OBJECT) {
 /**
  * Creates an object representation of this proto.
  * Field names that are reserved in JavaScript and will be renamed to pb_name.
@@ -1437,7 +1437,7 @@ proto.edge_agent.HeartbeatResponse.prototype.toObject = function(opt_includeInst
  */
 proto.edge_agent.HeartbeatResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    success: jspb.Message.getBooleanFieldWithDefault(msg, 1, false)
+    success: Message.getBooleanFieldWithDefault(msg, 1, false)
   };
 
   if (includeInstance) {
@@ -1454,7 +1454,7 @@ proto.edge_agent.HeartbeatResponse.toObject = function(includeInstance, msg) {
  * @return {!proto.edge_agent.HeartbeatResponse}
  */
 proto.edge_agent.HeartbeatResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
+  var reader = new BinaryReader(bytes);
   var msg = new proto.edge_agent.HeartbeatResponse;
   return proto.edge_agent.HeartbeatResponse.deserializeBinaryFromReader(msg, reader);
 };
@@ -1492,7 +1492,7 @@ proto.edge_agent.HeartbeatResponse.deserializeBinaryFromReader = function(msg, r
  * @return {!Uint8Array}
  */
 proto.edge_agent.HeartbeatResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
+  var writer = new BinaryWriter();
   proto.edge_agent.HeartbeatResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
@@ -1522,7 +1522,7 @@ proto.edge_agent.HeartbeatResponse.serializeBinaryToWriter = function(message, w
  * @return {boolean}
  */
 proto.edge_agent.HeartbeatResponse.prototype.getSuccess = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 1, false));
+  return /** @type {boolean} */ (Message.getBooleanFieldWithDefault(this, 1, false));
 };
 
 
@@ -1531,14 +1531,14 @@ proto.edge_agent.HeartbeatResponse.prototype.getSuccess = function() {
  * @return {!proto.edge_agent.HeartbeatResponse} returns this
  */
 proto.edge_agent.HeartbeatResponse.prototype.setSuccess = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 1, value);
+  return Message.setProto3BooleanField(this, 1, value);
 };
 
 
 
 
 
-if (jspb.Message.GENERATE_TO_OBJECT) {
+if (Message.GENERATE_TO_OBJECT) {
 /**
  * Creates an object representation of this proto.
  * Field names that are reserved in JavaScript and will be renamed to pb_name.
@@ -1567,9 +1567,9 @@ proto.edge_agent.DetectionModel.prototype.toObject = function(opt_includeInstanc
  */
 proto.edge_agent.DetectionModel.toObject = function(includeInstance, msg) {
   var f, obj = {
-    name: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    version: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    objectname: jspb.Message.getFieldWithDefault(msg, 3, "")
+    name: Message.getFieldWithDefault(msg, 1, ""),
+    version: Message.getFieldWithDefault(msg, 2, ""),
+    objectname: Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -1586,7 +1586,7 @@ proto.edge_agent.DetectionModel.toObject = function(includeInstance, msg) {
  * @return {!proto.edge_agent.DetectionModel}
  */
 proto.edge_agent.DetectionModel.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
+  var reader = new BinaryReader(bytes);
   var msg = new proto.edge_agent.DetectionModel;
   return proto.edge_agent.DetectionModel.deserializeBinaryFromReader(msg, reader);
 };
@@ -1632,7 +1632,7 @@ proto.edge_agent.DetectionModel.deserializeBinaryFromReader = function(msg, read
  * @return {!Uint8Array}
  */
 proto.edge_agent.DetectionModel.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
+  var writer = new BinaryWriter();
   proto.edge_agent.DetectionModel.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
@@ -1676,7 +1676,7 @@ proto.edge_agent.DetectionModel.serializeBinaryToWriter = function(message, writ
  * @return {string}
  */
 proto.edge_agent.DetectionModel.prototype.getName = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+  return /** @type {string} */ (Message.getFieldWithDefault(this, 1, ""));
 };
 
 
@@ -1685,7 +1685,7 @@ proto.edge_agent.DetectionModel.prototype.getName = function() {
  * @return {!proto.edge_agent.DetectionModel} returns this
  */
 proto.edge_agent.DetectionModel.prototype.setName = function(value) {
-  return jspb.Message.setProto3StringField(this, 1, value);
+  return Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -1694,7 +1694,7 @@ proto.edge_agent.DetectionModel.prototype.setName = function(value) {
  * @return {string}
  */
 proto.edge_agent.DetectionModel.prototype.getVersion = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type {string} */ (Message.getFieldWithDefault(this, 2, ""));
 };
 
 
@@ -1703,7 +1703,7 @@ proto.edge_agent.DetectionModel.prototype.getVersion = function() {
  * @return {!proto.edge_agent.DetectionModel} returns this
  */
 proto.edge_agent.DetectionModel.prototype.setVersion = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
+  return Message.setProto3StringField(this, 2, value);
 };
 
 
@@ -1712,7 +1712,7 @@ proto.edge_agent.DetectionModel.prototype.setVersion = function(value) {
  * @return {string}
  */
 proto.edge_agent.DetectionModel.prototype.getObjectname = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+  return /** @type {string} */ (Message.getFieldWithDefault(this, 3, ""));
 };
 
 
@@ -1721,14 +1721,14 @@ proto.edge_agent.DetectionModel.prototype.getObjectname = function() {
  * @return {!proto.edge_agent.DetectionModel} returns this
  */
 proto.edge_agent.DetectionModel.prototype.setObjectname = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
+  return Message.setProto3StringField(this, 3, value);
 };
 
 
 
 
 
-if (jspb.Message.GENERATE_TO_OBJECT) {
+if (Message.GENERATE_TO_OBJECT) {
 /**
  * Creates an object representation of this proto.
  * Field names that are reserved in JavaScript and will be renamed to pb_name.
@@ -1757,8 +1757,8 @@ proto.edge_agent.StatisticsReport.prototype.toObject = function(opt_includeInsta
  */
 proto.edge_agent.StatisticsReport.toObject = function(includeInstance, msg) {
   var f, obj = {
-    timestamp: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    totalObjectsDetected: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    timestamp: Message.getFieldWithDefault(msg, 1, 0),
+    totalObjectsDetected: Message.getFieldWithDefault(msg, 2, 0),
     thumbnailImage: msg.getThumbnailImage_asB64()
   };
 
@@ -1776,7 +1776,7 @@ proto.edge_agent.StatisticsReport.toObject = function(includeInstance, msg) {
  * @return {!proto.edge_agent.StatisticsReport}
  */
 proto.edge_agent.StatisticsReport.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
+  var reader = new BinaryReader(bytes);
   var msg = new proto.edge_agent.StatisticsReport;
   return proto.edge_agent.StatisticsReport.deserializeBinaryFromReader(msg, reader);
 };
@@ -1822,7 +1822,7 @@ proto.edge_agent.StatisticsReport.deserializeBinaryFromReader = function(msg, re
  * @return {!Uint8Array}
  */
 proto.edge_agent.StatisticsReport.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
+  var writer = new BinaryWriter();
   proto.edge_agent.StatisticsReport.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
@@ -1866,7 +1866,7 @@ proto.edge_agent.StatisticsReport.serializeBinaryToWriter = function(message, wr
  * @return {number}
  */
 proto.edge_agent.StatisticsReport.prototype.getTimestamp = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+  return /** @type {number} */ (Message.getFieldWithDefault(this, 1, 0));
 };
 
 
@@ -1875,7 +1875,7 @@ proto.edge_agent.StatisticsReport.prototype.getTimestamp = function() {
  * @return {!proto.edge_agent.StatisticsReport} returns this
  */
 proto.edge_agent.StatisticsReport.prototype.setTimestamp = function(value) {
-  return jspb.Message.setProto3IntField(this, 1, value);
+  return Message.setProto3IntField(this, 1, value);
 };
 
 
@@ -1884,7 +1884,7 @@ proto.edge_agent.StatisticsReport.prototype.setTimestamp = function(value) {
  * @return {number}
  */
 proto.edge_agent.StatisticsReport.prototype.getTotalObjectsDetected = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+  return /** @type {number} */ (Message.getFieldWithDefault(this, 2, 0));
 };
 
 
@@ -1893,7 +1893,7 @@ proto.edge_agent.StatisticsReport.prototype.getTotalObjectsDetected = function()
  * @return {!proto.edge_agent.StatisticsReport} returns this
  */
 proto.edge_agent.StatisticsReport.prototype.setTotalObjectsDetected = function(value) {
-  return jspb.Message.setProto3IntField(this, 2, value);
+  return Message.setProto3IntField(this, 2, value);
 };
 
 
@@ -1902,7 +1902,7 @@ proto.edge_agent.StatisticsReport.prototype.setTotalObjectsDetected = function(v
  * @return {!(string|Uint8Array)}
  */
 proto.edge_agent.StatisticsReport.prototype.getThumbnailImage = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+  return /** @type {!(string|Uint8Array)} */ (Message.getFieldWithDefault(this, 3, ""));
 };
 
 
@@ -1912,7 +1912,7 @@ proto.edge_agent.StatisticsReport.prototype.getThumbnailImage = function() {
  * @return {string}
  */
 proto.edge_agent.StatisticsReport.prototype.getThumbnailImage_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
+  return /** @type {string} */ (Message.bytesAsB64(
       this.getThumbnailImage()));
 };
 
@@ -1925,7 +1925,7 @@ proto.edge_agent.StatisticsReport.prototype.getThumbnailImage_asB64 = function()
  * @return {!Uint8Array}
  */
 proto.edge_agent.StatisticsReport.prototype.getThumbnailImage_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
+  return /** @type {!Uint8Array} */ (Message.bytesAsU8(
       this.getThumbnailImage()));
 };
 
@@ -1935,7 +1935,7 @@ proto.edge_agent.StatisticsReport.prototype.getThumbnailImage_asU8 = function() 
  * @return {!proto.edge_agent.StatisticsReport} returns this
  */
 proto.edge_agent.StatisticsReport.prototype.setThumbnailImage = function(value) {
-  return jspb.Message.setProto3BytesField(this, 3, value);
+  return Message.setProto3BytesField(this, 3, value);
 };
 
 

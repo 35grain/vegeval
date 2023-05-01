@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { GrpcGuard } from 'src/auth/guards/grpc.guard';
 import { EdgeDevicesService } from 'src/edge-devices/edge-devices.service';
-import { HeartbeatResponse, ConfigResponse } from './types/edge_agent';
+import { ConfigResponse, HeartbeatResponse } from './edge_agent_pb';
 
 @Controller('grpc')
 export class GrpcController {
@@ -12,10 +12,13 @@ export class GrpcController {
     @GrpcMethod('EdgeAgentService')
     async heartbeat(data: any): Promise<HeartbeatResponse> {
         const device = data.device;
+        const response = new HeartbeatResponse();
         if (await this.EdgeDevicesService.updateDeviceLastSeen(device.id)) {
-            return { success: true };
+            response.setSuccess(true);
+            return response;
         }
-        return { success: false };
+        response.setSuccess(false);
+        return response;
     }
 
     @UseGuards(GrpcGuard)
