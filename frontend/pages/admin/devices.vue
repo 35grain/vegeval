@@ -76,7 +76,7 @@ if (error.value) {
                         <th>{{ device.client.email }}</th>
                         <td>{{ device.label }}</td>
                         <td>
-                            <div class="flex items-center"><span class="badge badge-warning">Idle</span></div>
+                            <div class="flex items-center"><span class="badge badge-warning">{{ device.status }}</span></div>
                         </td>
                         <td>{{ device.model.name }}</td>
                         <td class="flex">

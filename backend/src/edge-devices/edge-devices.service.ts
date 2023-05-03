@@ -6,16 +6,49 @@ import * as crypto from 'crypto';
 import * as bcryt from 'bcrypt';
 import * as passwordGenerator from 'generate-password';
 import { MinioService } from 'src/minio.service';
-import { ConfigResponse, DetectionModel } from "grpc/edge_agent_pb";
+import { ConfigResponse } from "grpc/edge_agent_pb";
 
 export type EdgeDeviceWithModel = Prisma.EdgeDeviceGetPayload<{
-    include: { model: true }
+    select: {
+        label: true,
+        ip: true,
+        apiKey: true,
+        clientId: true,
+        lastSeen: true,
+        uploadRaw: true,
+        model: {
+            select: {
+                id: true,
+                name: true,
+                version: true,
+                objectName: true
+            }
+        }
+    }
 }>
 
 export type EdgeDeviceWithModelUser = Prisma.EdgeDeviceGetPayload<{
-    include: {
-        model: true,
-        client: true
+    select: {
+        id: true,
+        label: true,
+        ip: true,
+        apiKey: true,
+        clientId: true,
+        lastSeen: true,
+        uploadRaw: true,
+        model: {
+            select: {
+                id: true,
+                name: true,
+                version: true,
+                objectName: true
+            }
+        },
+        client: {
+            select: {
+                email: true
+            }
+        }
     }
 }>
 
@@ -27,19 +60,102 @@ export class EdgeDevicesService {
     ) { }
 
     async getDevices(): Promise<EdgeDeviceWithModelUser[]> {
-        return this.prisma.edgeDevice.findMany({ include: { model: true, client: true } });
+        return this.prisma.edgeDevice.findMany({
+            select: {
+                id: true,
+                label: true,
+                ip: true,
+                apiKey: true,
+                clientId: true,
+                lastSeen: true,
+                uploadRaw: true,
+                model: {
+                    select: {
+                        id: true,
+                        name: true,
+                        version: true,
+                        objectName: true
+                    }
+                },
+                client: {
+                    select: {
+                        email: true
+                    }
+                }
+            }
+        });
     }
 
     async getClientDevices(clientId: string): Promise<EdgeDeviceWithModel[]> {
-        return this.prisma.edgeDevice.findMany({ where: { clientId: clientId }, include: { model: true } });
+        return this.prisma.edgeDevice.findMany({
+            where: {
+                clientId: clientId
+            },
+            select: {
+                label: true,
+                ip: true,
+                apiKey: true,
+                clientId: true,
+                lastSeen: true,
+                uploadRaw: true,
+                model: {
+                    select: {
+                        id: true,
+                        name: true,
+                        version: true,
+                        objectName: true
+                    }
+                }
+            }
+        });
     }
 
     async getDevice(deviceId: string): Promise<EdgeDeviceWithModel | null> {
-        return this.prisma.edgeDevice.findUnique({ where: { id: deviceId }, include: { model: true } });
+        return this.prisma.edgeDevice.findUnique({
+            where: {
+                id: deviceId
+            },
+            select: {
+                label: true,
+                ip: true,
+                apiKey: true,
+                clientId: true,
+                lastSeen: true,
+                uploadRaw: true,
+                model: {
+                    select: {
+                        id: true,
+                        name: true,
+                        version: true,
+                        objectName: true
+                    }
+                }
+            }
+        });
     }
 
     async getDeviceByApiKey(apiKey: string): Promise<EdgeDeviceWithModel | null> {
-        return this.prisma.edgeDevice.findUnique({ where: { apiKey: apiKey }, include: { model: true } });
+        return this.prisma.edgeDevice.findUnique({
+            where: {
+                apiKey: apiKey
+            },
+            select: {
+                label: true,
+                ip: true,
+                apiKey: true,
+                clientId: true,
+                lastSeen: true,
+                uploadRaw: true,
+                model: {
+                    select: {
+                        id: true,
+                        name: true,
+                        version: true,
+                        objectName: true
+                    }
+                }
+            }
+        });
     }
 
     async getDeviceConfig(deviceId: string): Promise<ConfigResponse.AsObject | null> {
@@ -69,12 +185,23 @@ export class EdgeDevicesService {
     // Get the current status of a device
     async getStatus(deviceId: string): Promise<any> {
         const device = await this.getDevice(deviceId);
+        const lastStatistic = await this.prisma.statistic.findFirst({
+            where: {
+                edgeDeviceId: deviceId
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        });
         let date = new Date();
-        date.setSeconds(date.getSeconds() - 10); // last heartbeat was more than 10 seconds ago
-        if (device.lastSeen < date) {
-            return { status: 'offline' };
+        date.setSeconds(date.getSeconds() - 10); // last seen more than 10 seconds ago
+        if (lastStatistic.createdAt > date) {
+            return { status: 'detecting' }
         }
-        return { status: 'online' };
+        if (device.lastSeen > date) {
+            return { status: 'idle' };
+        }
+        return { status: 'offline' };
     }
 
     // Register a new device
