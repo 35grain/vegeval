@@ -17,8 +17,9 @@ import { ModelsService } from './models/models.service';
 import { EdgeDevicesService } from './edge-devices/edge-devices.service';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { GrpcController } from './grpc/grpc.controller';
-import { GrpcModule } from './grpc/grpc.module';
 import { MinioService } from './minio.service';
+import { StatisticsService } from './statistics/statistics.service';
+import { StatisticsController } from './statistics/statistics.controller';
 
 @Module({
   imports: [
@@ -29,15 +30,15 @@ import { MinioService } from './minio.service';
       limit: 20,
     }),
     ModelsModule,
-    EdgeDevicesModule,
-    GrpcModule
+    EdgeDevicesModule
   ],
   controllers: [
     AuthController,
     UsersController,
     ModelsController,
     EdgeDevicesController,
-    GrpcController
+    GrpcController,
+    StatisticsController
   ],
   providers: [
     PrismaService,
@@ -55,6 +56,7 @@ import { MinioService } from './minio.service';
       provide: APP_GUARD,
       useClass: JwtAuthGuard
     },
+    StatisticsService,
   ]
 })
 export class AppModule { }

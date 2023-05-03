@@ -119,7 +119,7 @@ export class ConfigResponse extends jspb.Message {
 export namespace ConfigResponse {
     export type AsObject = {
         model?: DetectionModel.AsObject,
-        uploadraw: boolean,
+        uploadRaw: boolean,
     }
 }
 
@@ -225,7 +225,7 @@ export namespace DetectionModel {
     export type AsObject = {
         name: string,
         version: string,
-        objectname: string,
+        objectName: string,
     }
 }
 

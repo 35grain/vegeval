@@ -13,7 +13,7 @@ service EdgeAgentService {
   rpc GetConfig (ConfigRequest) returns (ConfigResponse) {}
 
   // Sends periodical statistics reports to the web application.
-  rpc StatisticsReport (stream StatisticsReportRequest) returns (StatisticsReportResponse) {}
+  rpc StatisticsReport (StatisticsReportRequest) returns (StatisticsReportResponse) {}
 
   // Sends a heartbeat message to the web application.
   rpc Heartbeat (HeartbeatRequest) returns (HeartbeatResponse) {}
@@ -41,9 +41,27 @@ message ConfigResponse {
   bool uploadRaw = 2;
 }
 
+// Detection model properties
+message DetectionModel {
+  string id = 1;
+  string name = 2;
+  string version = 3;
+  string objectName = 4;
+}
+
+// A statistics report.
 message StatisticsReportRequest {
-  // The current statistics report.
-  StatisticsReport statistics_report = 1;
+  repeated Statistic data = 1;
+  string model = 2;
+}
+
+message Statistic {
+  int32 id = 1;
+  int32 cls_id = 2;
+  string cls_name = 3;
+  repeated float confs = 4;
+  int32 frames = 5;
+  double timestamp = 6;
 }
 
 message StatisticsReportResponse {
@@ -56,23 +74,4 @@ message HeartbeatRequest {}
 message HeartbeatResponse {
   // Acknowledgement of the heartbeat message.
   bool success = 1;
-}
-
-// Detection model properties
-message DetectionModel {
-    string name = 1;
-    string version = 2;
-    string objectName = 3;
-}
-
-// A statistics report.
-message StatisticsReport {
-  // Timestamp of the report in milliseconds since epoch.
-  int64 timestamp = 1;
-
-  // Total number of objects detected.
-  int32 total_objects_detected = 2;
-
-  // A thumbnail image of the most recent detection.
-  bytes thumbnail_image = 3;
 }

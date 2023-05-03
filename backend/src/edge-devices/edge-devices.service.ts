@@ -6,7 +6,7 @@ import * as crypto from 'crypto';
 import * as bcryt from 'bcrypt';
 import * as passwordGenerator from 'generate-password';
 import { MinioService } from 'src/minio.service';
-import * as edge_agent_pb from "grpc/edge_agent_pb";
+import { ConfigResponse, DetectionModel } from "grpc/edge_agent_pb";
 
 export type EdgeDeviceWithModel = Prisma.EdgeDeviceGetPayload<{
     include: { model: true }
@@ -42,19 +42,15 @@ export class EdgeDevicesService {
         return this.prisma.edgeDevice.findUnique({ where: { apiKey: apiKey }, include: { model: true } });
     }
 
-    async getDeviceConfig(deviceId: string): Promise<edge_agent_pb.ConfigResponse | null> {
+    async getDeviceConfig(deviceId: string): Promise<ConfigResponse.AsObject | null> {
         const device = await this.getDevice(deviceId);
         if (!device) {
             return null;
         }
-        const response = new edge_agent_pb.ConfigResponse();
-        const model = new edge_agent_pb.DetectionModel();
-        model.setName(device.model.name);
-        model.setVersion(device.model.version);
-        model.setObjectname(device.model.objectName);
-        response.setModel(model);
-        response.setUploadraw(device.uploadRaw);
-        return response;
+        return {
+            model: device.model,
+            uploadRaw: device.uploadRaw
+        };
     }
 
     // Update the last seen timestamp of a device
