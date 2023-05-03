@@ -33,4 +33,20 @@ export class StatisticsController {
         }
         return this.statisticsService.getStatisticsByModel(req.user.id, modelId);
     }
+
+    @Get('count')
+    async getStatisticsCount(@Request() req) {
+        if (req.user.role === 'admin') {
+            return this.statisticsService.getAllStatisticsCount();
+        }
+        return this.statisticsService.getStatisticsCountByUser(req.user.id);
+    }
+
+    @Get('count/model')
+    async getStatisticsCountByModels(@Request() req) {
+        if (req.user.role === 'admin') {
+            return this.statisticsService.getAllStatisticsCountByModels();
+        }
+        return this.statisticsService.getStatisticsCountByModels(req.user.id);
+    }
 }

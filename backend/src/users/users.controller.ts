@@ -40,4 +40,10 @@ export class UsersController {
     }
     return this.usersService.updateUser({ id: req.user.id}, updateUserDto);
   }
+
+  @Roles(Role.Admin)
+  @Get('count')
+  async getUsersCount(): Promise<number> {
+    return this.usersService.getUsersCount();
+  }
 }

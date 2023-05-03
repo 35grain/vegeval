@@ -90,4 +90,8 @@ export class UsersService {
       where,
     });
   }
+
+  async getUsersCount(): Promise<number> {
+    return this.prisma.user.count();
+  }
 }

@@ -127,4 +127,9 @@ export class EdgeDevicesService {
             }
         });
     }
+
+    // Get the number of devices
+    async getDevicesCount(): Promise<number> {
+        return this.prisma.edgeDevice.count();
+    }
 }

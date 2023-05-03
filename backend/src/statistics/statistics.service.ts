@@ -65,4 +65,41 @@ export class StatisticsService {
             }
         });
     }
+
+    async getAllStatisticsCount(): Promise<number> {
+        return this.prismaService.statistic.count();
+    }
+
+    async getStatisticsCountByUser(userId: string): Promise<number> {
+        return this.prismaService.statistic.count({
+            where: {
+                EdgeDevice: {
+                    clientId: userId
+                }
+            }
+        });
+    }
+
+    async getAllStatisticsCountByModels(): Promise<any> {
+        return this.prismaService.statistic.groupBy({
+            by: ['modelId'],
+            _count: {
+                modelId: true
+            }
+        })
+    }
+
+    async getStatisticsCountByModels(userId: string): Promise<any> {
+        return this.prismaService.statistic.groupBy({
+            by: ['modelId'],
+            _count: {
+                modelId: true
+            },
+            where: {
+                EdgeDevice: {
+                    clientId: userId
+                }
+            }
+        })
+    }
 }

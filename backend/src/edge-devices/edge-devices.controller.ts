@@ -21,7 +21,7 @@ export class EdgeDevicesController {
         return this.edgeDevicesService.getDevices();
     }
 
-    @Get(':clientId')
+    @Get('client/:clientId')
     async getClientDevices(@Request() req, @Param('clientId') clientId: string): Promise<EdgeDeviceWithModel[]> {
         if (req.user.id === clientId || req.user.role === 'admin') {
             return this.edgeDevicesService.getClientDevices(clientId);
@@ -53,7 +53,7 @@ export class EdgeDevicesController {
         return this.edgeDevicesService.registerDevice(req.user.id, device);
     }
 
-    @Post('update/:deviceId')
+    @Post(':deviceId/update')
     async updateDevice(@Request() req, @Param('deviceId', ParseIntPipe) deviceId: string, @Body() deviceDto: RegisterDeviceDto): Promise<any> {
         const device = await this.edgeDevicesService.getDevice(deviceId);
         if (!device) {
@@ -79,5 +79,11 @@ export class EdgeDevicesController {
         }
         const grpcService = new GrpcService(device.ip);
         return grpcService.startDetection();
+    }
+
+    @Roles(Role.Admin)
+    @Get('count/all')
+    async getDevicesCount(): Promise<number> {
+        return this.edgeDevicesService.getDevicesCount();
     }
 }

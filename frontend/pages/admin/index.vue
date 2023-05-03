@@ -38,6 +38,31 @@ if (!error.value) {
         })
     });
 }
+
+const { data: totalStatistics } = await useFetch(`${config.public.apiUrl}/statistics/count`,
+    {
+        headers: {
+            "Authorization": `Bearer ${session.data.value?.access_token}`,
+        },
+        key: "statistics-count"
+    });
+
+const { data: usersCount } = await useFetch(`${config.public.apiUrl}/users/count`,
+    {
+        headers: {
+            "Authorization": `Bearer ${session.data.value?.access_token}`,
+        },
+        key: "users-count"
+    });
+
+const { data: devicesCount } = await useFetch(`${config.public.apiUrl}/devices/count/all`,
+    {
+        headers: {
+            "Authorization": `Bearer ${session.data.value?.access_token}`,
+        },
+        key: "devices-count"
+    });
+
 </script>
 
 <template>
@@ -47,15 +72,31 @@ if (!error.value) {
                 <h1>Analytics</h1>
             </div>
         </div>
-        <div class="grid grid-cols-2 gap-8">
+        <div class="grid grid-cols-2 gap-10">
             <div>
-                <div class="prose prose-slate text-left">
+                <div class="prose prose-slate text-left mb-4">
                     <h2>Model usage</h2>
                 </div>
                 <canvas id="modelUsageChart"></canvas>
             </div>
             <div>
-
+                <div class="prose prose-slate text-left mb-4">
+                    <h2>System statistics</h2>
+                </div>
+                <div class="stats shadow">
+                    <div class="stat place-items-center bg-secondary">
+                        <div class="stat-title">Statistics collected</div>
+                        <div class="stat-value">{{ totalStatistics }}</div>
+                    </div>
+                    <div class="stat place-items-center bg-secondary">
+                        <div class="stat-title">Users</div>
+                        <div class="stat-value">{{ usersCount }}</div>
+                    </div>
+                    <div class="stat place-items-center bg-secondary">
+                        <div class="stat-title">Edge devices</div>
+                        <div class="stat-value">{{ devicesCount }}</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

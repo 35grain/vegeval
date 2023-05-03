@@ -12,7 +12,7 @@ let view: { alert: { message: undefined | string, error: boolean } } = reactive(
     }
 });
 
-const { data: devices, error } = useFetch(`${config.public.apiUrl}/devices/${session.data.value?.id}`,
+const { data: devices, error } = useFetch(`${config.public.apiUrl}/devices/client/${session.data.value?.id}`,
     {
         headers: {
             "Authorization": `Bearer ${session.data.value?.access_token}`,
