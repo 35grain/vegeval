@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["clientExtensions"]
 }
 
 datasource db {
@@ -33,6 +34,7 @@ model EdgeDevice {
   ip         String
   uploadRaw  Boolean     @default(false)
   lastSeen   DateTime?
+  lastStatus String?
   Statistics Statistic[]
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
@@ -51,10 +53,15 @@ model Model {
 
 model Statistic {
   id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  localId      Int
+  clsId        Int
+  clsName      String
+  confs        Float[]
+  frames       Int
+  timestamp    Float
   EdgeDevice   EdgeDevice @relation(fields: [edgeDeviceId], references: [id])
   edgeDeviceId String     @db.ObjectId
   Model        Model      @relation(fields: [modelId], references: [id])
   modelId      String     @db.ObjectId
-  data         Json
-  createdAt DateTime @default(now())
+  createdAt    DateTime   @default(now())
 }

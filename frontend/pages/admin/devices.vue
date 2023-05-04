@@ -16,14 +16,16 @@ const { data: models } = useFetch(`${config.public.apiUrl}/models`,
     {
         headers: {
             "Authorization": `Bearer ${session.data.value?.access_token}`,
-        }
+        },
+        key: "models"
     });
 
 const { data: clients } = useFetch(`${config.public.apiUrl}/users`,
     {
         headers: {
             "Authorization": `Bearer ${session.data.value?.access_token}`,
-        }
+        },
+        key: "clients"
     });
 
 
@@ -44,6 +46,9 @@ if (error.value) {
 } else {
     view.alert.error = false;
     view.alert.message = "";
+    setInterval(() => {
+        refreshNuxtData("devices")
+    }, 5000)
 }
 </script>
 <template>
@@ -76,7 +81,8 @@ if (error.value) {
                         <th>{{ device.client.email }}</th>
                         <td>{{ device.label }}</td>
                         <td>
-                            <div class="flex items-center"><span class="badge badge-warning">{{ device.status }}</span></div>
+                            <div class="flex items-center"
+                                v-html="getDeviceStatusBadge(device.lastSeen, device.lastStatus)" />
                         </td>
                         <td>{{ device.model.name }}</td>
                         <td class="flex">
@@ -122,8 +128,25 @@ export default {
                     }
                 });
         },
-        stopDetection() {
-            console.log("stop detection");
+        stopDetection(id: string) {
+            const session: any = useSession();
+            const config = useRuntimeConfig();
+            const { data, error } = useFetch(`${config.public.apiUrl}/devices/${id}/stop`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${session.data.value?.access_token}`,
+                    }
+                });
+        },
+        getDeviceStatusBadge(lastSeen: Date, lastStatus: string) {
+            lastSeen = new Date(lastSeen);
+            if (new Date().getTime() - lastSeen.getTime() < 10000) {
+                if (lastStatus === 'detecting') {
+                    return '<span class="badge badge-primary">Detecting</span>'
+                }
+                return '<span class="badge badge-warning">Idle</span>'
+            }
+            return '<span class="badge badge-error">Offline</span>'
         },
     }
 }

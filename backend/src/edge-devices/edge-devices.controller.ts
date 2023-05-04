@@ -77,8 +77,27 @@ export class EdgeDevicesController {
         if (device.clientId !== req.user.id && req.user.role !== 'admin') {
             throw new UnauthorizedException('Unauthorized!');
         }
+        if (device.lastStatus !== 'idle' || new Date().getTime() - device.lastSeen.getTime() > 10000) {
+            throw new BadRequestException('Device is not idle!');
+        }
         const grpcService = new GrpcService(device.ip);
         return grpcService.startDetection();
+    }
+
+    @Get(':deviceId/stop')
+    async stopDetection(@Request() req, @Param('deviceId') deviceId: string): Promise<any> {
+        const device = await this.edgeDevicesService.getDevice(deviceId);
+        if (!device) {
+            throw new BadRequestException('Device with provided ID does not exist!');
+        }
+        if (device.clientId !== req.user.id && req.user.role !== 'admin') {
+            throw new UnauthorizedException('Unauthorized!');
+        }
+        if (device.lastStatus !== 'detecting' || new Date().getTime() - device.lastSeen.getTime() > 10000) {
+            throw new BadRequestException('Device is not detecting!');
+        }
+        const grpcService = new GrpcService(device.ip);
+        return grpcService.stopDetection();
     }
 
     @Roles(Role.Admin)

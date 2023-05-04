@@ -15,6 +15,7 @@ export type EdgeDeviceWithModel = Prisma.EdgeDeviceGetPayload<{
         apiKey: true,
         clientId: true,
         lastSeen: true,
+        lastStatus: true,
         uploadRaw: true,
         model: {
             select: {
@@ -35,6 +36,7 @@ export type EdgeDeviceWithModelUser = Prisma.EdgeDeviceGetPayload<{
         apiKey: true,
         clientId: true,
         lastSeen: true,
+        lastStatus: true,
         uploadRaw: true,
         model: {
             select: {
@@ -68,6 +70,7 @@ export class EdgeDevicesService {
                 apiKey: true,
                 clientId: true,
                 lastSeen: true,
+                lastStatus: true,
                 uploadRaw: true,
                 model: {
                     select: {
@@ -97,6 +100,7 @@ export class EdgeDevicesService {
                 apiKey: true,
                 clientId: true,
                 lastSeen: true,
+                lastStatus: true,
                 uploadRaw: true,
                 model: {
                     select: {
@@ -121,6 +125,7 @@ export class EdgeDevicesService {
                 apiKey: true,
                 clientId: true,
                 lastSeen: true,
+                lastStatus: true,
                 uploadRaw: true,
                 model: {
                     select: {
@@ -145,6 +150,7 @@ export class EdgeDevicesService {
                 apiKey: true,
                 clientId: true,
                 lastSeen: true,
+                lastStatus: true,
                 uploadRaw: true,
                 model: {
                     select: {
@@ -163,6 +169,7 @@ export class EdgeDevicesService {
         if (!device) {
             return null;
         }
+        await this.updateDeviceLastSeen(deviceId, 'idle');
         return {
             model: device.model,
             uploadRaw: device.uploadRaw
@@ -170,38 +177,17 @@ export class EdgeDevicesService {
     }
 
     // Update the last seen timestamp of a device
-    async updateDeviceLastSeen(deviceId: string): Promise<boolean> {
+    async updateDeviceLastSeen(deviceId: string, status: 'idle' | 'detecting'): Promise<boolean> {
         if (await this.prisma.edgeDevice.update({
             where: { id: deviceId },
             data: {
-                lastSeen: new Date()
+                lastSeen: new Date(),
+                lastStatus: status
             }
         })) {
             return true;
         }
         return false;
-    }
-
-    // Get the current status of a device
-    async getStatus(deviceId: string): Promise<any> {
-        const device = await this.getDevice(deviceId);
-        const lastStatistic = await this.prisma.statistic.findFirst({
-            where: {
-                edgeDeviceId: deviceId
-            },
-            orderBy: {
-                createdAt: 'desc'
-            }
-        });
-        let date = new Date();
-        date.setSeconds(date.getSeconds() - 10); // last seen more than 10 seconds ago
-        if (lastStatistic.createdAt > date) {
-            return { status: 'detecting' }
-        }
-        if (device.lastSeen > date) {
-            return { status: 'idle' };
-        }
-        return { status: 'offline' };
     }
 
     // Register a new device

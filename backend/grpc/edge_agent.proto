@@ -69,7 +69,9 @@ message StatisticsReportResponse {
   bool success = 1;
 }
 
-message HeartbeatRequest {}
+message HeartbeatRequest {
+  string status = 1;
+}
 
 message HeartbeatResponse {
   // Acknowledgement of the heartbeat message.

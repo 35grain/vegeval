@@ -15,7 +15,8 @@ export class GrpcController {
     @GrpcMethod('EdgeAgentService')
     async heartbeat(data: any): Promise<HeartbeatResponse.AsObject> {
         const device = data.device;
-        if (await this.edgeDevicesService.updateDeviceLastSeen(device.id)) {
+        const status = data.status;
+        if (await this.edgeDevicesService.updateDeviceLastSeen(device.id, status)) {
             return { success: true }
         }
         return { success: false }
@@ -34,6 +35,7 @@ export class GrpcController {
     async statisticsReport(data: any): Promise<StatisticsReportResponse.AsObject> {
         const device = data.device;
         if (await this.statisticsService.createStatisticsReport(device.id, data)) {
+            await this.edgeDevicesService.updateDeviceLastSeen(device.id, 'detecting');
             return { success: true }
         }
         return { success: false }

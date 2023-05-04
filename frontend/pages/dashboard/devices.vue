@@ -16,14 +16,16 @@ const { data: devices, error } = useFetch(`${config.public.apiUrl}/devices/clien
     {
         headers: {
             "Authorization": `Bearer ${session.data.value?.access_token}`,
-        }
+        },
+        key: "devices"
     });
 
 const { data: models } = useFetch(`${config.public.apiUrl}/models`,
     {
         headers: {
             "Authorization": `Bearer ${session.data.value?.access_token}`,
-        }
+        },
+        key: "models"
     });
 
 if (error.value) {
@@ -35,6 +37,9 @@ if (error.value) {
 } else {
     view.alert.error = false;
     view.alert.message = "";
+    setInterval(() => {
+        refreshNuxtData("devices")
+    }, 5000)
 }
 </script>
 <template>
@@ -58,17 +63,20 @@ if (error.value) {
                 <tbody>
                     <tr v-if="devices?.length" v-for="device in devices">
                         <th>{{ device.label }}</th>
-                        <td><div class="flex items-center"><span class="badge badge-warning">Idle</span></div></td>
+                        <td>
+                            <div class="flex items-center"
+                                v-html="getDeviceStatusBadge(device.lastSeen, device.lastStatus)" />
+                        </td>
                         <td>{{ device.model.name }}</td>
                         <td class="flex">
                             <div class="tooltip" data-tip="Copy key">
-                                <input @click="copyInputValue" type="text" class="input input-sm cursor-pointer"
-                                    readonly :value="device.apiKey">
+                                <input @click="copyInputValue" type="text" class="input input-sm cursor-pointer" readonly
+                                    :value="device.apiKey">
                             </div>
                         </td>
                         <td>{{ device.ip }}</td>
                         <td>
-                            
+
                         </td>
                     </tr>
                     <tr v-else>
@@ -77,7 +85,7 @@ if (error.value) {
                 </tbody>
             </table>
         </div>
-        <RegisterDeviceModal :models="models"/>
+        <RegisterDeviceModal :models="models" />
     </div>
 </template>
 <script lang="ts">
@@ -88,7 +96,37 @@ export default {
             input.select();
             input.setSelectionRange(0, 99999);
             navigator.clipboard.writeText(input.value);
-        }
+        },
+        startDetection(id: string) {
+            const session: any = useSession();
+            const config = useRuntimeConfig();
+            const { data, error } = useFetch(`${config.public.apiUrl}/devices/${id}/start`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${session.data.value?.access_token}`,
+                    }
+                });
+        },
+        stopDetection(id: string) {
+            const session: any = useSession();
+            const config = useRuntimeConfig();
+            const { data, error } = useFetch(`${config.public.apiUrl}/devices/${id}/stop`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${session.data.value?.access_token}`,
+                    }
+                });
+        },
+        getDeviceStatusBadge(lastSeen: Date, lastStatus: string) {
+            lastSeen = new Date(lastSeen);
+            if (new Date().getTime() - lastSeen.getTime() < 10000) {
+                if (lastStatus === 'detecting') {
+                    return '<span class="badge badge-primary">Detecting</span>'
+                }
+                return '<span class="badge badge-warning">Idle</span>'
+            }
+            return '<span class="badge badge-error">Offline</span>'
+        },
     }
 }
 </script>

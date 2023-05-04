@@ -8,28 +8,26 @@ export class GrpcService {
     private client: any;
 
     constructor(host: string) {
-        this.client = new EdgeAgentServiceClient(host, credentials.createInsecure());
+        this.client = new EdgeAgentServiceClient(host + ':20048', credentials.createInsecure());
     }
 
-    async startDetection(): Promise<StartDetectionResponse> {
+    async startDetection(): Promise<boolean> {
         const request = new StartDetectionRequest();
-        return this.client.startDetection(request, (err: any, response: StartDetectionResponse) => {
+        this.client.startDetection(request, (err: any) => {
             if (err) {
                 throw new Error(err);
-            } else {
-                return response;
             }
         });
+        return true;
     }
 
-    async stopDetection(): Promise<StopDetectionResponse> {
+    async stopDetection(): Promise<boolean> {
         const request = new StopDetectionRequest();
-        return this.client.stopDetection(request, (err: any, response: StopDetectionResponse) => {
+        this.client.stopDetection(request, (err: any) => {
             if (err) {
                 throw new Error(err);
-            } else {
-                return response;
             }
         });
+        return true;
     }
 }

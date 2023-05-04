@@ -11,9 +11,14 @@ export class StatisticsService {
             statistics.data.forEach(async (stat) => {
                 await this.prismaService.statistic.create({
                     data: {
+                        localId: stat.id,
+                        clsId: stat.clsId,
+                        clsName: stat.clsName,
+                        confs: stat.confs,
+                        frames: stat.frames,
+                        timestamp: stat.timestamp,
                         edgeDeviceId: deviceId,
                         modelId: statistics.model,
-                        data: stat
                     }
                 })
             });
