@@ -4,6 +4,7 @@
 import grpc
 import os
 import time
+import json
 import shutil
 import threading
 import edge_agent_pb2
@@ -66,7 +67,7 @@ class EdgeAgentClient:
 
     def sendStatistics(self, data, model):
         try:
-            request = edge_agent_pb2.StatisticsReportRequest(data=data, model=model)
+            request = edge_agent_pb2.StatisticsReportRequest(data=json.dumps(data), model=model)
             response = self.stub.StatisticsReport(request=request, metadata=self.metadata)
         except grpc.RpcError as e:
             print(e)
@@ -76,7 +77,7 @@ class EdgeAgentClient:
 
 class Detector:
     def __init__(self, client, minio_client, config):
-        from model import DetectionModel
+        from module import DetectionModel
         self.client = client
         self.minio_client = minio_client
         self.uploadRaw = config.uploadRaw
@@ -135,22 +136,20 @@ def main():
             secret_key=minio_secret_key,
         )
         
-        module_dir = config.model.objectName[:-4]
-        if (not os.path.isdir('./module/' + module_dir)):
+        if os.path.isdir('./module'):
             # Remove existing module
-            shutil.rmtree('./module/', ignore_errors=True)
-            os.mkdir('./module/')
-            try:
-                if (not os.path.isfile('./modules/' + config.model.objectName)):
-                    # Download model module
-                    minio_client.fget_object(
-                        'vegeval.models', config.model.objectName, './modules/' + config.model.objectName)
-                # Unpack model module
-                os.system('unzip -qq ./modules/' + config.model.objectName + ' -d ./module/' + module_dir)
-            except Exception as e:
-                print('Failed to download and unpack model module!')
-                print(e)
-                exit(1)
+            shutil.rmtree('./module', ignore_errors=True)
+        try:
+            if (not os.path.isfile('./modules/' + config.model.objectName)):
+                # Download model module
+                minio_client.fget_object(
+                    'vegeval.models', config.model.objectName, './modules/' + config.model.objectName)
+            # Unpack model module
+            os.system('unzip -qq ./modules/' + config.model.objectName + ' -d ./module')
+        except Exception as e:
+            print('Failed to download and unpack model module!')
+            print(e)
+            exit(1)
 
         detector = Detector(client, minio_client, config)
 

@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package edge_agent;
+
+service EdgeAgentService {
+  // Starts the object detection process on the edge device.
+  rpc StartDetection (StartDetectionRequest) returns (StartDetectionResponse) {}
+
+  // Stops the object detection process on the edge device.
+  rpc StopDetection (StopDetectionRequest) returns (StopDetectionResponse) {}
+
+  // Requests the saved configuration of the edge device from web app.
+  rpc GetConfig (ConfigRequest) returns (ConfigResponse) {}
+
+  // Sends periodical statistics reports to the web application.
+  rpc StatisticsReport (StatisticsReportRequest) returns (StatisticsReportResponse) {}
+
+  // Sends a heartbeat message to the web application.
+  rpc Heartbeat (HeartbeatRequest) returns (HeartbeatResponse) {}
+}
+
+message StartDetectionRequest {}
+
+message StartDetectionResponse {
+  // Acknowledgement of the request to start the detection process.
+  bool success = 1;
+}
+
+message StopDetectionRequest {}
+
+message StopDetectionResponse {
+  // Acknowledgement of the request to stop the detection process.
+  bool success = 1;
+}
+
+message ConfigRequest {}
+
+message ConfigResponse {
+  // The current configuration of the edge device.
+  DetectionModel model = 1;
+  bool uploadRaw = 2;
+}
+
+// Detection model properties
+message DetectionModel {
+  string id = 1;
+  string name = 2;
+  string version = 3;
+  string objectName = 4;
+}
+
+// A statistics report.
+message StatisticsReportRequest {
+  repeated Statistic data = 1;
+  string model = 2;
+}
+
+message Statistic {
+  int32 id = 1;
+  int32 cls_id = 2;
+  string cls_name = 3;
+  repeated float confs = 4;
+  int32 frames = 5;
+  double timestamp = 6;
+}
+
+message StatisticsReportResponse {
+  // Acknowledgement of the statistics report.
+  bool success = 1;
+}
+
+message HeartbeatRequest {
+  string status = 1;
+}
+
+message HeartbeatResponse {
+  // Acknowledgement of the heartbeat message.
+  bool success = 1;
+}
