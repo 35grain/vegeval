@@ -2,23 +2,32 @@ import { Injectable } from '@nestjs/common';
 import { Statistic } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 
+interface Stat {
+    id: number;
+    cls_id: number;
+    cls_name: string;
+    confs: number[];
+    frames: number;
+    timestamp: number;
+}
+
 @Injectable()
 export class StatisticsService {
     constructor(private readonly prismaService: PrismaService) { }
 
-    async createStatisticsReport(deviceId: string, statistics: any): Promise<boolean> {
+    async createStatisticsReport(deviceId: string, statistics: Stat[], model: string): Promise<boolean> {
         try {
-            statistics.data.forEach(async (stat) => {
+            statistics.forEach(async (stat) => {
                 await this.prismaService.statistic.create({
                     data: {
                         localId: stat.id,
-                        clsId: stat.clsId,
-                        clsName: stat.clsName,
+                        clsId: stat.cls_id,
+                        clsName: stat.cls_name,
                         confs: stat.confs,
                         frames: stat.frames,
                         timestamp: stat.timestamp,
                         edgeDeviceId: deviceId,
-                        modelId: statistics.model,
+                        modelId: model,
                     }
                 })
             });

@@ -39,13 +39,18 @@ if (error.value) {
     view.alert.message = "";
     setInterval(() => {
         refreshNuxtData("devices")
-    }, 5000)
+    }, 10000)
 }
 </script>
 <template>
     <div>
-        <div class="prose prose-slate text-left mb-12">
-            <h1>Edge devices</h1>
+        <div class="flex justify-between">
+            <div class="prose prose-slate text-left mb-12">
+                <h1>Edge devices</h1>
+            </div>
+            <button class="btn btn-square" @click="refreshNuxtData('devices')">
+                <Icon name="ic:refresh" class="w-6 h-6" />
+            </button>
         </div>
         <Alert :alert="view.alert" />
         <div class="overflow-x-auto">
@@ -76,7 +81,15 @@ if (error.value) {
                         </td>
                         <td>{{ device.ip }}</td>
                         <td>
-
+                            <div class="flex gap-1 items-center">
+                                <button class="btn btn-xs btn-primary"
+                                    :disabled="['offline', 'detecting'].includes(getDeviceStatus(device.lastSeen, device.lastStatus))"
+                                    @click="startDetection(device.id)">Start</button>
+                                <button class="btn btn-xs btn-error"
+                                    :disabled="['offline', 'idle'].includes(getDeviceStatus(device.lastSeen, device.lastStatus))"
+                                    @click="stopDetection(device.id)">Stop</button>
+                                <button class="btn btn-xs btn-secondary" @click="editDevice(device.id)">Edit</button>
+                            </div>
                         </td>
                     </tr>
                     <tr v-else>
@@ -117,12 +130,22 @@ export default {
                     }
                 });
         },
-        getDeviceStatusBadge(lastSeen: Date, lastStatus: string) {
+        getDeviceStatus(lastSeen: Date, lastStatus: string): string {
             lastSeen = new Date(lastSeen);
             if (new Date().getTime() - lastSeen.getTime() < 10000) {
                 if (lastStatus === 'detecting') {
-                    return '<span class="badge badge-primary">Detecting</span>'
+                    return 'detecting'
                 }
+                return 'idle'
+            }
+            return 'offline'
+        },
+        getDeviceStatusBadge(lastSeen: Date, lastStatus: string) {
+            const status = this.getDeviceStatus(lastSeen, lastStatus);
+            if (status === 'detecting') {
+                return '<span class="badge badge-primary">Detecting</span>'
+            }
+            if (status === 'idle') {
                 return '<span class="badge badge-warning">Idle</span>'
             }
             return '<span class="badge badge-error">Offline</span>'

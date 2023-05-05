@@ -89,20 +89,25 @@ class Detector:
             return
         self.detection = threading.Thread(target=self.detect, args=(self.stop_event,))
         self.detection.start()
+        print("Detection started!")
 
     def detect(self, stop_event):
         stop_event.clear()
         self.client.setStatus("detecting")
         statistics = self.model.get_stats(stop_event=stop_event, source='vegeval_demo.mp4')
         for stat in statistics:
-            print(stat)
             response = self.client.sendStatistics(data=stat, model=self.client.model.id)
+            # TODO: Handle response
+            #if self.uploadRaw:
+            #    self.minio_client.put_object()
+                
 
     def stop(self):
         if self.stop_event.is_set() or self.client.getStatus() == "idle":
             return
         self.stop_event.set()
         self.client.setStatus("idle")
+        print("Detection stopped!")
 
 def main():
     load_dotenv()

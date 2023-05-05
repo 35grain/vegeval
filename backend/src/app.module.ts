@@ -27,7 +27,7 @@ import { StatisticsController } from './statistics/statistics.controller';
     UsersModule,
     ThrottlerModule.forRoot({
       ttl: 60,
-      limit: 20,
+      limit: 30,
     }),
     ModelsModule,
     EdgeDevicesModule

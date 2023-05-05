@@ -34,7 +34,9 @@ export class GrpcController {
     @GrpcMethod('EdgeAgentService')
     async statisticsReport(data: any): Promise<StatisticsReportResponse.AsObject> {
         const device = data.device;
-        if (await this.statisticsService.createStatisticsReport(device.id, data)) {
+        const statistics = JSON.parse(data.data);
+        const model = data.model;
+        if (await this.statisticsService.createStatisticsReport(device.id, statistics, model)) {
             await this.edgeDevicesService.updateDeviceLastSeen(device.id, 'detecting');
             return { success: true }
         }

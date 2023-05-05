@@ -47,8 +47,8 @@ if (error.value) {
     view.alert.error = false;
     view.alert.message = "";
     setInterval(() => {
-        refreshNuxtData("devices")
-    }, 5000)
+        refreshNuxtData('devices');
+    }, 10000);
 }
 </script>
 <template>
@@ -57,10 +57,15 @@ if (error.value) {
             <div class="prose prose-slate text-left mb-12">
                 <h1>Edge devices</h1>
             </div>
-            <label for="new-device-modal" class="btn btn-primary">
-                <Icon name="ic:outline-add" class="w-6 h-6 me-1" />
-                Register
-            </label>
+            <div>
+                <button class="btn btn-square me-3" @click="refreshNuxtData('devices')">
+                    <Icon name="ic:refresh" class="w-6 h-6" />
+                </button>
+                <label for="new-device-modal" class="btn btn-primary">
+                    <Icon name="ic:outline-add" class="w-6 h-6 me-1" />
+                    Register
+                </label>
+            </div>
         </div>
         <Alert :alert="view.alert" />
         <div class="overflow-x-auto">
@@ -77,7 +82,7 @@ if (error.value) {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-if="devices?.length" v-for="device in devices">
+                    <tr v-if="devices?.length" v-for=" device  in devices">
                         <th>{{ device.client.email }}</th>
                         <td>{{ device.label }}</td>
                         <td>
@@ -94,8 +99,12 @@ if (error.value) {
                         <td>{{ device.ip }}</td>
                         <td>
                             <div class="flex gap-1 items-center">
-                                <button class="btn btn-xs btn-primary" @click="startDetection(device.id)">Start</button>
-                                <button class="btn btn-xs btn-error" @click="stopDetection(device.id)">Stop</button>
+                                <button class="btn btn-xs btn-primary"
+                                    :disabled="['offline', 'detecting'].includes(getDeviceStatus(device.lastSeen, device.lastStatus))"
+                                    @click="startDetection(device.id)">Start</button>
+                                <button class="btn btn-xs btn-error"
+                                    :disabled="['offline', 'idle'].includes(getDeviceStatus(device.lastSeen, device.lastStatus))"
+                                    @click="stopDetection(device.id)">Stop</button>
                                 <button class="btn btn-xs btn-secondary" @click="editDevice(device.id)">Edit</button>
                             </div>
                         </td>
@@ -138,12 +147,22 @@ export default {
                     }
                 });
         },
-        getDeviceStatusBadge(lastSeen: Date, lastStatus: string) {
+        getDeviceStatus(lastSeen: Date, lastStatus: string): string {
             lastSeen = new Date(lastSeen);
             if (new Date().getTime() - lastSeen.getTime() < 10000) {
                 if (lastStatus === 'detecting') {
-                    return '<span class="badge badge-primary">Detecting</span>'
+                    return 'detecting'
                 }
+                return 'idle'
+            }
+            return 'offline'
+        },
+        getDeviceStatusBadge(lastSeen: Date, lastStatus: string) {
+            const status = this.getDeviceStatus(lastSeen, lastStatus);
+            if (status === 'detecting') {
+                return '<span class="badge badge-primary">Detecting</span>'
+            }
+            if (status === 'idle') {
                 return '<span class="badge badge-warning">Idle</span>'
             }
             return '<span class="badge badge-error">Offline</span>'

@@ -51,17 +51,8 @@ message DetectionModel {
 
 // A statistics report.
 message StatisticsReportRequest {
-  repeated Statistic data = 1;
+  string data = 1; // JSON object
   string model = 2;
-}
-
-message Statistic {
-  int32 id = 1;
-  int32 cls_id = 2;
-  string cls_name = 3;
-  repeated float confs = 4;
-  int32 frames = 5;
-  double timestamp = 6;
 }
 
 message StatisticsReportResponse {
