@@ -48,6 +48,28 @@ function deserialize_edge_agent_HeartbeatResponse(buffer_arg) {
   return edge_agent_pb.HeartbeatResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_edge_agent_RestartDeviceRequest(arg) {
+  if (!(arg instanceof edge_agent_pb.RestartDeviceRequest)) {
+    throw new Error('Expected argument of type edge_agent.RestartDeviceRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_edge_agent_RestartDeviceRequest(buffer_arg) {
+  return edge_agent_pb.RestartDeviceRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_edge_agent_RestartDeviceResponse(arg) {
+  if (!(arg instanceof edge_agent_pb.RestartDeviceResponse)) {
+    throw new Error('Expected argument of type edge_agent.RestartDeviceResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_edge_agent_RestartDeviceResponse(buffer_arg) {
+  return edge_agent_pb.RestartDeviceResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_edge_agent_StartDetectionRequest(arg) {
   if (!(arg instanceof edge_agent_pb.StartDetectionRequest)) {
     throw new Error('Expected argument of type edge_agent.StartDetectionRequest');
@@ -139,6 +161,18 @@ stopDetection: {
     requestDeserialize: deserialize_edge_agent_StopDetectionRequest,
     responseSerialize: serialize_edge_agent_StopDetectionResponse,
     responseDeserialize: deserialize_edge_agent_StopDetectionResponse,
+  },
+  // Restart device
+restartDevice: {
+    path: '/edge_agent.EdgeAgentService/RestartDevice',
+    requestStream: false,
+    responseStream: false,
+    requestType: edge_agent_pb.RestartDeviceRequest,
+    responseType: edge_agent_pb.RestartDeviceResponse,
+    requestSerialize: serialize_edge_agent_RestartDeviceRequest,
+    requestDeserialize: deserialize_edge_agent_RestartDeviceRequest,
+    responseSerialize: serialize_edge_agent_RestartDeviceResponse,
+    responseDeserialize: deserialize_edge_agent_RestartDeviceResponse,
   },
   // Requests the saved configuration of the edge device from web app.
 getConfig: {

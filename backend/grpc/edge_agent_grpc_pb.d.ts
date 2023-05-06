@@ -10,6 +10,7 @@ import * as edge_agent_pb from "./edge_agent_pb";
 interface IEdgeAgentServiceService extends grpc.ServiceDefinition<grpc.UntypedServiceImplementation> {
     startDetection: IEdgeAgentServiceService_IStartDetection;
     stopDetection: IEdgeAgentServiceService_IStopDetection;
+    restartDevice: IEdgeAgentServiceService_IRestartDevice;
     getConfig: IEdgeAgentServiceService_IGetConfig;
     statisticsReport: IEdgeAgentServiceService_IStatisticsReport;
     heartbeat: IEdgeAgentServiceService_IHeartbeat;
@@ -32,6 +33,15 @@ interface IEdgeAgentServiceService_IStopDetection extends grpc.MethodDefinition<
     requestDeserialize: grpc.deserialize<edge_agent_pb.StopDetectionRequest>;
     responseSerialize: grpc.serialize<edge_agent_pb.StopDetectionResponse>;
     responseDeserialize: grpc.deserialize<edge_agent_pb.StopDetectionResponse>;
+}
+interface IEdgeAgentServiceService_IRestartDevice extends grpc.MethodDefinition<edge_agent_pb.RestartDeviceRequest, edge_agent_pb.RestartDeviceResponse> {
+    path: "/edge_agent.EdgeAgentService/RestartDevice";
+    requestStream: false;
+    responseStream: false;
+    requestSerialize: grpc.serialize<edge_agent_pb.RestartDeviceRequest>;
+    requestDeserialize: grpc.deserialize<edge_agent_pb.RestartDeviceRequest>;
+    responseSerialize: grpc.serialize<edge_agent_pb.RestartDeviceResponse>;
+    responseDeserialize: grpc.deserialize<edge_agent_pb.RestartDeviceResponse>;
 }
 interface IEdgeAgentServiceService_IGetConfig extends grpc.MethodDefinition<edge_agent_pb.ConfigRequest, edge_agent_pb.ConfigResponse> {
     path: "/edge_agent.EdgeAgentService/GetConfig";
@@ -66,6 +76,7 @@ export const EdgeAgentServiceService: IEdgeAgentServiceService;
 export interface IEdgeAgentServiceServer extends grpc.UntypedServiceImplementation {
     startDetection: grpc.handleUnaryCall<edge_agent_pb.StartDetectionRequest, edge_agent_pb.StartDetectionResponse>;
     stopDetection: grpc.handleUnaryCall<edge_agent_pb.StopDetectionRequest, edge_agent_pb.StopDetectionResponse>;
+    restartDevice: grpc.handleUnaryCall<edge_agent_pb.RestartDeviceRequest, edge_agent_pb.RestartDeviceResponse>;
     getConfig: grpc.handleUnaryCall<edge_agent_pb.ConfigRequest, edge_agent_pb.ConfigResponse>;
     statisticsReport: grpc.handleUnaryCall<edge_agent_pb.StatisticsReportRequest, edge_agent_pb.StatisticsReportResponse>;
     heartbeat: grpc.handleUnaryCall<edge_agent_pb.HeartbeatRequest, edge_agent_pb.HeartbeatResponse>;
@@ -78,6 +89,9 @@ export interface IEdgeAgentServiceClient {
     stopDetection(request: edge_agent_pb.StopDetectionRequest, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StopDetectionResponse) => void): grpc.ClientUnaryCall;
     stopDetection(request: edge_agent_pb.StopDetectionRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StopDetectionResponse) => void): grpc.ClientUnaryCall;
     stopDetection(request: edge_agent_pb.StopDetectionRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StopDetectionResponse) => void): grpc.ClientUnaryCall;
+    restartDevice(request: edge_agent_pb.RestartDeviceRequest, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.RestartDeviceResponse) => void): grpc.ClientUnaryCall;
+    restartDevice(request: edge_agent_pb.RestartDeviceRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.RestartDeviceResponse) => void): grpc.ClientUnaryCall;
+    restartDevice(request: edge_agent_pb.RestartDeviceRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.RestartDeviceResponse) => void): grpc.ClientUnaryCall;
     getConfig(request: edge_agent_pb.ConfigRequest, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.ConfigResponse) => void): grpc.ClientUnaryCall;
     getConfig(request: edge_agent_pb.ConfigRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.ConfigResponse) => void): grpc.ClientUnaryCall;
     getConfig(request: edge_agent_pb.ConfigRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.ConfigResponse) => void): grpc.ClientUnaryCall;
@@ -97,6 +111,9 @@ export class EdgeAgentServiceClient extends grpc.Client implements IEdgeAgentSer
     public stopDetection(request: edge_agent_pb.StopDetectionRequest, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StopDetectionResponse) => void): grpc.ClientUnaryCall;
     public stopDetection(request: edge_agent_pb.StopDetectionRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StopDetectionResponse) => void): grpc.ClientUnaryCall;
     public stopDetection(request: edge_agent_pb.StopDetectionRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StopDetectionResponse) => void): grpc.ClientUnaryCall;
+    public restartDevice(request: edge_agent_pb.RestartDeviceRequest, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.RestartDeviceResponse) => void): grpc.ClientUnaryCall;
+    public restartDevice(request: edge_agent_pb.RestartDeviceRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.RestartDeviceResponse) => void): grpc.ClientUnaryCall;
+    public restartDevice(request: edge_agent_pb.RestartDeviceRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.RestartDeviceResponse) => void): grpc.ClientUnaryCall;
     public getConfig(request: edge_agent_pb.ConfigRequest, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.ConfigResponse) => void): grpc.ClientUnaryCall;
     public getConfig(request: edge_agent_pb.ConfigRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.ConfigResponse) => void): grpc.ClientUnaryCall;
     public getConfig(request: edge_agent_pb.ConfigRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.ConfigResponse) => void): grpc.ClientUnaryCall;

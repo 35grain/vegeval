@@ -80,6 +80,43 @@ export namespace StopDetectionResponse {
     }
 }
 
+export class RestartDeviceRequest extends jspb.Message { 
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): RestartDeviceRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: RestartDeviceRequest): RestartDeviceRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: RestartDeviceRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): RestartDeviceRequest;
+    static deserializeBinaryFromReader(message: RestartDeviceRequest, reader: jspb.BinaryReader): RestartDeviceRequest;
+}
+
+export namespace RestartDeviceRequest {
+    export type AsObject = {
+    }
+}
+
+export class RestartDeviceResponse extends jspb.Message { 
+    getSuccess(): boolean;
+    setSuccess(value: boolean): RestartDeviceResponse;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): RestartDeviceResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: RestartDeviceResponse): RestartDeviceResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: RestartDeviceResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): RestartDeviceResponse;
+    static deserializeBinaryFromReader(message: RestartDeviceResponse, reader: jspb.BinaryReader): RestartDeviceResponse;
+}
+
+export namespace RestartDeviceResponse {
+    export type AsObject = {
+        success: boolean,
+    }
+}
+
 export class ConfigRequest extends jspb.Message { 
 
     serializeBinary(): Uint8Array;
