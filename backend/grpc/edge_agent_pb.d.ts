@@ -119,16 +119,44 @@ export class ConfigResponse extends jspb.Message {
 export namespace ConfigResponse {
     export type AsObject = {
         model?: DetectionModel.AsObject,
-        uploadRaw: boolean,
+        uploadraw: boolean,
+    }
+}
+
+export class DetectionModel extends jspb.Message { 
+    getId(): string;
+    setId(value: string): DetectionModel;
+    getName(): string;
+    setName(value: string): DetectionModel;
+    getVersion(): string;
+    setVersion(value: string): DetectionModel;
+    getObjectname(): string;
+    setObjectname(value: string): DetectionModel;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): DetectionModel.AsObject;
+    static toObject(includeInstance: boolean, msg: DetectionModel): DetectionModel.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: DetectionModel, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): DetectionModel;
+    static deserializeBinaryFromReader(message: DetectionModel, reader: jspb.BinaryReader): DetectionModel;
+}
+
+export namespace DetectionModel {
+    export type AsObject = {
+        id: string,
+        name: string,
+        version: string,
+        objectname: string,
     }
 }
 
 export class StatisticsReportRequest extends jspb.Message { 
-
-    hasStatisticsReport(): boolean;
-    clearStatisticsReport(): void;
-    getStatisticsReport(): StatisticsReport | undefined;
-    setStatisticsReport(value?: StatisticsReport): StatisticsReportRequest;
+    getData(): string;
+    setData(value: string): StatisticsReportRequest;
+    getModel(): string;
+    setModel(value: string): StatisticsReportRequest;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): StatisticsReportRequest.AsObject;
@@ -142,7 +170,8 @@ export class StatisticsReportRequest extends jspb.Message {
 
 export namespace StatisticsReportRequest {
     export type AsObject = {
-        statisticsReport?: StatisticsReport.AsObject,
+        data: string,
+        model: string,
     }
 }
 
@@ -167,6 +196,8 @@ export namespace StatisticsReportResponse {
 }
 
 export class HeartbeatRequest extends jspb.Message { 
+    getStatus(): string;
+    setStatus(value: string): HeartbeatRequest;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): HeartbeatRequest.AsObject;
@@ -180,6 +211,7 @@ export class HeartbeatRequest extends jspb.Message {
 
 export namespace HeartbeatRequest {
     export type AsObject = {
+        status: string,
     }
 }
 
@@ -200,59 +232,5 @@ export class HeartbeatResponse extends jspb.Message {
 export namespace HeartbeatResponse {
     export type AsObject = {
         success: boolean,
-    }
-}
-
-export class DetectionModel extends jspb.Message { 
-    getName(): string;
-    setName(value: string): DetectionModel;
-    getVersion(): string;
-    setVersion(value: string): DetectionModel;
-    getObjectname(): string;
-    setObjectname(value: string): DetectionModel;
-
-    serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): DetectionModel.AsObject;
-    static toObject(includeInstance: boolean, msg: DetectionModel): DetectionModel.AsObject;
-    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: DetectionModel, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): DetectionModel;
-    static deserializeBinaryFromReader(message: DetectionModel, reader: jspb.BinaryReader): DetectionModel;
-}
-
-export namespace DetectionModel {
-    export type AsObject = {
-        name: string,
-        version: string,
-        objectName: string,
-    }
-}
-
-export class StatisticsReport extends jspb.Message { 
-    getTimestamp(): number;
-    setTimestamp(value: number): StatisticsReport;
-    getTotalObjectsDetected(): number;
-    setTotalObjectsDetected(value: number): StatisticsReport;
-    getThumbnailImage(): Uint8Array | string;
-    getThumbnailImage_asU8(): Uint8Array;
-    getThumbnailImage_asB64(): string;
-    setThumbnailImage(value: Uint8Array | string): StatisticsReport;
-
-    serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): StatisticsReport.AsObject;
-    static toObject(includeInstance: boolean, msg: StatisticsReport): StatisticsReport.AsObject;
-    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: StatisticsReport, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): StatisticsReport;
-    static deserializeBinaryFromReader(message: StatisticsReport, reader: jspb.BinaryReader): StatisticsReport;
-}
-
-export namespace StatisticsReport {
-    export type AsObject = {
-        timestamp: number,
-        totalObjectsDetected: number,
-        thumbnailImage: Uint8Array | string,
     }
 }

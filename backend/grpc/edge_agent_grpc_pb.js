@@ -155,7 +155,7 @@ getConfig: {
   // Sends periodical statistics reports to the web application.
 statisticsReport: {
     path: '/edge_agent.EdgeAgentService/StatisticsReport',
-    requestStream: true,
+    requestStream: false,
     responseStream: false,
     requestType: edge_agent_pb.StatisticsReportRequest,
     responseType: edge_agent_pb.StatisticsReportResponse,

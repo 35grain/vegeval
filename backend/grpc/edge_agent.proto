@@ -9,6 +9,9 @@ service EdgeAgentService {
   // Stops the object detection process on the edge device.
   rpc StopDetection (StopDetectionRequest) returns (StopDetectionResponse) {}
 
+  // Restart device
+  rpc RestartDevice (RestartDeviceRequest) returns (RestartDeviceResponse) {}
+
   // Requests the saved configuration of the edge device from web app.
   rpc GetConfig (ConfigRequest) returns (ConfigResponse) {}
 
@@ -30,6 +33,13 @@ message StopDetectionRequest {}
 
 message StopDetectionResponse {
   // Acknowledgement of the request to stop the detection process.
+  bool success = 1;
+}
+
+message RestartDeviceRequest {}
+
+messafe RestartDeviceResponse {
+  // Promise to restart
   bool success = 1;
 }
 

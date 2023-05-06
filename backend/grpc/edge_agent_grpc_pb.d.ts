@@ -44,7 +44,7 @@ interface IEdgeAgentServiceService_IGetConfig extends grpc.MethodDefinition<edge
 }
 interface IEdgeAgentServiceService_IStatisticsReport extends grpc.MethodDefinition<edge_agent_pb.StatisticsReportRequest, edge_agent_pb.StatisticsReportResponse> {
     path: "/edge_agent.EdgeAgentService/StatisticsReport";
-    requestStream: true;
+    requestStream: false;
     responseStream: false;
     requestSerialize: grpc.serialize<edge_agent_pb.StatisticsReportRequest>;
     requestDeserialize: grpc.deserialize<edge_agent_pb.StatisticsReportRequest>;
@@ -67,7 +67,7 @@ export interface IEdgeAgentServiceServer extends grpc.UntypedServiceImplementati
     startDetection: grpc.handleUnaryCall<edge_agent_pb.StartDetectionRequest, edge_agent_pb.StartDetectionResponse>;
     stopDetection: grpc.handleUnaryCall<edge_agent_pb.StopDetectionRequest, edge_agent_pb.StopDetectionResponse>;
     getConfig: grpc.handleUnaryCall<edge_agent_pb.ConfigRequest, edge_agent_pb.ConfigResponse>;
-    statisticsReport: grpc.handleClientStreamingCall<edge_agent_pb.StatisticsReportRequest, edge_agent_pb.StatisticsReportResponse>;
+    statisticsReport: grpc.handleUnaryCall<edge_agent_pb.StatisticsReportRequest, edge_agent_pb.StatisticsReportResponse>;
     heartbeat: grpc.handleUnaryCall<edge_agent_pb.HeartbeatRequest, edge_agent_pb.HeartbeatResponse>;
 }
 
@@ -81,10 +81,9 @@ export interface IEdgeAgentServiceClient {
     getConfig(request: edge_agent_pb.ConfigRequest, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.ConfigResponse) => void): grpc.ClientUnaryCall;
     getConfig(request: edge_agent_pb.ConfigRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.ConfigResponse) => void): grpc.ClientUnaryCall;
     getConfig(request: edge_agent_pb.ConfigRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.ConfigResponse) => void): grpc.ClientUnaryCall;
-    statisticsReport(callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StatisticsReportResponse) => void): grpc.ClientWritableStream<edge_agent_pb.StatisticsReportRequest>;
-    statisticsReport(metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StatisticsReportResponse) => void): grpc.ClientWritableStream<edge_agent_pb.StatisticsReportRequest>;
-    statisticsReport(options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StatisticsReportResponse) => void): grpc.ClientWritableStream<edge_agent_pb.StatisticsReportRequest>;
-    statisticsReport(metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StatisticsReportResponse) => void): grpc.ClientWritableStream<edge_agent_pb.StatisticsReportRequest>;
+    statisticsReport(request: edge_agent_pb.StatisticsReportRequest, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StatisticsReportResponse) => void): grpc.ClientUnaryCall;
+    statisticsReport(request: edge_agent_pb.StatisticsReportRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StatisticsReportResponse) => void): grpc.ClientUnaryCall;
+    statisticsReport(request: edge_agent_pb.StatisticsReportRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StatisticsReportResponse) => void): grpc.ClientUnaryCall;
     heartbeat(request: edge_agent_pb.HeartbeatRequest, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.HeartbeatResponse) => void): grpc.ClientUnaryCall;
     heartbeat(request: edge_agent_pb.HeartbeatRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.HeartbeatResponse) => void): grpc.ClientUnaryCall;
     heartbeat(request: edge_agent_pb.HeartbeatRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.HeartbeatResponse) => void): grpc.ClientUnaryCall;
@@ -101,10 +100,9 @@ export class EdgeAgentServiceClient extends grpc.Client implements IEdgeAgentSer
     public getConfig(request: edge_agent_pb.ConfigRequest, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.ConfigResponse) => void): grpc.ClientUnaryCall;
     public getConfig(request: edge_agent_pb.ConfigRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.ConfigResponse) => void): grpc.ClientUnaryCall;
     public getConfig(request: edge_agent_pb.ConfigRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.ConfigResponse) => void): grpc.ClientUnaryCall;
-    public statisticsReport(callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StatisticsReportResponse) => void): grpc.ClientWritableStream<edge_agent_pb.StatisticsReportRequest>;
-    public statisticsReport(metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StatisticsReportResponse) => void): grpc.ClientWritableStream<edge_agent_pb.StatisticsReportRequest>;
-    public statisticsReport(options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StatisticsReportResponse) => void): grpc.ClientWritableStream<edge_agent_pb.StatisticsReportRequest>;
-    public statisticsReport(metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StatisticsReportResponse) => void): grpc.ClientWritableStream<edge_agent_pb.StatisticsReportRequest>;
+    public statisticsReport(request: edge_agent_pb.StatisticsReportRequest, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StatisticsReportResponse) => void): grpc.ClientUnaryCall;
+    public statisticsReport(request: edge_agent_pb.StatisticsReportRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StatisticsReportResponse) => void): grpc.ClientUnaryCall;
+    public statisticsReport(request: edge_agent_pb.StatisticsReportRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.StatisticsReportResponse) => void): grpc.ClientUnaryCall;
     public heartbeat(request: edge_agent_pb.HeartbeatRequest, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.HeartbeatResponse) => void): grpc.ClientUnaryCall;
     public heartbeat(request: edge_agent_pb.HeartbeatRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.HeartbeatResponse) => void): grpc.ClientUnaryCall;
     public heartbeat(request: edge_agent_pb.HeartbeatRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: edge_agent_pb.HeartbeatResponse) => void): grpc.ClientUnaryCall;
