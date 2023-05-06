@@ -4,7 +4,7 @@
         <div class="modal">
             <div class="modal-box w-7/12 max-w-2xl">
                 <div class="prose prose-slate text-left mb-6">
-                    <h1 class="mb-0">Register a new model</h1>
+                    <h1 class="mb-0">Register a new evaluation module</h1>
                 </div>
                 <Alert :alert="model.alert" />
                 <form @submit.prevent="registrationHandler">
@@ -12,14 +12,14 @@
                         <div>
                             <div class="form-control w-full max-w-xs">
                                 <label class="label">
-                                    <span class="label-text">Model name</span>
+                                    <span class="label-text">Module name</span>
                                 </label>
                                 <input type="text" placeholder="Potato model" class="input input-bordered w-full max-w-xs"
                                     v-model="model.name" required />
                             </div>
                             <div class="form-control w-full max-w-xs">
                                 <label class="label">
-                                    <span class="label-text">Model version</span>
+                                    <span class="label-text">Module version</span>
                                 </label>
                                 <input type="text" placeholder="1.0.0" class="input input-bordered w-full max-w-xs"
                                     v-model="model.version" required />
@@ -28,11 +28,11 @@
                         <div>
                             <div class="form-control w-full max-w-xs">
                                 <label class="label">
-                                    <span class="label-text">Add model file</span>
+                                    <span class="label-text">Add module file</span>
                                 </label>
                                 <input type="file" accept=".zip" class="file-input file-input-bordered w-full max-w-xs" @change="handleFileUpload" required />
                                 <label class="label">
-                                    <span class="label-text">Model Python module as .zip archive</span>
+                                    <span class="label-text">Python module as .zip archive</span>
                                 </label>
                             </div>
                         </div>
