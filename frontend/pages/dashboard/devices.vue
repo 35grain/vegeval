@@ -59,7 +59,7 @@ if (error.value) {
                     <tr>
                         <th>Label</th>
                         <th>Status</th>
-                        <th>Model</th>
+                        <th>Evaluation module</th>
                         <th>API key</th>
                         <th>IP</th>
                         <th>Actions</th>
@@ -85,10 +85,12 @@ if (error.value) {
                                 <button class="btn btn-xs btn-primary"
                                     :disabled="['offline', 'detecting'].includes(getDeviceStatus(device.lastSeen, device.lastStatus))"
                                     @click="startDetection(device.id)">Start</button>
-                                <button class="btn btn-xs btn-error"
+                                <button class="btn btn-xs btn-warning"
                                     :disabled="['offline', 'idle'].includes(getDeviceStatus(device.lastSeen, device.lastStatus))"
                                     @click="stopDetection(device.id)">Stop</button>
-                                <button class="btn btn-xs btn-secondary" @click="editDevice(device.id)">Edit</button>
+                                <button class="btn btn-xs btn-error"
+                                    :disabled="['offline'].includes(getDeviceStatus(device.lastSeen, device.lastStatus))"
+                                    @click="restartDevice(device.id)">Restart</button>
                             </div>
                         </td>
                     </tr>
@@ -124,6 +126,16 @@ export default {
             const session: any = useSession();
             const config = useRuntimeConfig();
             const { data, error } = useFetch(`${config.public.apiUrl}/devices/${id}/stop`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${session.data.value?.access_token}`,
+                    }
+                });
+        },
+        restartDevice(id: string) {
+            const session: any = useSession();
+            const config = useRuntimeConfig();
+            const { data, error } = useFetch(`${config.public.apiUrl}/devices/${id}/restart`,
                 {
                     headers: {
                         "Authorization": `Bearer ${session.data.value?.access_token}`,

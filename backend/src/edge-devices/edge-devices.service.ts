@@ -204,7 +204,7 @@ export class EdgeDevicesService {
                 secretKey: hash,
                 clientId: clientId,
                 modelId: device.model,
-                ip: device.ip,
+                ip: device.ip + ':' + device.port,
                 uploadRaw: device.uploadRaw
             }
         });

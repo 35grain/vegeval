@@ -10,7 +10,7 @@ useHead({
 <template>
     <main class="drawer drawer-mobile -mt-[4rem]">
         <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-        <div class="drawer-content flex flex-col p-16 mt-[4rem]">
+        <div class="drawer-content flex flex-col p-16 pt-32">
             <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
             <NuxtPage />
         </div>
@@ -37,9 +37,9 @@ useHead({
                         <span>Explore</span>
                     </li>
                     <li>
-                        <NuxtLink to="/dashboard/models" class="flex gap-4 items-center" exact-active-class="active">
+                        <NuxtLink to="/dashboard/modules" class="flex gap-4 items-center" exact-active-class="active">
                             <Icon name="ic:baseline-filter-center-focus" class="w-6 h-6" />
-                            <span class="flex-1">Models</span>
+                            <span class="flex-1">Evaluation modules</span>
                         </NuxtLink>
                     </li>
                 </ul>

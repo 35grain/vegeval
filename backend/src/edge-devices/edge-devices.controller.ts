@@ -100,6 +100,19 @@ export class EdgeDevicesController {
         return grpcService.stopDetection();
     }
 
+    @Get(':deviceId/restart')
+    async restartDevice(@Request() req, @Param('deviceId') deviceId: string): Promise<any> {
+        const device = await this.edgeDevicesService.getDevice(deviceId);
+        if (!device) {
+            throw new BadRequestException('Device with provided ID does not exist!');
+        }
+        if (device.clientId !== req.user.id && req.user.role !== 'admin') {
+            throw new UnauthorizedException('Unauthorized!');
+        }
+        const grpcService = new GrpcService(device.ip);
+        return grpcService.restartDevice();
+    }
+
     @Roles(Role.Admin)
     @Get('count/all')
     async getDevicesCount(): Promise<number> {

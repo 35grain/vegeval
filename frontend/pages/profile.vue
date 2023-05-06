@@ -1,43 +1,10 @@
 <script setup lang="ts">
-const { data, signOut } = useSession()
 definePageMeta({
     middleware: ['auth']
 });
 useHead({
     title: "Profile",
 });
-
-let update: { password: string, passwordConfirm: string, alert: { message: string | undefined, error: boolean } } = reactive({
-    password: "",
-    passwordConfirm: "",
-    alert: {
-        message: undefined,
-        error: false
-    }
-});
-
-const updateHandler = async () => {
-    const { data, error } = await useFetch('/api/update-profile',
-        {
-            method: "POST",
-            body: JSON.stringify({
-                password: update.password,
-                passwordConfirm: update.passwordConfirm,
-            }),
-        });
-
-    if (!error.value) {
-        update.alert.error = false;
-        update.alert.message = data.value?.statusMessage;
-        refreshNuxtData();
-    } else {
-        update.alert.error = true;
-        update.alert.message = error.value.statusMessage;
-        if (error.value.status === 403) {
-            signOut({ redirect: true, callbackUrl: '/login' });
-        }
-    }
-};
 </script>
 
 <template>
@@ -56,24 +23,31 @@ const updateHandler = async () => {
                                     <label class="label" for="email">
                                         <span class="label-text">Email</span>
                                     </label>
-                                    <input id="email" name="email" type="text" placeholder="john@deere.com"
-                                        v-bind:value="data?.email" class="input input-bordered w-full" disabled />
+                                    <input id="email" name="email" type="email" placeholder="john@deere.com"
+                                        v-model="update.email" class="input input-bordered w-full" />
                                 </div>
-                            </div>
-                            <div>
                                 <div class="form-control w-full">
                                     <label class="label" for="password">
-                                        <span class="label-text">New password</span>
+                                        <span class="label-text">Current password</span>
                                     </label>
                                     <input id="passowrd" name="password" type="password" class="input input-bordered w-full"
                                         v-model="update.password" />
                                 </div>
+                            </div>
+                            <div>
                                 <div class="form-control w-full">
-                                    <label class="label" for="password-confirm">
-                                        <span class="label-text">Confirm password</span>
+                                    <label class="label" for="new-password">
+                                        <span class="label-text">New password</span>
                                     </label>
-                                    <input id="passowrd-confirm" name="password-confirm" type="password"
-                                        class="input input-bordered w-full" v-model="update.passwordConfirm" />
+                                    <input id="new-passowrd" name="new-password" type="password" class="input input-bordered w-full"
+                                        v-model="update.newPassword" />
+                                </div>
+                                <div class="form-control w-full">
+                                    <label class="label" for="new-password-confirm">
+                                        <span class="label-text">Confirm new password</span>
+                                    </label>
+                                    <input id="new-passowrd-confirm" name="new-password-confirm" type="password"
+                                        class="input input-bordered w-full" v-model="update.newPasswordConfirm" />
                                 </div>
                             </div>
                         </div>
@@ -89,3 +63,57 @@ const updateHandler = async () => {
         </div>
     </main>
 </template>
+<script lang="ts">
+export default {
+    data: () => ({
+        update: {
+            email: useSession().data.value?.user?.email,
+            password: "",
+            newPassword: "",
+            newPasswordConfirm: "",
+            alert: {
+                message: "" as string | undefined,
+                error: false
+            }
+        }
+    }),
+    methods: {
+        async updateHandler() {
+            const session = useSession();
+            const config = useRuntimeConfig();
+            if (this.update.newPassword !== this.update.newPasswordConfirm) {
+                this.update.alert.error = true;
+                this.update.alert.message = "Passwords do not match";
+                return;
+            } else {
+                const { data, error } = await useFetch(`${config.public.apiUrl}/users/update`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${session.data.value?.access_token}`
+                        },
+                        method: "POST",
+                        body: JSON.stringify({
+                            id: session.data.value?.user?.id,
+                            password: this.update.password,
+                            ...(this.update.email && {email: this.update.email}),
+                            ...(this.update.newPassword && {newPassword: this.update.newPassword}),
+                            ...(this.update.newPasswordConfirm && {newPasswordConfirm: this.update.newPasswordConfirm}),
+                        }),
+                    });
+
+                if (!error.value) {
+                    this.update.alert.error = false;
+                    this.update.alert.message = "Profile updated. Signing out!";
+                    session.signOut({ redirect: true, callbackUrl: '/login' });
+                } else {
+                    this.update.alert.error = true;
+                    this.update.alert.message = error.value?.data.message;
+                    if (error.value.status === 403) {
+                        session.signOut({ redirect: true, callbackUrl: '/login' });
+                    }
+                }
+            }
+        }
+    }
+}
+</script>

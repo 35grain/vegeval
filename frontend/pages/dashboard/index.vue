@@ -1,5 +1,11 @@
 <script setup lang="ts">
-const { Chart } = await import('chart.js');
+import { ChartItem } from 'chart.js/dist/types/index';
+
+const { Chart, registerables } = await import('chart.js');
+const session: any = useSession();
+const config = useRuntimeConfig()
+
+Chart.register(...registerables);
 </script>
 
 <template>

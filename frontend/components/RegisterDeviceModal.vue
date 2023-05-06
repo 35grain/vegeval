@@ -4,7 +4,7 @@
         <div class="modal">
             <div class="modal-box w-7/12 max-w-2xl">
                 <div class="prose prose-slate text-left mb-6">
-                    <h1 class="mb-0">Register a new device</h1>
+                    <h1 class="mb-0">Register a new edge device</h1>
                     <small>New devices will be assigned a unique API key and secret after registration.</small>
                 </div>
                 <Alert :alert="device.alert" />
@@ -13,15 +13,34 @@
                         <div>
                             <div class="form-control w-full max-w-xs">
                                 <label class="label">
-                                    <span class="label-text">Client</span>
+                                    <span class="label-text">User</span>
                                 </label>
-                                <select class="select select-bordered" v-model="device.client" required>
+                                <select class="select select-bordered" v-model="device.user" required>
                                     <option disabled selected value="default">Select one</option>
-                                    <option v-for="client in clients" :key="client.id" :value="client.id">
-                                        {{ client.email }}
+                                    <option v-for="user in clients" :key="user.id" :value="user.id">
+                                        {{ user.email }}
                                     </option>
                                 </select>
                             </div>
+                            <div class="form-control w-full max-w-xs">
+                                <label class="label">
+                                    <span class="label-text">Evaluation model</span>
+                                </label>
+                                <select class="select select-bordered" v-model="device.model" required>
+                                    <option disabled selected value="default">Select one</option>
+                                    <option v-for="model in models" :key="model.id" :value="model.id">
+                                        {{ model.name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-control">
+                                <label class="label cursor-pointer">
+                                    <span class="label-text me-1">Upload raw images to Minio S3 bucket</span>
+                                    <input type="checkbox" class="toggle toggle-primary" v-model="device.uploadRaw"/>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
                             <div class="form-control w-full max-w-xs">
                                 <label class="label">
                                     <span class="label-text">Device label</span>
@@ -39,24 +58,12 @@
                                     <span class="label-text">Only connections from the specified IP will be allowed</span>
                                 </label>
                             </div>
-                        </div>
-                        <div>
                             <div class="form-control w-full max-w-xs">
                                 <label class="label">
-                                    <span class="label-text">Evaluation model</span>
+                                    <span class="label-text">Device port</span>
                                 </label>
-                                <select class="select select-bordered" v-model="device.model" required>
-                                    <option disabled selected value="default">Select one</option>
-                                    <option v-for="model in models" :key="model.id" :value="model.id">
-                                        {{ model.name }}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="form-control">
-                                <label class="label cursor-pointer">
-                                    <span class="label-text">Upload raw images to Minio S3 bucket</span>
-                                    <input type="checkbox" class="toggle toggle-primary" v-model="device.uploadRaw"/>
-                                </label>
+                                <input type="text" placeholder="20048" min="1024" max="65535" class="input input-bordered w-full max-w-xs"
+                                    v-model="device.port" required />
                             </div>
                         </div>
                     </div>
@@ -71,7 +78,7 @@
         <div class="modal">
             <div class="modal-box w-7/12 max-w-2xl">
                 <div class="prose prose-slate text-left mb-6">
-                    <h1 class="mb-0">{{ device.label }}</h1>
+                    <h1 class="mb-0">New device: {{ device.label }}</h1>
                     <small>Please note down the gRPC secret key as it will not be shown again!</small>
                 </div>
                 <div>
@@ -121,10 +128,11 @@ export default {
     props: ["clients", "models"],
     data: () => ({
         device: {
-            client: "default",
+            user: "default",
             label: "",
             model: "default",
             ip: "",
+            port: "",
             uploadRaw: false,
             bucketName: "",
             apiKey: "",
@@ -143,10 +151,11 @@ export default {
             navigator.clipboard.writeText(input.value);
         },
         async clearModal() {
-            this.device.client = "";
+            this.device.user = "";
             this.device.label = "";
             this.device.model = "default";
             this.device.ip = "";
+            this.device.port = "";
             this.device.uploadRaw = false;
             this.device.bucketName = "";
             this.device.apiKey = "";
@@ -162,10 +171,11 @@ export default {
                         "Authorization": `Bearer ${this.session.data.value?.access_token}`,
                     },
                     body: JSON.stringify({
-                        client: this.device.client,
+                        client: this.device.user,
                         label: this.device.label,
                         model: this.device.model,
                         ip: this.device.ip,
+                        port: this.device.port,
                         uploadRaw: this.device.uploadRaw
                     })
                 });

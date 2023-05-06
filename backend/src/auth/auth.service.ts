@@ -33,7 +33,7 @@ export class AuthService {
   }
 
   async logout(userId: string) {
-    return this.usersService.updateUser({ id: userId }, { refreshToken: null });
+    return this.usersService.updateUserRefreshToken({ id: userId }, null);
   }
 
   // Sign access token and refresh token
@@ -62,9 +62,15 @@ export class AuthService {
     return await bcrypt.hash(data, salt);
   }
 
+  // Compare user password with hashed password
+  async compareUserPassword(userId: string, password: string) {
+    const user = await this.usersService.getUserLogin({ id: userId });
+    return await bcrypt.compare(password, user.password);
+  }
+
   // Update refresh token in database
   async updateRefreshToken(userId: string, refreshToken: string) {
     const hashedRefreshToken = await this.hashData(refreshToken);
-    await this.usersService.updateUser({ id: userId }, { refreshToken: hashedRefreshToken });
+    await this.usersService.updateUserRefreshToken({ id: userId }, hashedRefreshToken);
   }
 }

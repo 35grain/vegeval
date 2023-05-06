@@ -1,4 +1,4 @@
-# Description: Edge agent for Vegeval
+# Description: Edge service agent for Vegeval
 # Author: Richard Aljaste, 2023 University of Tartu
 
 import grpc
@@ -24,6 +24,13 @@ class EdgeAgentServicer(edge_agent_pb2_grpc.EdgeAgentServiceServicer):
     def StopDetection(self, request, context):
         self.detector.stop()
         return edge_agent_pb2.StopDetectionResponse(success=True)
+    
+    def RestartDevice(self, request, context):
+        self.detector.stop()
+        # Reboot in 5 seconds
+        print("Rebooting in 5 seconds...")
+        os.system('( sleep 5 ; reboot ) &')
+        return edge_agent_pb2.RestartDeviceResponse(success=True)
 
 class EdgeAgentClient:
     def __init__(self, host, port, metadata):
@@ -110,6 +117,7 @@ class Detector:
         print("Detection stopped!")
 
 def main():
+    # Load environment variables
     load_dotenv()
     vegeval_host = os.getenv('VEGEVAL_HOST')
     vegeval_port = int(os.getenv('VEGEVAL_PORT'))
@@ -118,18 +126,21 @@ def main():
     minio_host = os.getenv('MINIO_HOST')
     minio_access_key = os.getenv('MINIO_ACCESS_KEY')
     minio_secret_key = os.getenv('MINIO_SECRET_KEY')
+    # Set gRPC credentials
     metadata = [
         ('x-api-key', vegeval_api_key),
         ('x-api-secret', vegeval_secret_key)
     ]
 
-    try:
-        client = EdgeAgentClient(
-            host=vegeval_host, port=vegeval_port, metadata=metadata)
-        config = client.getConfig()
-    except Exception as e:
-        print("Unable to connect to Vegeval gRPC server!")
-        print(e)
+    config = None
+    while not config:
+        try:
+            client = EdgeAgentClient(
+                host=vegeval_host, port=vegeval_port, metadata=metadata)
+            config = client.getConfig()
+        except Exception as e:
+            print("Unable to connect to Vegeval gRPC server!")
+        time.sleep(5)
 
     if config:
         client.setModel(config.model)
@@ -151,6 +162,9 @@ def main():
                     'vegeval.models', config.model.objectName, './modules/' + config.model.objectName)
             # Unpack model module
             os.system('unzip -qq ./modules/' + config.model.objectName + ' -d ./module')
+            # Install dependencies
+            if os.path.isfile('./module/requirements.txt'):
+                os.system('pip install -r ./module/requirements.txt')
         except Exception as e:
             print('Failed to download and unpack model module!')
             print(e)

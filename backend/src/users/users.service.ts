@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma.service';
 import { User, Prisma } from '@prisma/client';
 import { RegisterUserDto } from 'src/dto/register-user.dto';
 import * as bcrypt from 'bcrypt';
+import { UpdateUserDto } from 'src/dto/update-user.dto';
 
 export interface UserWithoutPassword {
   id: string;
@@ -76,10 +77,20 @@ export class UsersService {
 
   async updateUser(
     where: Prisma.UserWhereUniqueInput,
-    data: Prisma.UserUpdateInput
+    data: UpdateUserDto
   ): Promise<UserWithoutPassword> {
     return this.prisma.user.update({
       data,
+      where,
+      select: userWithoutPassword,
+    });
+  }
+
+  async updateUserRefreshToken(where: Prisma.UserWhereUniqueInput, token: string): Promise<UserWithoutPassword> {
+    return this.prisma.user.update({
+      data: {
+        refreshToken: token,
+      },
       where,
       select: userWithoutPassword,
     });

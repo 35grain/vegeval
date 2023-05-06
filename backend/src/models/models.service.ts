@@ -13,6 +13,15 @@ export type ModelsUsage = {
     }
 }
 
+
+export type StatisticsCount = {
+    id: string;
+    name: string;
+    _count: {
+        Statistics: number;
+    }
+}
+
 @Injectable()
 export class ModelsService {
     constructor(
@@ -32,6 +41,20 @@ export class ModelsService {
                 _count: {
                     select: {
                         EdgeDevices: true
+                    }
+                }
+            }
+        });
+    }
+
+    async getStatisticsCount(): Promise<StatisticsCount[]> {
+        return this.prisma.model.findMany({
+            select: {
+                id: true,
+                name: true,
+                _count: {
+                    select: {
+                        Statistics: true
                     }
                 }
             }

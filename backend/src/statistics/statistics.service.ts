@@ -94,15 +94,6 @@ export class StatisticsService {
         });
     }
 
-    async getAllStatisticsCountByModels(): Promise<any> {
-        return this.prismaService.statistic.groupBy({
-            by: ['modelId'],
-            _count: {
-                modelId: true
-            }
-        })
-    }
-
     async getStatisticsCountByModels(userId: string): Promise<any> {
         return this.prismaService.statistic.groupBy({
             by: ['modelId'],

@@ -26,6 +26,9 @@
                                 </label>
                                 <input type="password" class="input input-bordered w-full max-w-xs" v-model="user.password"
                                     required minlength="16" />
+                                <label class="label">
+                                    <span class="label-text">Password must be at least 16 characters long.</span>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -51,7 +54,7 @@ export default {
             email: undefined,
             password: undefined,
             alert: {
-                message: undefined,
+                message: "" as string | undefined,
                 error: false
             }
         }

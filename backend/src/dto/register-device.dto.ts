@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsString, IsIP, IsBoolean } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsNotEmpty, IsString, IsIP, IsBoolean, IsNumber, Min, Max } from 'class-validator';
 
 export class RegisterDeviceDto {
     @IsNotEmpty()
@@ -16,6 +17,13 @@ export class RegisterDeviceDto {
     @IsNotEmpty()
     @IsIP()
     public ip: string;
+
+    @IsNotEmpty()
+    @IsNumber()
+    @Min(1024)
+    @Max(65535)
+    @Type(() => Number)
+    public port: number;
 
     @IsNotEmpty()
     @IsBoolean()

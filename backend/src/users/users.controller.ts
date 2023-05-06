@@ -11,7 +11,7 @@ export class UsersController {
   constructor(
     private readonly authService: AuthService,
     private readonly usersService: UsersService
-    ) { }
+  ) { }
 
   @Roles(Role.Admin)
   @Get()
@@ -32,13 +32,24 @@ export class UsersController {
 
   @Post('update')
   async update(@Request() req, @Body() updateUserDto: UpdateUserDto): Promise<UserWithoutPassword> {
-    if (updateUserDto.password && updateUserDto.password !== updateUserDto.passwordConfirm) {
+    if (updateUserDto.newPassword && updateUserDto.newPassword !== updateUserDto.newPasswordConfirm) {
       throw new BadRequestException('Passwords do not match!');
     } else {
-      delete updateUserDto.passwordConfirm;
-      updateUserDto.password = await this.authService.hashData(updateUserDto.password);
+      if (await this.authService.compareUserPassword(req.user.id, updateUserDto.password)) {
+        if (updateUserDto.newPassword ) {
+          updateUserDto.password = await this.authService.hashData(updateUserDto.newPassword);
+          delete updateUserDto.newPassword;
+          delete updateUserDto.newPasswordConfirm;
+        } else {
+          delete updateUserDto.newPassword;
+          delete updateUserDto.newPasswordConfirm;
+          delete updateUserDto.password;
+        }
+      } else {
+        throw new BadRequestException('Invalid password!');
+      }
+      return this.usersService.updateUser({ id: req.user.id }, updateUserDto);
     }
-    return this.usersService.updateUser({ id: req.user.id}, updateUserDto);
   }
 
   @Roles(Role.Admin)
