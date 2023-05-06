@@ -38,7 +38,7 @@ message StopDetectionResponse {
 
 message RestartDeviceRequest {}
 
-messafe RestartDeviceResponse {
+message RestartDeviceResponse {
   // Promise to restart
   bool success = 1;
 }
