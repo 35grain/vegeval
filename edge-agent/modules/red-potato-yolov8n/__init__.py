@@ -9,6 +9,7 @@ class DetectionModel:
         self.model = YOLO(task='detect', model='module/yolov8n_edgetpu.tflite')
         self.queue = Queue()
         self.names = ['StandardQ', 'LowQ', 'MediumQ']
+        self.weights = [1, 1.5, 1.25]
         self.status = "idle"
 
     # Detects objects in a video stream
@@ -39,10 +40,12 @@ class DetectionModel:
                     objects[id] = {'cls': cls, 'conf': conf}
             self.queue.put(objects)
             #last_frame = time.time()
+        return
     
     # Get statistics from the detection model
-    # source: video file name (optional), otherwise defaults to webcam feed
-    def get_stats(self, stop_event, source=None):
+    # source: video file name (optional, used for the purpose of the demo), otherwise defaults to webcam feed
+    # returns: a stream of statistics
+    def get_stats(self, stop_event, source='vegeval_demo.mp4'):
         self.detection = threading.Thread(target=self.detect, args=(stop_event, source,))
         self.detection.start()
         buffer = {}
@@ -54,7 +57,7 @@ class DetectionModel:
                 conf = o['conf']
                 cls = o['cls']
                 if key in buffer:
-                    buffer[key]['confs'][cls] += conf
+                    buffer[key]['confs'][cls] += conf * self.weights[cls]
                     buffer[key]['frames'] += 1
                 else:
                     confs = [0, 0, 0]

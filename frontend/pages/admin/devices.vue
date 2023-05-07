@@ -102,7 +102,7 @@ if (error.value) {
                                 <button class="btn btn-xs btn-primary"
                                     :disabled="['offline', 'detecting'].includes(getDeviceStatus(device.lastSeen, device.lastStatus))"
                                     @click="startDetection(device.id)">Start</button>
-                                <button class="btn btn-xs btn-error"
+                                <button class="btn btn-xs btn-warning"
                                     :disabled="['offline', 'idle'].includes(getDeviceStatus(device.lastSeen, device.lastStatus))"
                                     @click="stopDetection(device.id)">Stop</button>
                                 <button class="btn btn-xs btn-error"

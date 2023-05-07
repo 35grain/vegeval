@@ -10,6 +10,7 @@ import { ConfigResponse } from "grpc/edge_agent_pb";
 
 export type EdgeDeviceWithModel = Prisma.EdgeDeviceGetPayload<{
     select: {
+        id: true,
         label: true,
         ip: true,
         apiKey: true,
@@ -95,6 +96,7 @@ export class EdgeDevicesService {
                 clientId: clientId
             },
             select: {
+                id: true,
                 label: true,
                 ip: true,
                 apiKey: true,
@@ -120,6 +122,7 @@ export class EdgeDevicesService {
                 id: deviceId
             },
             select: {
+                id: true,
                 label: true,
                 ip: true,
                 apiKey: true,
@@ -145,6 +148,7 @@ export class EdgeDevicesService {
                 apiKey: apiKey
             },
             select: {
+                id: true,
                 label: true,
                 ip: true,
                 apiKey: true,

@@ -11,7 +11,7 @@ const config = useRuntimeConfig();
 
 Chart.register(...registerables);
 
-const { data: statistics, error } = await useFetch(`${config.public.apiUrl}/statistics/overview`,
+const { data: statistics, error } = await useFetch(`${config.public.apiUrl}/statistics/system-overview`,
     {
         headers: {
             "Authorization": `Bearer ${session.data.value?.access_token}`,
@@ -23,6 +23,8 @@ const totalStatistics = statistics.value?.statisticsCount;
 const usersCount = statistics.value?.usersCount;
 const devicesCount = statistics.value?.devicesCount;
 
+const statsInterval = ref(null as any);
+
 if (!error.value) {
     const modelsUsage = statistics.value?.modelsUsage;
     const modelsUsageLabels = modelsUsage.map((model: any) => model.name);
@@ -33,8 +35,8 @@ if (!error.value) {
     const statisticsCountByModelData = statisticsCountByModel.map((model: any) => model._count.Statistics);
 
     onMounted(() => {
-        const modelUsageChart = document.getElementById('modelUsageChart') as ChartItem;
-        new Chart(modelUsageChart, {
+        const modelUsageCanvas = document.getElementById('modelUsageChart') as ChartItem;
+        const modelUsageChart = new Chart(modelUsageCanvas, {
             type: 'bar',
             data: {
                 labels: modelsUsageLabels,
@@ -48,8 +50,8 @@ if (!error.value) {
             }
         });
 
-        const statCountByModelChart = document.getElementById('statCountByModelChart') as ChartItem;
-        new Chart(statCountByModelChart, {
+        const statCountByModelCanvas = document.getElementById('statCountByModelChart') as ChartItem;
+        const statCountByModelChart = new Chart(statCountByModelCanvas, {
             type: 'bar',
             data: {
                 labels: statisticsCountByModelLabels,
@@ -62,6 +64,20 @@ if (!error.value) {
                 }]
             }
         })
+
+        statsInterval.value = setInterval(() => {
+            refreshNuxtData("statistics");
+            modelUsageChart.data.labels = statistics.value?.modelsUsage.map((model: any) => model.name);
+            modelUsageChart.data.datasets[0].data = statistics.value?.modelsUsage.map((model: any) => model._count.EdgeDevices);
+            modelUsageChart.update();
+            statCountByModelChart.data.labels = statistics.value?.statisticsCountByModel.map((model: any) => model.name);
+            statCountByModelChart.data.datasets[0].data = statistics.value?.statisticsCountByModel.map((model: any) => model._count.Statistics);
+            statCountByModelChart.update();
+        }, 10000);
+    });
+
+    onUnmounted(() => {
+        clearInterval(statsInterval.value);
     });
 }
 </script>

@@ -62,6 +62,7 @@ export class AuthService {
     return await bcrypt.hash(data, salt);
   }
 
+  // TODO: Move to utils
   // Compare user password with hashed password
   async compareUserPassword(userId: string, password: string) {
     const user = await this.usersService.getUserLogin({ id: userId });

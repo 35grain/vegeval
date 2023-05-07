@@ -22,7 +22,7 @@ export class StatisticsController {
     }
 
     @Get('device/:id')
-    async getStatisticsByDevice(@Request() req, @Param('id') deviceId: string ) {
+    async getStatisticsByDevice(@Request() req, @Param('id') deviceId: string) {
         const device = await this.edgeDevicesService.getDevice(deviceId);
         if (!device) {
             throw new BadRequestException('Device with provided ID does not exist!');
@@ -33,7 +33,7 @@ export class StatisticsController {
     }
 
     @Get('model/:id')
-    async getStatisticsByModel(@Request() req, @Param('id') modelId: string ) {
+    async getStatisticsByModel(@Request() req, @Param('id') modelId: string) {
         if (req.user.role === 'admin') {
             return this.statisticsService.getAllStatisticsByModel(modelId);
         }
@@ -57,8 +57,8 @@ export class StatisticsController {
     }
 
     @Roles(Role.Admin)
-    @Get('overview')
-    async getAdminStatisticsOverview() {
+    @Get('system-overview')
+    async getStatisticsSystemOverview() {
         const modelsUsage = await this.modelsService.getModelsUsage();
         const statisticsCount = await this.statisticsService.getAllStatisticsCount();
         const usersCount = await this.usersService.getUsersCount();
@@ -70,6 +70,18 @@ export class StatisticsController {
             usersCount: usersCount,
             devicesCount: devicesCount,
             statisticsCountByModel: statisticsCountByModel
+        }
+    }
+
+    @Get('overview')
+    async getStatisticsOverview(@Request() req) {
+        const classDistributionByModel = await this.statisticsService.getClassDistributionByModel(req.user.id);
+        const statisticsCountByDevice = await this.statisticsService.getStatisticsCountByDevice(req.user.id);
+        const numberOfFramesInDetection = await this.statisticsService.getNumberOfFramesInDetection(req.user.id);
+        return {
+            classDistributionByModel: classDistributionByModel,
+            statisticsCountByDevice: statisticsCountByDevice,
+            numberOfFramesInDetection: numberOfFramesInDetection
         }
     }
 }

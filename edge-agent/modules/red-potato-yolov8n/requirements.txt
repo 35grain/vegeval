@@ -1,3 +1,3 @@
-ultralytics
+#ultralytics Removed temporarily until edge tpu support is fixed
 torch==1.13.1
 torchvision==0.14.1

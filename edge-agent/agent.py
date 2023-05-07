@@ -101,10 +101,9 @@ class Detector:
     def detect(self, stop_event):
         stop_event.clear()
         self.client.setStatus("detecting")
-        statistics = self.model.get_stats(stop_event=stop_event, source='vegeval_demo.mp4')
+        statistics = self.model.get_stats(stop_event=stop_event)
         for stat in statistics:
-            response = self.client.sendStatistics(data=stat, model=self.client.model.id)
-            # TODO: Handle response
+            self.client.sendStatistics(data=stat, model=self.client.model.id)
             #if self.uploadRaw:
             #    self.minio_client.put_object()
                 

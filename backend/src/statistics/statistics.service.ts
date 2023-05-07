@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Statistic } from '@prisma/client';
+import { EdgeDevicesService } from 'src/edge-devices/edge-devices.service';
+import { ModelsService } from 'src/models/models.service';
 import { PrismaService } from 'src/prisma.service';
 
 interface Stat {
@@ -13,7 +15,11 @@ interface Stat {
 
 @Injectable()
 export class StatisticsService {
-    constructor(private readonly prismaService: PrismaService) { }
+    constructor(
+        private readonly prismaService: PrismaService,
+        private readonly modelsService: ModelsService,
+        private readonly edgeDevicesService: EdgeDevicesService
+    ) { }
 
     async createStatisticsReport(deviceId: string, statistics: Stat[], model: string): Promise<boolean> {
         try {
@@ -45,6 +51,24 @@ export class StatisticsService {
 
     async getStatisticsByUser(userId: string): Promise<Statistic[]> {
         return this.prismaService.statistic.findMany({
+            where: {
+                EdgeDevice: {
+                    clientId: userId
+                },
+                timestamp: {
+                    // Get statistics from the last 6 hours
+                    gte: (Date.now() - 6 * 60 * 60 * 1000) / 1000
+                }
+            }
+        });
+    }
+
+    async getNumberOfFramesInDetection(userId: string): Promise<any> {
+        return this.prismaService.statistic.groupBy({
+            by: ['frames'],
+            _count: {
+                frames: true
+            },
             where: {
                 EdgeDevice: {
                     clientId: userId
@@ -106,5 +130,55 @@ export class StatisticsService {
                 }
             }
         })
+    }
+
+    async getClassDistributionByModel(userId: string): Promise<any> {
+        const models = await this.modelsService.getModels();
+        const stats = [];
+        for (const model of models) {
+            const modelStats = await this.prismaService.statistic.groupBy({
+                by: ['clsName'],
+                _count: {
+                    clsName: true
+                },
+                where: {
+                    modelId: model.id,
+                    EdgeDevice: {
+                        clientId: userId
+                    }
+                }
+            });
+            if (modelStats.length > 0) {
+                stats.push({
+                    modelName: model.name,
+                    stats: modelStats
+                });
+            }
+        }
+        return stats;
+    }
+
+    async getStatisticsCountByDevice(userId: string): Promise<any> {
+        const devices = await this.edgeDevicesService.getClientDevices(userId);
+        const deviceStats: any = await this.prismaService.statistic.groupBy({
+            by: ['edgeDeviceId'],
+            _count: {
+                edgeDeviceId: true
+            },
+            where: {
+                EdgeDevice: {
+                    clientId: userId
+                }
+            }
+        })
+        const stats = [];
+        deviceStats.forEach(stat => {
+            const device = devices.find(device => device.id === stat.edgeDeviceId);
+            stats.push({
+                deviceLabel: device.label,
+                count: stat._count.edgeDeviceId
+            })
+        });
+        return stats;
     }
 }
