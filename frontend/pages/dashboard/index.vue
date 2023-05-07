@@ -52,8 +52,8 @@ if (!error.value) {
                     }
                 });
                 modelsInterval.value = setInterval(() => {
-                    modelChart.data.labels = model.stats.map((m: any) => m.clsName);
-                    modelChart.data.datasets[0].data = model.stats.map((m: any) => m._count.clsName);
+                    modelChart.data.labels = statistics.value?.classDistributionByModel.find((m: any) => m.modelName === model.modelName)?.stats.map((m: any) => m.clsName);
+                    modelChart.data.datasets[0].data = statistics.value?.classDistributionByModel.find((m: any) => m.modelName === model.modelName)?.stats.map((m: any) => m._count.clsName);
                     modelChart.update();
                 }, 10000);
             }
