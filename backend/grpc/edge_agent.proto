@@ -49,6 +49,7 @@ message ConfigResponse {
   // The current configuration of the edge device.
   DetectionModel model = 1;
   bool uploadRaw = 2;
+  string bucketName = 3;
 }
 
 // Detection model properties

@@ -17,7 +17,7 @@ class DetectionModel:
     # conf: confidence threshold (default: 0.35)
     # iou: intersection over union threshold (default: 0.4)
     # returns: a stream of detections
-    def detect(self, stop_event, source, conf=0.35, iou=0.4):
+    def detect(self, stop_event, source, image_queue, conf=0.35, iou=0.4):
         # Run inference
         #last_frame = time.time()
         if source:
@@ -39,14 +39,16 @@ class DetectionModel:
                     
                     objects[id] = {'cls': cls, 'conf': conf}
             self.queue.put(objects)
+            if image_queue:
+                image_queue.put(detection.orig_img.copy())
             #last_frame = time.time()
         return
     
     # Get statistics from the detection model
     # source: video file name (optional, used for the purpose of the demo), otherwise defaults to webcam feed
     # returns: a stream of statistics
-    def get_stats(self, stop_event, source='vegeval_demo.mp4'):
-        self.detection = threading.Thread(target=self.detect, args=(stop_event, source,))
+    def get_stats(self, stop_event, image_queue=None, source='vegeval_demo.mp4'):
+        self.detection = threading.Thread(target=self.detect, args=(stop_event, source, image_queue))
         self.detection.start()
         buffer = {}
         while self.detection.is_alive() or not self.queue.empty():

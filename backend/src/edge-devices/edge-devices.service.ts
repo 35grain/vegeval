@@ -176,7 +176,8 @@ export class EdgeDevicesService {
         await this.updateDeviceLastSeen(deviceId, 'idle');
         return {
             model: device.model,
-            uploadRaw: device.uploadRaw
+            uploadRaw: device.uploadRaw,
+            bucketName: 'vegeval.' + device.clientId + '.' + device.id,
         };
     }
 

@@ -5,10 +5,12 @@ import grpc
 import os
 import time
 import json
+import uuid
 import shutil
 import threading
 import edge_agent_pb2
 import edge_agent_pb2_grpc
+from queue import Queue
 from concurrent import futures
 from minio import Minio
 from dotenv import load_dotenv
@@ -90,6 +92,7 @@ class Detector:
         self.uploadRaw = config.uploadRaw
         self.model = DetectionModel()
         self.stop_event = threading.Event()
+        self.image_queue = Queue()
 
     def start(self):
         if self.client.getStatus() == "detecting":
@@ -101,12 +104,13 @@ class Detector:
     def detect(self, stop_event):
         stop_event.clear()
         self.client.setStatus("detecting")
-        statistics = self.model.get_stats(stop_event=stop_event)
+        statistics = self.model.get_stats(stop_event=stop_event, image_queue=self.image_queue)
         for stat in statistics:
-            self.client.sendStatistics(data=stat, model=self.client.model.id)
-            #if self.uploadRaw:
-            #    self.minio_client.put_object()
+            response = self.client.sendStatistics(data=stat, model=self.client.model.id)
                 
+    def uploader(self):
+        while not self.stop_event.is_set() or not self.image_queue.empty():
+            response = self.minio_client.put_object(self.config.bucketName, uuid.uuid4().hex, self.image_queue.get())
 
     def stop(self):
         if self.stop_event.is_set() or self.client.getStatus() == "idle":

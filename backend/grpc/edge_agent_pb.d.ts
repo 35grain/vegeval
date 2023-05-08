@@ -157,6 +157,7 @@ export namespace ConfigResponse {
     export type AsObject = {
         model?: DetectionModel.AsObject,
         uploadRaw: boolean,
+        bucketName: string
     }
 }
 
