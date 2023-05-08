@@ -100,6 +100,10 @@ class Detector:
         self.detection = threading.Thread(target=self.detect, args=(self.stop_event,))
         self.detection.start()
         print("Detection started!")
+        if self.uploadRaw:
+            self.uploader = threading.Thread(target=self.uploader)
+            self.uploader.start()
+            print("Uploading started!")
 
     def detect(self, stop_event):
         stop_event.clear()
