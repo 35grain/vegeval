@@ -115,6 +115,7 @@ class Detector:
     def uploader(self):
         while not self.stop_event.is_set() or not self.image_queue.empty():
             response = self.minio_client.put_object(self.config.bucketName, uuid.uuid4().hex, self.image_queue.get())
+        return
 
     def stop(self):
         if self.stop_event.is_set() or self.client.getStatus() == "idle":
