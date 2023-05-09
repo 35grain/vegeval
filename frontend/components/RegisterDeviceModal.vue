@@ -5,7 +5,7 @@
             <div class="modal-box w-7/12 max-w-2xl">
                 <div class="prose prose-slate text-left mb-6">
                     <h1 class="mb-0">Register a new edge device</h1>
-                    <small>New devices will be assigned a unique API key and secret after registration.</small>
+                    <small>New devices will be assigned a unique Access Key and Secret Key after registration.</small>
                 </div>
                 <Alert :alert="device.alert" />
                 <form @submit.prevent="registrationHandler">
@@ -24,7 +24,7 @@
                             </div>
                             <div class="form-control w-full max-w-xs">
                                 <label class="label">
-                                    <span class="label-text">Evaluation model</span>
+                                    <span class="label-text">Evaluation module</span>
                                 </label>
                                 <select class="select select-bordered" v-model="device.model" required>
                                     <option disabled selected value="default">Select one</option>
@@ -79,7 +79,7 @@
             <div class="modal-box w-7/12 max-w-2xl">
                 <div class="prose prose-slate text-left mb-6">
                     <h1 class="mb-0">New device: {{ device.label }}</h1>
-                    <small>Please note down the gRPC secret key as it will not be shown again!</small>
+                    <small>Please note down the gRPC Secret Key as it will not be shown again!</small>
                 </div>
                 <div>
                     <div class="form-control w-full" v-if="device.bucketName">
@@ -93,7 +93,7 @@
                     </div>
                     <div class="form-control w-full">
                         <label class="label">
-                            <span class="label-text">gRPC API key</span>
+                            <span class="label-text">gRPC Access Key</span>
                         </label>
                         <div class="tooltip" data-tip="Copy key">
                             <input type="text" readonly class="input input-bordered w-full cursor-pointer"
@@ -102,7 +102,7 @@
                     </div>
                     <div class="form-control w-full">
                         <label class="label">
-                            <span class="label-text">gRPC secret key</span>
+                            <span class="label-text">gRPC Secret Key</span>
                         </label>
                         <div class="tooltip" data-tip="Copy key">
                             <input type="text" readonly class="input input-bordered w-full cursor-pointer"
