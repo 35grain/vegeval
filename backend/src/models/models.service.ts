@@ -66,7 +66,7 @@ export class ModelsService {
     }
 
     async registerModel(model: RegisterModelDto, file: Express.Multer.File): Promise<Model> {
-        const objectName = new UrlSafeString().generate(model.name) + '.zip';
+        const objectName = new UrlSafeString().generate(model.name + model.version) + '.zip';
         return this.minio.minioClient.putObject('vegeval.models', objectName, file.buffer, file.size)
             .then(() => {
                 return this.prisma.model.create({
